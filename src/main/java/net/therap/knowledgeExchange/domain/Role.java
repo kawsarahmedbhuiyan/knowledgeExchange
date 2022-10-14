@@ -12,6 +12,10 @@ import java.util.Set;
  * @since 10/13/22
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Role.findAll", query = "FROM Role"),
+        @NamedQuery(name = "Role.findByType", query = "FROM Role WHERE type = :type")
+})
 @Table(name = "role")
 public class Role extends Persistent {
 

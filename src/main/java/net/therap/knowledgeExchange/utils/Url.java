@@ -7,4 +7,5 @@ package net.therap.knowledgeExchange.utils;
 public interface Url {
 
     String HOME_PAGE="home";
+    String ERROR_PAGE = "error";
 }

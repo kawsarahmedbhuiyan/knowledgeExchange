@@ -22,7 +22,7 @@ public class Persistent implements Serializable {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private Status status;
+    protected Status status;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

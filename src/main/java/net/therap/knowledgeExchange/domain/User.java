@@ -6,12 +6,19 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+import static net.therap.knowledgeExchange.common.Status.ADDED;
+
 
 /**
  * @author kawsar.bhuiyan
  * @since 10/13/22
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "User.findAll", query = "FROM User u ORDER BY u.name"),
+        @NamedQuery(name = "User.findByUsername", query = "FROM User WHERE username = :username"),
+        @NamedQuery(name = "User.find", query = "FROM User WHERE username = :username AND password = :password")
+})
 @Table(name = "user")
 public class User extends Persistent {
 
@@ -55,6 +62,7 @@ public class User extends Persistent {
     private Set<Post> likedPosts;
 
     public User() {
+        status = ADDED;
         roles = new HashSet<>();
         forums = new HashSet<>();
         posts = new HashSet<>();
