@@ -20,7 +20,7 @@
     <filter-mapping>
         <filter-name>authCheckFilter</filter-name>
         <url-pattern>/</url-pattern>
-        <url-pattern>/forum</url-pattern>
+        <url-pattern>/forum/*</url-pattern>
     </filter-mapping>
 
     <filter>

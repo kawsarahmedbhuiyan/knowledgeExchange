@@ -17,6 +17,7 @@ public interface Constant {
     String FORUM_PENDING_APPROVAL_MESSAGE = "forumPendingApprovalMessage";
     String FORUM_APPROVED_MESSAGE="forumApprovedMessage";
     String FORUM_DECLINED_MESSAGE="forumDeclinedMessage";
+    String FORUM_DELETED_MESSAGE="forumDeletedMessage";
     String SUCCESS_MESSAGE = "successMessage";
     String WELCOME_MESSAGE = "welcomeMessage";
 }

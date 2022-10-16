@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-import static net.therap.knowledgeExchange.common.Status.APPROVED;
-import static net.therap.knowledgeExchange.common.Status.DECLINED;
+import static net.therap.knowledgeExchange.common.Status.*;
 
 /**
  * @author kawsar.bhuiyan
@@ -58,6 +57,12 @@ public class ForumService {
 
     public void decline(Forum forum) {
         forum.setStatus(DECLINED);
+
+        forumDao.saveOrUpdate(forum);
+    }
+
+    public void delete(Forum forum) {
+        forum.setStatus(DELETED);
 
         forumDao.saveOrUpdate(forum);
     }

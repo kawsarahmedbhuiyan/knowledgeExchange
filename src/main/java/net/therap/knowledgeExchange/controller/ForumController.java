@@ -116,4 +116,18 @@ public class ForumController {
 
         return redirectTo(FORUM_LIST + DECLINED);
     }
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam int forumId,
+                          HttpServletRequest request,
+                          RedirectAttributes redirectAttributes) {
+
+        Forum forum = forumService.findById(forumId);
+
+        forumService.delete(forum);
+
+        forumHelper.setUpFlashData(FORUM_DELETED_MESSAGE, redirectAttributes);
+
+        return redirectTo(FORUM_LIST + APPROVED);
+    }
 }
