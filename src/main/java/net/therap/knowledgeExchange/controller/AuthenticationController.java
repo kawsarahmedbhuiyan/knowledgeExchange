@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
 import static net.therap.knowledgeExchange.utils.SessionUtil.setUpSessionData;
+import static net.therap.knowledgeExchange.utils.Url.*;
 
 /**
  * @author kawsar.bhuiyan

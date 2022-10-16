@@ -8,7 +8,6 @@ import java.util.Set;
 
 import static net.therap.knowledgeExchange.common.Status.ADDED;
 
-
 /**
  * @author kawsar.bhuiyan
  * @since 10/13/22
@@ -44,13 +43,8 @@ public class User extends Persistent {
     )
     private Set<Role> roles;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_forum",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "forum_id")}
-    )
-    private Set<Forum> forums;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Entry> entries;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Post> posts;
@@ -64,7 +58,7 @@ public class User extends Persistent {
     public User() {
         status = ADDED;
         roles = new HashSet<>();
-        forums = new HashSet<>();
+        entries = new HashSet<>();
         posts = new HashSet<>();
         comments = new HashSet<>();
         likedPosts = new HashSet<>();
@@ -100,14 +94,6 @@ public class User extends Persistent {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    public Set<Forum> getForums() {
-        return forums;
-    }
-
-    public void setForums(Set<Forum> forums) {
-        this.forums = forums;
     }
 
     public Set<Post> getPosts() {

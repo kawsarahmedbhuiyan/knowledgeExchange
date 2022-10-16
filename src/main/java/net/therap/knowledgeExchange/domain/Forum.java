@@ -6,11 +6,14 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+import static net.therap.knowledgeExchange.common.Status.PENDING;
+
 /**
  * @author kawsar.bhuiyan
  * @since 10/13/22
  */
 @Entity
+@NamedQuery(name = "Forum.findAll", query = "FROM Forum f ORDER BY f.name")
 @Table(name = "forum")
 public class Forum extends Persistent {
 
@@ -24,11 +27,23 @@ public class Forum extends Persistent {
     @JoinColumn(name = "manager_id")
     private User manager;
 
-    @ManyToMany(mappedBy = "forums")
-    private Set<User> users;
+    @OneToMany(mappedBy = "forum", cascade = CascadeType.ALL)
+    private Set<Entry> entries;
+
+    @OneToMany(mappedBy = "forum", cascade = CascadeType.ALL)
+    private Set<Post> posts;
 
     public Forum() {
-        users = new HashSet<>();
+        status = PENDING;
+        entries = new HashSet<>();
+        posts = new HashSet<>();
+    }
+
+    public Forum(User manager) {
+        this.manager = manager;
+        status = PENDING;
+        entries = new HashSet<>();
+        posts = new HashSet<>();
     }
 
     public String getName() {
@@ -47,11 +62,19 @@ public class Forum extends Persistent {
         this.manager = manager;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public Set<Entry> getEntries() {
+        return entries;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setEntries(Set<Entry> entries) {
+        this.entries = entries;
+    }
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
     }
 }

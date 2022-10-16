@@ -6,6 +6,13 @@ package net.therap.knowledgeExchange.utils;
  */
 public interface Url {
 
-    String HOME_PAGE="home";
+    String HOME = "/";
+    String HOME_PAGE = "home";
+    String LOGIN = "/auth/login";
+    String LOGOUT = "/auth/logout";
+    String LOGIN_PAGE = "login";
+    String REGISTRATION_PAGE = "registration";
+    String FORUM_VIEW = "/forum/view?reviewId=";
+    String FORUM_FORM_PAGE = "/forum/form";
     String ERROR_PAGE = "error";
 }

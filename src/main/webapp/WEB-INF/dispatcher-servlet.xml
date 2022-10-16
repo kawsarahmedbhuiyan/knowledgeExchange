@@ -25,6 +25,10 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages"/>
+    </bean>
+
     <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="knowledge-exchange-persistence-unit"/>
         <property name="packagesToScan" value="net.therap.knowledgeExchange.domain"/>
@@ -34,7 +38,9 @@
         <property name="entityManagerFactory" ref="emf"/>
     </bean>
 
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="classpath:messages"/>
-    </bean>
+    <mvc:interceptors>
+        <bean class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor">
+            <property name="entityManagerFactory" ref="emf"/>
+        </bean>
+    </mvc:interceptors>
 </beans>

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Objects;
 
-import static net.therap.knowledgeExchange.utils.Constant.LOGIN;
+import static net.therap.knowledgeExchange.utils.Url.LOGIN;
 import static net.therap.knowledgeExchange.utils.Constant.SESSION_USER;
 
 /**

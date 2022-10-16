@@ -24,8 +24,8 @@ CREATE TABLE role
 
 CREATE TABLE user_role
 (
-    user_id int         NOT NULL,
-    role_id int         NOT NULL,
+    user_id int NOT NULL,
+    role_id int NOT NULL,
     CONSTRAINT pk_user_role PRIMARY KEY (user_id, role_id),
     CONSTRAINT fk_user_user_role FOREIGN KEY (user_id) REFERENCES user (id),
     CONSTRAINT fk_role_user_role FOREIGN KEY (role_id) REFERENCES role (id)
@@ -44,13 +44,17 @@ CREATE TABLE forum
     CONSTRAINT fk_user_forum FOREIGN KEY (manager_id) REFERENCES user (id)
 );
 
-CREATE TABLE user_forum
+CREATE TABLE entry
 (
-    user_id  int         NOT NULL,
+    id       int AUTO_INCREMENT,
     forum_id int         NOT NULL,
-    CONSTRAINT pk_user_forum PRIMARY KEY (user_id, forum_id),
-    CONSTRAINT fk_user_user_forum FOREIGN KEY (user_id) REFERENCES user (id),
-    CONSTRAINT fk_forum_user_forum FOREIGN KEY (forum_id) REFERENCES forum (id)
+    user_id  int         NOT NULL,
+    status   varchar(10) NOT NULL,
+    created  DATETIME    NOT NULL,
+    updated  DATETIME    NOT NULL,
+    CONSTRAINT pk_entry PRIMARY KEY (forum_id, user_id),
+    CONSTRAINT fk_forum_entry FOREIGN KEY (forum_id) REFERENCES forum (id),
+    CONSTRAINT fk_user_entry FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
 CREATE TABLE post
@@ -70,8 +74,8 @@ CREATE TABLE post
 
 CREATE TABLE post_user_like
 (
-    user_id int         NOT NULL,
-    post_id int         NOT NULL,
+    user_id int NOT NULL,
+    post_id int NOT NULL,
     CONSTRAINT pk_post_user_like PRIMARY KEY (user_id, post_id),
     CONSTRAINT fk_user_post_user_like FOREIGN KEY (user_id) REFERENCES user (id),
     CONSTRAINT fk_post_post_user_like FOREIGN KEY (post_id) REFERENCES post (id)
