@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+import static net.therap.knowledgeExchange.common.RoleType.ADMIN;
 import static net.therap.knowledgeExchange.common.Status.ADDED;
 
 /**
@@ -118,5 +119,9 @@ public class User extends Persistent {
 
     public void setLikedPosts(Set<Post> likedPosts) {
         this.likedPosts = likedPosts;
+    }
+
+    public boolean isAdmin() {
+        return roles.stream().anyMatch(role -> ADMIN.equals(role.getType()));
     }
 }

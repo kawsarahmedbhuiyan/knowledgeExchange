@@ -24,6 +24,11 @@
     <jsp:include page='../common/navbar.jsp'/>
     <button type="button" class="btn btn-dark" onclick="history.back()"><fmt:message key="btn.back"/></button>
     <br/><br/>
+    <c:if test="${not empty message}">
+        <div class="my-3 p-2 alert alert-success">
+            <div><c:out value="${message}"/></div>
+        </div>
+    </c:if>
     <c:url var="pendingForumListLink" value="/forum/list">
         <c:param name="status" value="PENDING"/>
     </c:url>
@@ -51,7 +56,7 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th><fmt:message key="forum.name"/></th>
+                    <th colspan="2"><fmt:message key="forum.name"/></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -70,6 +75,41 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
+                        <c:if test="${ADMIN}">
+                            <td>
+                                <c:url var="forumApproveLink" value="/forum/approve">
+                                    <c:param name="forumId" value="${forum.id}"/>
+                                </c:url>
+                                <c:url var="forumDeclineLink" value="/forum/decline">
+                                    <c:param name="forumId" value="${forum.id}"/>
+                                </c:url>
+                                <c:url var="forumDeleteLink" value="/forum/delete">
+                                    <c:param name="forumId" value="${forum.id}"/>
+                                </c:url>
+
+                                <c:choose>
+                                    <c:when test="${PENDING}">
+                                        <form action="${forumApproveLink}" method="post">
+                                            <button class="btn btn-success"><fmt:message key="btn.approve"/></button>
+                                        </form>
+                                        <form action="${forumDeclineLink}" method="post">
+                                            <button class="btn btn-danger"><fmt:message key="btn.decline"/></button>
+                                        </form>
+                                    </c:when>
+                                    <c:when test="${APPROVED}">
+                                        <form action="${forumDeleteLink}" method="post"
+                                              onSubmit="return confirm('<fmt:message key="forumDeleteConfirmationMessage"/>');">
+                                            <button class="btn btn-danger"><fmt:message key="btn.delete"/></button>
+                                        </form>
+                                    </c:when>
+                                    <c:when test="${DECLINED}">
+                                        <form action="${forumApproveLink}" method="post">
+                                            <button class="btn btn-success"><fmt:message key="btn.approve"/></button>
+                                        </form>
+                                    </c:when>
+                                </c:choose>
+                            </td>
+                        </c:if>
                     </tr>
                 </c:forEach>
                 </tbody>

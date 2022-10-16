@@ -5,6 +5,7 @@ import net.therap.knowledgeExchange.domain.User;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import static net.therap.knowledgeExchange.utils.Constant.ADMIN;
 import static net.therap.knowledgeExchange.utils.Constant.SESSION_USER;
 
 /**
@@ -17,6 +18,7 @@ public class SessionUtil {
         HttpSession session = request.getSession();
 
         session.setAttribute(SESSION_USER, user);
+        session.setAttribute(ADMIN, user.isAdmin());
     }
 
     public static User getSessionUser(HttpServletRequest request) {

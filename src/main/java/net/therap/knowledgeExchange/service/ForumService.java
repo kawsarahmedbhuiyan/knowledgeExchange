@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
+import static net.therap.knowledgeExchange.common.Status.APPROVED;
+import static net.therap.knowledgeExchange.common.Status.DECLINED;
+
 /**
  * @author kawsar.bhuiyan
  * @since 10/15/22
@@ -35,11 +38,27 @@ public class ForumService {
         return forumDao.findAll();
     }
 
+    public List<Forum> findAllByStatus(Status status) {
+        return forumDao.findAllByStatus(status);
+    }
+
     public List<Forum> findAllByManagerAndStatus(User manager, Status status) {
         return forumDao.findAllByManagerAndStatus(manager, status);
     }
 
     public void saveOrUpdate(Forum forum) {
+        forumDao.saveOrUpdate(forum);
+    }
+
+    public void approve(Forum forum) {
+        forum.setStatus(APPROVED);
+
+        forumDao.saveOrUpdate(forum);
+    }
+
+    public void decline(Forum forum) {
+        forum.setStatus(DECLINED);
+
         forumDao.saveOrUpdate(forum);
     }
 }

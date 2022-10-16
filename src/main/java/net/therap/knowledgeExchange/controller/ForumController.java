@@ -19,9 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import static net.therap.knowledgeExchange.common.Action.SAVE;
-import static net.therap.knowledgeExchange.common.Status.PENDING;
-import static net.therap.knowledgeExchange.utils.Constant.FORUM;
-import static net.therap.knowledgeExchange.utils.Constant.SUCCESS_MESSAGE;
+import static net.therap.knowledgeExchange.common.Status.*;
+import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
 import static net.therap.knowledgeExchange.utils.Url.*;
 
@@ -66,8 +65,8 @@ public class ForumController {
         return FORUM_FORM_PAGE;
     }
 
-    @PostMapping
-    public String process(@Valid @ModelAttribute Forum forum,
+    @PostMapping("/save")
+    public String save(@Valid @ModelAttribute Forum forum,
                           Errors errors,
                           @RequestParam Action action,
                           HttpServletRequest request,
@@ -83,10 +82,38 @@ public class ForumController {
 
         forumService.saveOrUpdate(forum);
 
-        forumHelper.setUpFlashData(action, SUCCESS_MESSAGE, redirectAttributes);
-
         sessionStatus.setComplete();
 
-        return redirectTo(FORUM_PENDING_LIST + PENDING);
+        forumHelper.setUpFlashData(FORUM_PENDING_APPROVAL_MESSAGE, redirectAttributes);
+
+        return redirectTo(FORUM_LIST + PENDING);
+    }
+
+    @PostMapping("/approve")
+    public String approve(@RequestParam int forumId,
+                          HttpServletRequest request,
+                          RedirectAttributes redirectAttributes) {
+
+        Forum forum = forumService.findById(forumId);
+
+        forumService.approve(forum);
+
+        forumHelper.setUpFlashData(FORUM_APPROVED_MESSAGE, redirectAttributes);
+
+        return redirectTo(FORUM_LIST + APPROVED);
+    }
+
+    @PostMapping("/decline")
+    public String decline(@RequestParam int forumId,
+                          HttpServletRequest request,
+                          RedirectAttributes redirectAttributes) {
+
+        Forum forum = forumService.findById(forumId);
+
+        forumService.decline(forum);
+
+        forumHelper.setUpFlashData(FORUM_DECLINED_MESSAGE, redirectAttributes);
+
+        return redirectTo(FORUM_LIST + DECLINED);
     }
 }

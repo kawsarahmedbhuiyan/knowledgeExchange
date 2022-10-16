@@ -40,9 +40,10 @@ public class ForumHelper {
     }
 
     public void setUpReferenceData(Status status, HttpServletRequest request, ModelMap model) {
-        User manager = getSessionUser(request);
-
-        List<Forum> forums = forumService.findAllByManagerAndStatus(manager, status);
+        User user = getSessionUser(request);
+        
+        List<Forum> forums = user.isAdmin() ? forumService.findAllByStatus(status) :
+                forumService.findAllByManagerAndStatus(user, status);
 
         model.addAttribute(FORUMS, forums);
         model.addAttribute(status.name(), true);
@@ -52,9 +53,8 @@ public class ForumHelper {
         model.addAttribute(action.name(), true);
     }
 
-    public void setUpFlashData(Action action, String message, RedirectAttributes redirectAttributes) {
-        String[] messageArgs = {FORUM, action.name()};
-        redirectAttributes.addFlashAttribute(message,
-                messageSource.getMessage(message, messageArgs, Locale.ENGLISH));
+    public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("message",
+                messageSource.getMessage(message, null, Locale.ENGLISH));
     }
 }

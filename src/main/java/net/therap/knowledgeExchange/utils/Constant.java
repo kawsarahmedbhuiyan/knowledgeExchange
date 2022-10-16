@@ -12,6 +12,11 @@ public interface Constant {
     String FORUMS = "forums";
     String SESSION_USER = "SESSION_USER";
     String CREDENTIAL = "credential";
+    String ADMIN="ADMIN";
+
+    String FORUM_PENDING_APPROVAL_MESSAGE = "forumPendingApprovalMessage";
+    String FORUM_APPROVED_MESSAGE="forumApprovedMessage";
+    String FORUM_DECLINED_MESSAGE="forumDeclinedMessage";
     String SUCCESS_MESSAGE = "successMessage";
     String WELCOME_MESSAGE = "welcomeMessage";
 }

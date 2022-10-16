@@ -28,6 +28,12 @@ public class ForumDao {
         return em.createNamedQuery("Forum.findAll", Forum.class).getResultList();
     }
 
+    public List<Forum> findAllByStatus(Status status) {
+        return em.createNamedQuery("Forum.findAllByStatus", Forum.class)
+                .setParameter("status", status)
+                .getResultList();
+    }
+
     public List<Forum> findAllByManagerAndStatus(User manager, Status status) {
         return em.createNamedQuery("Forum.findAllByManagerAndStatus", Forum.class)
                 .setParameter("manager", manager)

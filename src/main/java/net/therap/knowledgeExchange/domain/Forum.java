@@ -15,6 +15,7 @@ import static net.therap.knowledgeExchange.common.Status.PENDING;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Forum.findAll", query = "FROM Forum f ORDER BY f.name"),
+        @NamedQuery(name = "Forum.findAllByStatus", query = "FROM Forum  f WHERE f.status = :status ORDER BY f.name"),
         @NamedQuery(name = "Forum.findAllByManagerAndStatus", query = "FROM Forum  f WHERE " +
                 "f.manager = :manager AND f.status = :status ORDER BY f.name")
 })
