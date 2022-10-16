@@ -1,6 +1,8 @@
 package net.therap.knowledgeExchange.dao;
 
+import net.therap.knowledgeExchange.common.Status;
 import net.therap.knowledgeExchange.domain.Forum;
+import net.therap.knowledgeExchange.domain.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,13 @@ public class ForumDao {
 
     public List<Forum> findAll() {
         return em.createNamedQuery("Forum.findAll", Forum.class).getResultList();
+    }
+
+    public List<Forum> findAllByManagerAndStatus(User manager, Status status) {
+        return em.createNamedQuery("Forum.findAllByManagerAndStatus", Forum.class)
+                .setParameter("manager", manager)
+                .setParameter("status", status)
+                .getResultList();
     }
 
     @Transactional

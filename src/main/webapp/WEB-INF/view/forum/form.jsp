@@ -24,14 +24,14 @@
 <div class="container">
     <jsp:include page='../common/navbar.jsp'/>
     <button type="button" class="btn btn-dark" onclick="history.back()"><fmt:message key="btn.back"/></button>
+    <br/><br/>
     <c:if test="${SAVE}">
         <h1><fmt:message key="title.addForum"/></h1>
-        <br/>
     </c:if>
     <c:if test="${UPDATE}">
         <h1><fmt:message key="title.editForum"/></h1>
-        <br/>
     </c:if>
+    <br/>
     <form:form method="POST" action="/forum" modelAttribute="forum">
         <form:label path="name"><fmt:message key="label.name"/> </form:label>
         <form:input path="name"/>

@@ -13,7 +13,11 @@ import static net.therap.knowledgeExchange.common.Status.PENDING;
  * @since 10/13/22
  */
 @Entity
-@NamedQuery(name = "Forum.findAll", query = "FROM Forum f ORDER BY f.name")
+@NamedQueries({
+        @NamedQuery(name = "Forum.findAll", query = "FROM Forum f ORDER BY f.name"),
+        @NamedQuery(name = "Forum.findAllByManagerAndStatus", query = "FROM Forum  f WHERE " +
+                "f.manager = :manager AND f.status = :status ORDER BY f.name")
+})
 @Table(name = "forum")
 public class Forum extends Persistent {
 

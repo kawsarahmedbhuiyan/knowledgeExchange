@@ -9,7 +9,7 @@ public interface Constant {
     String USER = "user";
     String USERS = "users";
     String FORUM = "forum";
-    String FORUMS = "fourms";
+    String FORUMS = "forums";
     String SESSION_USER = "SESSION_USER";
     String CREDENTIAL = "credential";
     String SUCCESS_MESSAGE = "successMessage";

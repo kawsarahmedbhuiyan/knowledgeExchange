@@ -1,7 +1,9 @@
 package net.therap.knowledgeExchange.service;
 
+import net.therap.knowledgeExchange.common.Status;
 import net.therap.knowledgeExchange.dao.ForumDao;
 import net.therap.knowledgeExchange.domain.Forum;
+import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,10 @@ public class ForumService {
 
     public List<Forum> findAll() {
         return forumDao.findAll();
+    }
+
+    public List<Forum> findAllByManagerAndStatus(User manager, Status status) {
+        return forumDao.findAllByManagerAndStatus(manager, status);
     }
 
     public void saveOrUpdate(Forum forum) {

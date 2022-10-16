@@ -12,7 +12,9 @@ public interface Url {
     String LOGOUT = "/auth/logout";
     String LOGIN_PAGE = "login";
     String REGISTRATION_PAGE = "registration";
-    String FORUM_VIEW = "/forum/view?reviewId=";
+    String FORUM_VIEW = "/forum/view?forumId=";
+    String FORUM_PENDING_LIST="/forum/list?status=";
     String FORUM_FORM_PAGE = "/forum/form";
+    String FORUM_LIST_PAGE = "/forum/list";
     String ERROR_PAGE = "error";
 }
