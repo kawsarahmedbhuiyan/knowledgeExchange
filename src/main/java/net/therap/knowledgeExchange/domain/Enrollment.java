@@ -1,5 +1,7 @@
 package net.therap.knowledgeExchange.domain;
 
+import net.therap.knowledgeExchange.common.Status;
+
 import javax.persistence.*;
 
 import static net.therap.knowledgeExchange.common.Status.PENDING;
@@ -34,6 +36,12 @@ public class Enrollment extends Persistent {
         status = PENDING;
         this.forum = forum;
         this.user = user;
+    }
+
+    public Enrollment(Forum forum, User user, Status status) {
+        this.forum = forum;
+        this.user = user;
+        this.status = status;
     }
 
     public Forum getForum() {

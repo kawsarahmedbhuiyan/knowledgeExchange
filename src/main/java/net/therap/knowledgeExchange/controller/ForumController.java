@@ -2,8 +2,11 @@ package net.therap.knowledgeExchange.controller;
 
 import net.therap.knowledgeExchange.common.Action;
 import net.therap.knowledgeExchange.common.Status;
+import net.therap.knowledgeExchange.domain.Enrollment;
 import net.therap.knowledgeExchange.domain.Forum;
+import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.helper.ForumHelper;
+import net.therap.knowledgeExchange.service.EnrollmentService;
 import net.therap.knowledgeExchange.service.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -23,7 +26,8 @@ import static net.therap.knowledgeExchange.common.Status.*;
 import static net.therap.knowledgeExchange.controller.ForumController.FORUM;
 import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
-import static net.therap.knowledgeExchange.utils.Url.*;
+import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
+import static net.therap.knowledgeExchange.utils.Url.FORUM_LIST;
 
 /**
  * @author kawsar.bhuiyan
@@ -44,6 +48,9 @@ public class ForumController {
 
     @Autowired
     private ForumService forumService;
+
+    @Autowired
+    private EnrollmentService enrollmentService;
 
     @InitBinder(FORUM)
     public void initBinder(WebDataBinder binder) {
@@ -113,6 +120,10 @@ public class ForumController {
         Forum forum = forumService.findById(forumId);
 
         forumService.approve(forum);
+
+        User user = getSessionUser(request);
+
+        enrollmentService.saveOrUpdate(new Enrollment(forum, user, APPROVED));
 
         forumHelper.setUpFlashData(FORUM_APPROVED_MESSAGE, redirectAttributes);
 

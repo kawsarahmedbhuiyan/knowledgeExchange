@@ -50,6 +50,38 @@ public class EnrollmentController {
         return redirectTo(FORUM_VIEW + forumId);
     }
 
+    @PostMapping("/approve")
+    public String approve(@RequestParam int forumId,
+                         HttpServletRequest request,
+                         RedirectAttributes redirectAttributes) {
+
+        Forum forum = forumService.findById(forumId);
+
+        User user = getSessionUser(request);
+
+        Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
+
+        enrollmentService.approve(enrollment);
+
+        return redirectTo(FORUM_VIEW + forumId);
+    }
+
+    @PostMapping("/decline")
+    public String decline(@RequestParam int forumId,
+                         HttpServletRequest request,
+                         RedirectAttributes redirectAttributes) {
+
+        Forum forum = forumService.findById(forumId);
+
+        User user = getSessionUser(request);
+
+        Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
+
+        enrollmentService.decline(enrollment);
+
+        return redirectTo(FORUM_VIEW + forumId);
+    }
+
     @PostMapping("/delete")
     public String delete(@RequestParam int forumId,
                          HttpServletRequest request,

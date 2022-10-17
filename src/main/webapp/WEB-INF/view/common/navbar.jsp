@@ -1,9 +1,9 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!--
 @author kawsar.bhuiyan
 @since 10/14/22
 -->
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <nav class="navbar navbar-dark navbar-expand-lg bg-primary">
     <div class="container-fluid">
         <c:url var="home" value="/">
