@@ -1,5 +1,7 @@
 package net.therap.knowledgeExchange.domain;
 
+import net.therap.knowledgeExchange.common.Status;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,9 +26,17 @@ public class Forum extends Persistent {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     @NotNull
     @Size(min = 2, max = 45)
     private String name;
+
+    @NotNull
+    @Size(min = 300, max = 3000)
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "manager_id")
@@ -37,6 +47,10 @@ public class Forum extends Persistent {
 
     @OneToMany(mappedBy = "forum", cascade = CascadeType.ALL)
     private Set<Post> posts;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     public Forum() {
         status = PENDING;
@@ -51,12 +65,28 @@ public class Forum extends Persistent {
         posts = new HashSet<>();
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public User getManager() {
@@ -81,5 +111,35 @@ public class Forum extends Persistent {
 
     public void setPosts(Set<Post> posts) {
         this.posts = posts;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public boolean isNew() {
+        return getId() == 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Forum)) {
+            return false;
+        }
+
+        return id != 0 && id == ((Forum) o).getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

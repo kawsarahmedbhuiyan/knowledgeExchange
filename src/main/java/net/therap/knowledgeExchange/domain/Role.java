@@ -1,6 +1,7 @@
 package net.therap.knowledgeExchange.domain;
 
 import net.therap.knowledgeExchange.common.RoleType;
+import net.therap.knowledgeExchange.common.Status;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,6 +22,10 @@ public class Role extends Persistent {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private RoleType type;
@@ -28,8 +33,20 @@ public class Role extends Persistent {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     public Role() {
         users = new HashSet<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public RoleType getType() {
@@ -46,5 +63,35 @@ public class Role extends Persistent {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public boolean isNew() {
+        return getId() == 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Role)) {
+            return false;
+        }
+
+        return id != 0 && id == ((Role) o).getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

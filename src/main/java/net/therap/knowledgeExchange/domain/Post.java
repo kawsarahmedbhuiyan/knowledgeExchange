@@ -1,5 +1,7 @@
 package net.therap.knowledgeExchange.domain;
 
+import net.therap.knowledgeExchange.common.Status;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,6 +17,10 @@ import java.util.Set;
 public class Post extends Persistent {
 
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @NotNull
     @Size(min = 50, max = 300)
@@ -43,9 +49,21 @@ public class Post extends Persistent {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private Set<Comment> comments;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     public Post() {
         likers = new HashSet<>();
         comments = new HashSet<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getHeading() {
@@ -94,5 +112,35 @@ public class Post extends Persistent {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public boolean isNew() {
+        return getId() == 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Post)) {
+            return false;
+        }
+
+        return id != 0 && id == ((Post) o).getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

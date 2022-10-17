@@ -1,11 +1,12 @@
 package net.therap.knowledgeExchange.domain;
 
-import net.therap.knowledgeExchange.common.Status;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,14 +17,6 @@ import java.util.Date;
 @MappedSuperclass
 public class Persistent implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    protected Status status;
-
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable = false)
@@ -32,22 +25,6 @@ public class Persistent implements Serializable {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 
     public Date getCreated() {
         return created;
@@ -63,27 +40,5 @@ public class Persistent implements Serializable {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
-    }
-
-    public boolean isNew() {
-        return getId() == 0;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof Persistent)) {
-            return false;
-        }
-
-        return id != 0 && id == ((Persistent) o).getId();
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 }

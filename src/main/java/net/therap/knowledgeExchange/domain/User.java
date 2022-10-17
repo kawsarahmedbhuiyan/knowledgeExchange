@@ -1,5 +1,7 @@
 package net.therap.knowledgeExchange.domain;
 
+import net.therap.knowledgeExchange.common.Status;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,6 +25,10 @@ import static net.therap.knowledgeExchange.common.Status.NEW;
 public class User extends Persistent {
 
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @NotNull
     @Size(min = 2, max = 20)
@@ -56,6 +62,10 @@ public class User extends Persistent {
     @ManyToMany(mappedBy = "likers")
     private Set<Post> likedPosts;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     public User() {
         status = NEW;
         roles = new HashSet<>();
@@ -63,6 +73,14 @@ public class User extends Persistent {
         posts = new HashSet<>();
         comments = new HashSet<>();
         likedPosts = new HashSet<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -129,7 +147,37 @@ public class User extends Persistent {
         this.enrollments = enrollments;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     public boolean isAdmin() {
         return roles.stream().anyMatch(role -> ADMIN.equals(role.getType()));
+    }
+
+    public boolean isNew() {
+        return getId() == 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof User)) {
+            return false;
+        }
+
+        return id != 0 && id == ((User) o).getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
