@@ -1,6 +1,5 @@
 package net.therap.knowledgeExchange.service;
 
-import net.therap.knowledgeExchange.dao.UserDao;
 import net.therap.knowledgeExchange.domain.Credential;
 import net.therap.knowledgeExchange.utils.HashGenerationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import static java.util.Objects.isNull;
 public class CredentialService {
 
     @Autowired
-    private UserDao userDao;
+    private UserService userService;
 
     public boolean isValidCredential(Credential credential) {
         if (isNull(credential.getPassword())) {
@@ -25,6 +24,6 @@ public class CredentialService {
 
         credential.setPassword(HashGenerationUtil.getHashedValue(credential.getPassword()));
 
-        return userDao.isValidCredential(credential);
+        return userService.isValidCredential(credential);
     }
 }

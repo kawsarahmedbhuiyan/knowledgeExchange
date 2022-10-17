@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static net.therap.knowledgeExchange.common.RoleType.ADMIN;
-import static net.therap.knowledgeExchange.common.Status.ADDED;
+import static net.therap.knowledgeExchange.common.Status.NEW;
 
 /**
  * @author kawsar.bhuiyan
@@ -45,7 +45,7 @@ public class User extends Persistent {
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Entry> entries;
+    private Set<Enrollment> enrollments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Post> posts;
@@ -57,9 +57,9 @@ public class User extends Persistent {
     private Set<Post> likedPosts;
 
     public User() {
-        status = ADDED;
+        status = NEW;
         roles = new HashSet<>();
-        entries = new HashSet<>();
+        enrollments = new HashSet<>();
         posts = new HashSet<>();
         comments = new HashSet<>();
         likedPosts = new HashSet<>();
@@ -119,6 +119,14 @@ public class User extends Persistent {
 
     public void setLikedPosts(Set<Post> likedPosts) {
         this.likedPosts = likedPosts;
+    }
+
+    public Set<Enrollment> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setEnrollments(Set<Enrollment> enrollments) {
+        this.enrollments = enrollments;
     }
 
     public boolean isAdmin() {

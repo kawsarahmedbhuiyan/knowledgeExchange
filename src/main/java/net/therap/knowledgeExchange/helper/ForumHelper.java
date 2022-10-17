@@ -4,6 +4,7 @@ import net.therap.knowledgeExchange.common.Action;
 import net.therap.knowledgeExchange.common.Status;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.User;
+import net.therap.knowledgeExchange.service.EnrollmentService;
 import net.therap.knowledgeExchange.service.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -30,7 +31,18 @@ public class ForumHelper {
     private ForumService forumService;
 
     @Autowired
+    private EnrollmentService enrollmentService;
+
+    @Autowired
     private MessageSource messageSource;
+
+    public void setUpReferenceData(int forumId, HttpServletRequest request, ModelMap model) {
+        Forum forum = forumService.findById(forumId);
+
+        User user = getSessionUser(request);
+
+        model.addAttribute(FORUM, forum);
+    }
 
     public void setUpReferenceData(Action action, HttpServletRequest request, ModelMap model) {
         User manager = getSessionUser(request);

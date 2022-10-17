@@ -1,9 +1,6 @@
 package net.therap.knowledgeExchange.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import static net.therap.knowledgeExchange.common.Status.PENDING;
 
@@ -12,8 +9,12 @@ import static net.therap.knowledgeExchange.common.Status.PENDING;
  * @since 10/15/22
  */
 @Entity
-@Table(name = "entry")
-public class Entry extends Persistent {
+@NamedQueries({
+        @NamedQuery(name = "Enrollment.findByForumAndUser", query = "FROM Enrollment WHERE " +
+                "forum = :forum AND user = :user")
+})
+@Table(name = "enrollment")
+public class Enrollment extends Persistent {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,11 +26,11 @@ public class Entry extends Persistent {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Entry() {
+    public Enrollment() {
         status = PENDING;
     }
 
-    public Entry(Forum forum, User user) {
+    public Enrollment(Forum forum, User user) {
         status = PENDING;
         this.forum = forum;
         this.user = user;

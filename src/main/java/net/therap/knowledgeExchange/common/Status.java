@@ -6,7 +6,7 @@ package net.therap.knowledgeExchange.common;
  */
 public enum Status {
 
-    ADDED,
+    NEW,
     APPROVED,
     PENDING,
     DECLINED,

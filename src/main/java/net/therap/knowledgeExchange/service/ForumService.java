@@ -1,13 +1,14 @@
 package net.therap.knowledgeExchange.service;
 
 import net.therap.knowledgeExchange.common.Status;
-import net.therap.knowledgeExchange.dao.ForumDao;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.exception.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,11 +21,11 @@ import static net.therap.knowledgeExchange.common.Status.*;
 @Service
 public class ForumService {
 
-    @Autowired
-    private ForumDao forumDao;
+    @PersistenceContext(unitName = "knowledge-exchange-persistence-unit")
+    private EntityManager em;
 
     public Forum findById(int id) {
-        Forum forum = forumDao.findById(id);
+        Forum forum = em.find(Forum.class, id);
 
         if (Objects.isNull(forum)) {
             throw new NotFoundException("Forum Not Found for ID=" + id);
@@ -34,36 +35,46 @@ public class ForumService {
     }
 
     public List<Forum> findAll() {
-        return forumDao.findAll();
+        return em.createNamedQuery("Forum.findAll", Forum.class).getResultList();
     }
 
     public List<Forum> findAllByStatus(Status status) {
-        return forumDao.findAllByStatus(status);
+        return em.createNamedQuery("Forum.findAllByStatus", Forum.class)
+                .setParameter("status", status)
+                .getResultList();
     }
 
     public List<Forum> findAllByManagerAndStatus(User manager, Status status) {
-        return forumDao.findAllByManagerAndStatus(manager, status);
+        return em.createNamedQuery("Forum.findAllByManagerAndStatus", Forum.class)
+                .setParameter("manager", manager)
+                .setParameter("status", status)
+                .getResultList();
     }
 
+    @Transactional
     public void saveOrUpdate(Forum forum) {
-        forumDao.saveOrUpdate(forum);
+        if (forum.isNew()) {
+            em.persist(forum);
+        } else {
+            em.merge(forum);
+        }
     }
 
     public void approve(Forum forum) {
         forum.setStatus(APPROVED);
 
-        forumDao.saveOrUpdate(forum);
+        saveOrUpdate(forum);
     }
 
     public void decline(Forum forum) {
         forum.setStatus(DECLINED);
 
-        forumDao.saveOrUpdate(forum);
+        saveOrUpdate(forum);
     }
 
     public void delete(Forum forum) {
         forum.setStatus(DELETED);
 
-        forumDao.saveOrUpdate(forum);
+        saveOrUpdate(forum);
     }
 }

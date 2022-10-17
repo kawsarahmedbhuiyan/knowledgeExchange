@@ -20,6 +20,7 @@ import javax.validation.Valid;
 
 import static net.therap.knowledgeExchange.common.Action.SAVE;
 import static net.therap.knowledgeExchange.common.Status.*;
+import static net.therap.knowledgeExchange.controller.ForumController.FORUM;
 import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
 import static net.therap.knowledgeExchange.utils.Url.*;
@@ -32,6 +33,11 @@ import static net.therap.knowledgeExchange.utils.Url.*;
 @SessionAttributes(FORUM)
 @RequestMapping("/forum")
 public class ForumController {
+
+    public static final String FORUM="forum";
+    private static final String FORUM_VIEW_PAGE="/forum/view";
+    private static final String FORUM_FORM_PAGE = "/forum/form";
+    private static final String FORUM_LIST_PAGE = "/forum/list";
 
     @Autowired
     private ForumHelper forumHelper;
@@ -54,6 +60,16 @@ public class ForumController {
         forumHelper.setUpReferenceData(status, request, model);
 
         return FORUM_LIST_PAGE;
+    }
+
+    @GetMapping("/view")
+    public String view(@RequestParam int forumId,
+                       HttpServletRequest request,
+                       ModelMap model) {
+
+        forumHelper.setUpReferenceData(forumId, request, model);
+
+        return FORUM_VIEW_PAGE;
     }
 
     @GetMapping("/save")

@@ -33,21 +33,21 @@ public class Forum extends Persistent {
     private User manager;
 
     @OneToMany(mappedBy = "forum", cascade = CascadeType.ALL)
-    private Set<Entry> entries;
+    private Set<Enrollment> enrollments;
 
     @OneToMany(mappedBy = "forum", cascade = CascadeType.ALL)
     private Set<Post> posts;
 
     public Forum() {
         status = PENDING;
-        entries = new HashSet<>();
+        enrollments = new HashSet<>();
         posts = new HashSet<>();
     }
 
     public Forum(User manager) {
         this.manager = manager;
         status = PENDING;
-        entries = new HashSet<>();
+        enrollments = new HashSet<>();
         posts = new HashSet<>();
     }
 
@@ -67,12 +67,12 @@ public class Forum extends Persistent {
         this.manager = manager;
     }
 
-    public Set<Entry> getEntries() {
-        return entries;
+    public Set<Enrollment> getEnrollments() {
+        return enrollments;
     }
 
-    public void setEntries(Set<Entry> entries) {
-        this.entries = entries;
+    public void setEnrollments(Set<Enrollment> entries) {
+        this.enrollments = entries;
     }
 
     public Set<Post> getPosts() {
