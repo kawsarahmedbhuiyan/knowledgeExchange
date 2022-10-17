@@ -60,10 +60,11 @@ public class ForumService {
         }
     }
 
+    @Transactional
     public void approve(Forum forum) {
         forum.setStatus(APPROVED);
 
-        saveOrUpdate(forum);
+        em.merge(forum);
     }
 
     public void decline(Forum forum) {

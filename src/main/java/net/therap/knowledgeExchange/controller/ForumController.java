@@ -1,10 +1,8 @@
 package net.therap.knowledgeExchange.controller;
 
-import net.therap.knowledgeExchange.common.Action;
 import net.therap.knowledgeExchange.common.Status;
 import net.therap.knowledgeExchange.domain.Enrollment;
 import net.therap.knowledgeExchange.domain.Forum;
-import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.helper.ForumHelper;
 import net.therap.knowledgeExchange.service.EnrollmentService;
 import net.therap.knowledgeExchange.service.ForumService;
@@ -26,7 +24,6 @@ import static net.therap.knowledgeExchange.common.Status.*;
 import static net.therap.knowledgeExchange.controller.ForumController.FORUM;
 import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
-import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
 import static net.therap.knowledgeExchange.utils.Url.FORUM_LIST;
 
 /**
@@ -59,12 +56,22 @@ public class ForumController {
         binder.setDisallowedFields("id");
     }
 
-    @GetMapping("/list")
-    public String viewList(@RequestParam Status status,
+    @GetMapping("/viewCreationRequestList")
+    public String viewCreationRequestList(@RequestParam Status status,
                            HttpServletRequest request,
                            ModelMap model) {
 
-        forumHelper.setUpReferenceData(status, request, model);
+        forumHelper.setUpReferenceData(status, request, model, CREATION_REQUEST_LIST);
+
+        return FORUM_LIST_PAGE;
+    }
+
+    @GetMapping("/viewJoinRequestList")
+    public String viewJoinRequestList(@RequestParam Status status,
+                           HttpServletRequest request,
+                           ModelMap model) {
+
+        forumHelper.setUpReferenceData(status, request, model, JOIN_REQUEST_LIST);
 
         return FORUM_LIST_PAGE;
     }
@@ -91,14 +98,13 @@ public class ForumController {
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute Forum forum,
                           Errors errors,
-                          @RequestParam Action action,
                           HttpServletRequest request,
                           ModelMap model,
                           SessionStatus sessionStatus,
                           RedirectAttributes redirectAttributes) {
 
         if (errors.hasErrors()) {
-            forumHelper.setUpReferenceData(action, model);
+            forumHelper.setUpReferenceData(SAVE, model);
 
             return FORUM_FORM_PAGE;
         }
@@ -114,16 +120,13 @@ public class ForumController {
 
     @PostMapping("/approve")
     public String approve(@RequestParam int forumId,
-                          HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
 
         forumService.approve(forum);
 
-        User user = getSessionUser(request);
-
-        enrollmentService.saveOrUpdate(new Enrollment(forum, user, APPROVED));
+        enrollmentService.saveOrUpdate(new Enrollment(forum, forum.getManager(), APPROVED));
 
         forumHelper.setUpFlashData(FORUM_APPROVED_MESSAGE, redirectAttributes);
 

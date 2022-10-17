@@ -1,5 +1,6 @@
 package net.therap.knowledgeExchange.service;
 
+import net.therap.knowledgeExchange.common.Status;
 import net.therap.knowledgeExchange.domain.Enrollment;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.User;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 import static net.therap.knowledgeExchange.common.Status.*;
 
@@ -26,8 +28,15 @@ public class EnrollmentService {
         return em.find(Enrollment.class, id);
     }
 
+    public List<Enrollment> findByUserAndStatus(User user, Status status) {
+        return em.createNamedQuery("Enrollment.findByUserAndStatus", Enrollment.class)
+                .setParameter("user", user)
+                .setParameter("status", status)
+                .getResultList();
+    }
+
     public Enrollment findByForumAndUser(Forum forum, User user) {
-        try{
+        try {
             return em.createNamedQuery("Enrollment.findByForumAndUser", Enrollment.class)
                     .setParameter("forum", forum)
                     .setParameter("user", user)

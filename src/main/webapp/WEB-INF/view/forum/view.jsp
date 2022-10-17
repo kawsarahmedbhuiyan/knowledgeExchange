@@ -28,24 +28,33 @@
         <div class="d-flex justify-content-center">
             <h1><c:out value="${forum.name}"/></h1>
         </div>
-        <c:url var="forumJoinLink" value="/forum/join">
+        <c:url var="enrollLink" value="/enrollment/enroll">
             <c:param name="forumId" value="${forum.id}"/>
         </c:url>
-        <c:url var="forumLeaveLink" value="/forum/leave">
+        <c:url var="deleteEnrollmentLink" value="/enrollment/delete">
             <c:param name="forumId" value="${forum.id}"/>
         </c:url>
-        <c:choose>
-            <c:when test="${JOINED}">
-                <form action="${forumLeaveLink}" method="post">
-                    <button class="btn btn-danger"><fmt:message key="btn.leave"/></button>
-                </form>
-            </c:when>
-            <c:otherwise>
-                <form action="${forumJoinLink}" method="post">
-                    <button class="btn btn-success"><fmt:message key="btn.join"/></button>
-                </form>
-            </c:otherwise>
-        </c:choose>
+        <div class="d-flex justify-content-center">
+            <c:if test="${SESSION_USER != forum.manager}">
+                <c:choose>
+                    <c:when test="${PENDING}">
+                        <form action="${deleteEnrollmentLink}" method="post">
+                            <button class="btn btn-danger"><fmt:message key="btn.cancelJoinRequest"/></button>
+                        </form>
+                    </c:when>
+                    <c:when test="${APPROVED}">
+                        <form action="${deleteEnrollmentLink}" method="post">
+                            <button class="btn btn-danger"><fmt:message key="btn.leave"/></button>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <form action="${enrollLink}" method="post">
+                            <button class="btn btn-success"><fmt:message key="btn.join"/></button>
+                        </form>
+                    </c:otherwise>
+                </c:choose>
+            </c:if>
+        </div>
     </div>
     <br/>
     <jsp:include page='../common/footer.jsp'/>

@@ -32,17 +32,20 @@
         <h1><fmt:message key="title.editForum"/></h1>
     </c:if>
     <br/>
-    <form:form method="POST" action="/forum" modelAttribute="forum">
+    <form:form method="POST" action="/forum/save" modelAttribute="forum">
         <form:label path="name"><fmt:message key="label.name"/> </form:label>
-        <form:input path="name"/>
+        <form:input path="name"/><br/>
         <form:errors path="name" cssStyle="color: red"/>
         <br/><br/>
-
+        <form:label path="description"><fmt:message key="label.description"/> </form:label><br/><br/>
+        <form:textarea class="form-control" rows="8" path="description"/><br/>
+        <form:errors path="description" cssStyle="color: red"/>
+        <br/><br/>
         <c:if test="${SAVE}">
-            <button class="btn btn-success" name="action" value="SAVE"><fmt:message key="btn.save"/></button>
+            <button class="btn btn-success"><fmt:message key="btn.save"/></button>
         </c:if>
         <c:if test="${UPDATE}">
-            <button class="btn btn-success" name="action" value="UPDATE"><fmt:message key="btn.update"/></button>
+            <button class="btn btn-success"><fmt:message key="btn.update"/></button>
         </c:if>
     </form:form>
     <br/>

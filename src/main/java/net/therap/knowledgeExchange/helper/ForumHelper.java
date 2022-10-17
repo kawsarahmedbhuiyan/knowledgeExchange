@@ -2,6 +2,7 @@ package net.therap.knowledgeExchange.helper;
 
 import net.therap.knowledgeExchange.common.Action;
 import net.therap.knowledgeExchange.common.Status;
+import net.therap.knowledgeExchange.domain.Enrollment;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.service.EnrollmentService;
@@ -13,11 +14,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static net.therap.knowledgeExchange.utils.Constant.FORUM;
-import static net.therap.knowledgeExchange.utils.Constant.FORUMS;
+import static java.util.Objects.nonNull;
+import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
 
 /**
@@ -41,6 +43,12 @@ public class ForumHelper {
 
         User user = getSessionUser(request);
 
+        Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
+
+        if (nonNull(enrollment)) {
+            model.addAttribute(enrollment.getStatus().name(), true);
+        }
+
         model.addAttribute(FORUM, forum);
     }
 
@@ -51,18 +59,30 @@ public class ForumHelper {
         model.addAttribute(action.name(), true);
     }
 
-    public void setUpReferenceData(Status status, HttpServletRequest request, ModelMap model) {
+    public void setUpReferenceData(Action action, ModelMap model) {
+        model.addAttribute(action.name(), true);
+    }
+
+    public void setUpReferenceData(Status status, HttpServletRequest request, ModelMap model, String listType) {
         User user = getSessionUser(request);
-        
-        List<Forum> forums = user.isAdmin() ? forumService.findAllByStatus(status) :
-                forumService.findAllByManagerAndStatus(user, status);
+
+        List<Forum> forums = new ArrayList<>();
+
+        switch (listType) {
+            case CREATION_REQUEST_LIST:
+                forums = user.isAdmin() ? forumService.findAllByStatus(status) :
+                        forumService.findAllByManagerAndStatus(user, status);
+                break;
+
+            case JOIN_REQUEST_LIST:
+                for (Enrollment enrollment : enrollmentService.findByUserAndStatus(user, status)) {
+                    forums.add(enrollment.getForum());
+                }
+                break;
+        }
 
         model.addAttribute(FORUMS, forums);
         model.addAttribute(status.name(), true);
-    }
-
-    public void setUpReferenceData(Action action, ModelMap model) {
-        model.addAttribute(action.name(), true);
     }
 
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {

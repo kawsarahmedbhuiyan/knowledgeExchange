@@ -44,7 +44,7 @@ CREATE TABLE forum
     CONSTRAINT fk_user_forum FOREIGN KEY (manager_id) REFERENCES user (id)
 );
 
-CREATE TABLE entry
+CREATE TABLE enrollment
 (
     id       int AUTO_INCREMENT,
     forum_id int         NOT NULL,
@@ -52,9 +52,10 @@ CREATE TABLE entry
     status   varchar(10) NOT NULL,
     created  DATETIME    NOT NULL,
     updated  DATETIME    NOT NULL,
-    CONSTRAINT pk_entry PRIMARY KEY (forum_id, user_id),
-    CONSTRAINT fk_forum_entry FOREIGN KEY (forum_id) REFERENCES forum (id),
-    CONSTRAINT fk_user_entry FOREIGN KEY (user_id) REFERENCES user (id)
+    CONSTRAINT pk_enrollment PRIMARY KEY (id),
+    CONSTRAINT uq_enrollment_forum_id_user_id UNIQUE (forum_id, user_id),
+    CONSTRAINT fk_forum_enrollment FOREIGN KEY (forum_id) REFERENCES forum (id),
+    CONSTRAINT fk_user_enrollment FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
 CREATE TABLE post

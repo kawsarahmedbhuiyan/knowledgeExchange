@@ -116,7 +116,10 @@
             </table>
         </div>
     </div>
-    <br/>
+    <a href="/forum/save">
+        <button class="btn btn-primary"><fmt:message key="btn.createNewForum"/></button>
+    </a>
+    <br/><br/>
     <jsp:include page='../common/footer.jsp'/>
 </div>
 </body>

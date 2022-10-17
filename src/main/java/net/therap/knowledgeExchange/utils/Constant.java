@@ -14,6 +14,9 @@ public interface Constant {
     String CREDENTIAL = "credential";
     String ADMIN="ADMIN";
 
+    String CREATION_REQUEST_LIST="creationRequestList";
+    String JOIN_REQUEST_LIST="joinRequestList";
+
     String FORUM_PENDING_APPROVAL_MESSAGE = "forumPendingApprovalMessage";
     String FORUM_APPROVED_MESSAGE="forumApprovedMessage";
     String FORUM_DECLINED_MESSAGE="forumDeclinedMessage";
