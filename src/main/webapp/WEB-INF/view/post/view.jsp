@@ -50,38 +50,38 @@
         <div class="card-body">
             <p class="card-text"><c:out value="${post.body}"/></p>
             <c:if test="${SESSION_USER == forum.manager}">
-                <c:if test="${PENDING}">
-                    <c:url var="postApproveLink" value="/post/approve">
-                        <c:param name="postId" value="${post.id}"/>
-                    </c:url>
+                <c:url var="postApproveLink" value="/post/approve">
+                    <c:param name="postId" value="${post.id}"/>
+                </c:url>
+                <c:url var="postDeclineLink" value="/post/decline">
+                    <c:param name="postId" value="${post.id}"/>
+                </c:url>
+                <c:if test="${PENDING || DECLINED}">
                     <form action="${postApproveLink}" method="post">
                         <button class="btn btn-success"><fmt:message key="btn.approve"/></button>
                     </form>
-                    <c:url var="postDeclineLink" value="/post/decline">
-                        <c:param name="postId" value="${post.id}"/>
-                    </c:url>
+                </c:if>
+                <c:if test="${PENDING}">
                     <form action="${postDeclineLink}" method="post">
                         <button class="btn btn-danger"><fmt:message key="btn.decline"/></button>
                     </form>
                 </c:if>
             </c:if>
             <c:if test="${SESSION_USER == forum.manager || SESSION_USER == post.user}">
-                <c:if test="${APPROVED}">
-                    <c:url var="postUpdateLink" value="/post/update">
-                        <c:param name="postId" value="${post.id}"/>
-                    </c:url>
-                    <a href="${postUpdateLink}">
-                        <button type="button" class="btn btn-primary"><fmt:message key="btn.edit"/></button>
-                    </a>
-                    <br/><br/>
-                    <c:url var="postDeleteLink" value="/post/delete">
-                        <c:param name="postId" value="${post.id}"/>
-                    </c:url>
-                    <form action="${postDeleteLink}" method="post"
-                          onSubmit="return confirm('<fmt:message key="postDeleteConfirmationMessage"/>');">
-                        <button class="btn btn-danger"><fmt:message key="btn.delete"/></button>
-                    </form>
-                </c:if>
+                <c:url var="postUpdateLink" value="/post/update">
+                    <c:param name="postId" value="${post.id}"/>
+                </c:url>
+                <a href="${postUpdateLink}">
+                    <button type="button" class="btn btn-primary"><fmt:message key="btn.edit"/></button>
+                </a>
+                <br/><br/>
+                <c:url var="postDeleteLink" value="/post/delete">
+                    <c:param name="postId" value="${post.id}"/>
+                </c:url>
+                <form action="${postDeleteLink}" method="post"
+                      onSubmit="return confirm('<fmt:message key="postDeleteConfirmationMessage"/>');">
+                    <button class="btn btn-danger"><fmt:message key="btn.delete"/></button>
+                </form>
             </c:if>
         </div>
     </div>

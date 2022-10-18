@@ -57,13 +57,22 @@
             </c:if>
         </div>
     </div>
-    <c:if test="${SESSION_USER == forum.manager}">
-        <c:url var="pendingPostListLink" value="/post/list">
-            <c:param name="forumId" value="${forum.id}"/>
-            <c:param name="status" value="PENDING"/>
-        </c:url>
-        <a href="${pendingPostListLink}"><fmt:message key="label.viewPendingPostList"/></a><br/><br/>
+    <c:if test="${not empty message}">
+        <div class="my-3 p-2 alert alert-success">
+            <div><c:out value="${message}"/></div>
+        </div>
     </c:if>
+    <c:url var="pendingPostListLink" value="/post/list">
+        <c:param name="forumId" value="${forum.id}"/>
+        <c:param name="status" value="PENDING"/>
+    </c:url>
+    <c:url var="declinedPostListLink" value="/post/list">
+        <c:param name="forumId" value="${forum.id}"/>
+        <c:param name="status" value="DECLINED"/>
+    </c:url>
+    <a href="${pendingPostListLink}"><fmt:message key="label.viewPendingPostList"/></a>
+    <a href="${declinedPostListLink}"><fmt:message key="label.viewDeclinedPostList"/></a>
+    <br/><br/>
     <c:url var="postSaveLink" value="/post/save">
         <c:param name="forumId" value="${forum.id}"/>
     </c:url>
