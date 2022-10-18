@@ -8,6 +8,8 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+import static net.therap.knowledgeExchange.common.Status.PENDING;
+
 /**
  * @author kawsar.bhuiyan
  * @since 10/13/22
@@ -23,8 +25,8 @@ public class Post extends Persistent {
     private int id;
 
     @NotNull
-    @Size(min = 50, max = 300)
-    private String heading;
+    @Size(min = 10, max = 300)
+    private String title;
 
     @NotNull
     @Size(min = 300, max = 3000)
@@ -54,6 +56,15 @@ public class Post extends Persistent {
     private Status status;
 
     public Post() {
+        status = PENDING;
+        likers = new HashSet<>();
+        comments = new HashSet<>();
+    }
+
+    public Post(User user, Forum forum) {
+        this.user = user;
+        this.forum = forum;
+        status = PENDING;
         likers = new HashSet<>();
         comments = new HashSet<>();
     }
@@ -66,12 +77,12 @@ public class Post extends Persistent {
         this.id = id;
     }
 
-    public String getHeading() {
-        return heading;
+    public String getTitle() {
+        return title;
     }
 
-    public void setHeading(String heading) {
-        this.heading = heading;
+    public void setTitle(String heading) {
+        this.title = heading;
     }
 
     public String getBody() {

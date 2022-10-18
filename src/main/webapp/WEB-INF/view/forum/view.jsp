@@ -56,7 +56,13 @@
             </c:if>
         </div>
     </div>
-    <br/>
+    <c:url var="postSaveLink" value="/post/save">
+        <c:param name="forumId" value="${forum.id}"/>
+    </c:url>
+    <a href="${postSaveLink}">
+        <button class="btn btn-primary"><fmt:message key="btn.addNewPost"/></button>
+    </a>
+    <br/> <br/>
     <jsp:include page='../common/footer.jsp'/>
 </div>
 </body>

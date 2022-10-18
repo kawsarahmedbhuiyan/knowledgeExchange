@@ -67,15 +67,17 @@ public class ForumService {
         em.merge(forum);
     }
 
+    @Transactional
     public void decline(Forum forum) {
         forum.setStatus(DECLINED);
 
-        saveOrUpdate(forum);
+        em.merge(forum);
     }
 
+    @Transactional
     public void delete(Forum forum) {
         forum.setStatus(DELETED);
 
-        saveOrUpdate(forum);
+        em.merge(forum);
     }
 }

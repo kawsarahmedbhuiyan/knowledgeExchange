@@ -13,6 +13,6 @@ public interface Url {
     String LOGIN_PAGE = "login";
     String REGISTRATION_PAGE = "registration";
     String FORUM_VIEW = "/forum/view?forumId=";
-    String FORUM_LIST ="/forum/list?status=";
+    String FORUM_CREATION_REQUEST_LIST ="/forum/creationRequestList?status=";
     String ERROR_PAGE = "error";
 }

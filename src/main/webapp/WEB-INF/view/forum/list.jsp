@@ -24,32 +24,33 @@
     <jsp:include page='../common/navbar.jsp'/>
     <button type="button" class="btn btn-dark" onclick="history.back()"><fmt:message key="btn.back"/></button>
     <br/><br/>
+    <h1><fmt:message key="title.${list}"/></h1>
     <c:if test="${not empty message}">
         <div class="my-3 p-2 alert alert-success">
             <div><c:out value="${message}"/></div>
         </div>
     </c:if>
-    <c:url var="pendingForumListLink" value="/forum/list">
+    <c:url var="pendingForumListLink" value="/forum/${list}">
         <c:param name="status" value="PENDING"/>
     </c:url>
-    <c:url var="approvedForumListLink" value="/forum/list">
+    <c:url var="approvedForumListLink" value="/forum/${list}">
         <c:param name="status" value="APPROVED"/>
     </c:url>
-    <c:url var="declinedForumListLink" value="/forum/list">
+    <c:url var="declinedForumListLink" value="/forum/${list}">
         <c:param name="status" value="DECLINED"/>
     </c:url>
-    <a href="${pendingForumListLink}"><fmt:message key="title.pendingForumList"/></a>
-    <a href="${approvedForumListLink}"><fmt:message key="title.approvedForumList"/></a>
-    <a href="${declinedForumListLink}"><fmt:message key="title.declinedForumList"/></a>
+    <a href="${pendingForumListLink}"><fmt:message key="title.pending"/></a>
+    <a href="${approvedForumListLink}"><fmt:message key="title.approved"/></a>
+    <a href="${declinedForumListLink}"><fmt:message key="title.declined"/></a>
     <br/><br/>
     <c:if test="${PENDING}">
-        <h1><fmt:message key="title.pendingForumList"/></h1>
+        <h2><fmt:message key="title.pending"/></h2>
     </c:if>
     <c:if test="${APPROVED}">
-        <h1><fmt:message key="title.approvedForumList"/></h1>
+        <h2><fmt:message key="title.approved"/></h2>
     </c:if>
     <c:if test="${DECLINED}">
-        <h1><fmt:message key="title.declinedForumList"/></h1>
+        <h2><fmt:message key="title.declined"/></h2>
     </c:if>
     <div class="row">
         <div class="col-12">

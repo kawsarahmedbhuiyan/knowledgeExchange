@@ -19,7 +19,9 @@ import java.util.List;
 import java.util.Locale;
 
 import static java.util.Objects.nonNull;
-import static net.therap.knowledgeExchange.utils.Constant.*;
+import static net.therap.knowledgeExchange.controller.ForumController.FORUM;
+import static net.therap.knowledgeExchange.utils.Constant.CREATION_REQUEST_LIST;
+import static net.therap.knowledgeExchange.utils.Constant.JOIN_REQUEST_LIST;
 import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
 
 /**
@@ -81,8 +83,9 @@ public class ForumHelper {
                 break;
         }
 
-        model.addAttribute(FORUMS, forums);
+        model.addAttribute("forums", forums);
         model.addAttribute(status.name(), true);
+        model.addAttribute("list", listType);
     }
 
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {

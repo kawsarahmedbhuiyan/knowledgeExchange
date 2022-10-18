@@ -24,7 +24,7 @@ import static net.therap.knowledgeExchange.common.Status.*;
 import static net.therap.knowledgeExchange.controller.ForumController.FORUM;
 import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
-import static net.therap.knowledgeExchange.utils.Url.FORUM_LIST;
+import static net.therap.knowledgeExchange.utils.Url.FORUM_CREATION_REQUEST_LIST;
 
 /**
  * @author kawsar.bhuiyan
@@ -56,8 +56,8 @@ public class ForumController {
         binder.setDisallowedFields("id");
     }
 
-    @GetMapping("/viewCreationRequestList")
-    public String viewCreationRequestList(@RequestParam Status status,
+    @GetMapping("/creationRequestList")
+    public String creationRequestList(@RequestParam Status status,
                            HttpServletRequest request,
                            ModelMap model) {
 
@@ -66,8 +66,8 @@ public class ForumController {
         return FORUM_LIST_PAGE;
     }
 
-    @GetMapping("/viewJoinRequestList")
-    public String viewJoinRequestList(@RequestParam Status status,
+    @GetMapping("/joinRequestList")
+    public String joinRequestList(@RequestParam Status status,
                            HttpServletRequest request,
                            ModelMap model) {
 
@@ -115,7 +115,7 @@ public class ForumController {
 
         forumHelper.setUpFlashData(FORUM_PENDING_APPROVAL_MESSAGE, redirectAttributes);
 
-        return redirectTo(FORUM_LIST + PENDING);
+        return redirectTo(FORUM_CREATION_REQUEST_LIST + PENDING);
     }
 
     @PostMapping("/approve")
@@ -130,7 +130,7 @@ public class ForumController {
 
         forumHelper.setUpFlashData(FORUM_APPROVED_MESSAGE, redirectAttributes);
 
-        return redirectTo(FORUM_LIST + APPROVED);
+        return redirectTo(FORUM_CREATION_REQUEST_LIST + APPROVED);
     }
 
     @PostMapping("/decline")
@@ -144,7 +144,7 @@ public class ForumController {
 
         forumHelper.setUpFlashData(FORUM_DECLINED_MESSAGE, redirectAttributes);
 
-        return redirectTo(FORUM_LIST + DECLINED);
+        return redirectTo(FORUM_CREATION_REQUEST_LIST + DECLINED);
     }
 
     @PostMapping("/delete")
@@ -158,6 +158,6 @@ public class ForumController {
 
         forumHelper.setUpFlashData(FORUM_DELETED_MESSAGE, redirectAttributes);
 
-        return redirectTo(FORUM_LIST + APPROVED);
+        return redirectTo(FORUM_CREATION_REQUEST_LIST + APPROVED);
     }
 }
