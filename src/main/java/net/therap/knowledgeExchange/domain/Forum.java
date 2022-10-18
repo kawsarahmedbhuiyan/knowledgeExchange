@@ -125,6 +125,10 @@ public class Forum extends Persistent {
         return getId() == 0;
     }
 
+    public boolean isManagedByUser(User user) {
+        return manager.equals(user);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

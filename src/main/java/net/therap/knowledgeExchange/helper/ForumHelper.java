@@ -4,9 +4,11 @@ import net.therap.knowledgeExchange.common.Action;
 import net.therap.knowledgeExchange.common.Status;
 import net.therap.knowledgeExchange.domain.Enrollment;
 import net.therap.knowledgeExchange.domain.Forum;
+import net.therap.knowledgeExchange.domain.Post;
 import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.service.EnrollmentService;
 import net.therap.knowledgeExchange.service.ForumService;
+import net.therap.knowledgeExchange.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static java.util.Objects.nonNull;
+import static net.therap.knowledgeExchange.common.Status.APPROVED;
 import static net.therap.knowledgeExchange.controller.ForumController.FORUM;
 import static net.therap.knowledgeExchange.utils.Constant.CREATION_REQUEST_LIST;
 import static net.therap.knowledgeExchange.utils.Constant.JOIN_REQUEST_LIST;
@@ -35,6 +38,9 @@ public class ForumHelper {
     private ForumService forumService;
 
     @Autowired
+    private PostService postService;
+
+    @Autowired
     private EnrollmentService enrollmentService;
 
     @Autowired
@@ -42,6 +48,8 @@ public class ForumHelper {
 
     public void setUpReferenceData(int forumId, HttpServletRequest request, ModelMap model) {
         Forum forum = forumService.findById(forumId);
+
+        model.addAttribute(FORUM, forum);
 
         User user = getSessionUser(request);
 
@@ -51,7 +59,9 @@ public class ForumHelper {
             model.addAttribute(enrollment.getStatus().name(), true);
         }
 
-        model.addAttribute(FORUM, forum);
+        List<Post> approvedPosts = postService.findAllByForumAndStatus(forum, APPROVED);
+
+        model.addAttribute("approvedPosts", approvedPosts);
     }
 
     public void setUpReferenceData(Action action, HttpServletRequest request, ModelMap model) {

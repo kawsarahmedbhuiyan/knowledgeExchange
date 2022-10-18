@@ -1,6 +1,7 @@
 package net.therap.knowledgeExchange.service;
 
 import net.therap.knowledgeExchange.common.Status;
+import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.Post;
 import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.exception.NotFoundException;
@@ -34,19 +35,17 @@ public class PostService {
         return post;
     }
 
-    public List<Post> findAll() {
-        return em.createNamedQuery("Post.findAll", Post.class).getResultList();
-    }
-
-    public List<Post> findAllByStatus(Status status) {
-        return em.createNamedQuery("Post.findAllByStatus", Post.class)
+    public List<Post> findAllByForumAndStatus(Forum forum, Status status) {
+        return em.createNamedQuery("Post.findAllByForumAndStatus", Post.class)
+                .setParameter("forum", forum)
                 .setParameter("status", status)
                 .getResultList();
     }
 
-    public List<Post> findAllByManagerAndStatus(User manager, Status status) {
-        return em.createNamedQuery("Post.findAllByManagerAndStatus", Post.class)
-                .setParameter("manager", manager)
+    public List<Post> findAllByForumAndUserAndStatus(Forum forum, User user, Status status) {
+        return em.createNamedQuery("Post.findAllByForumAndUserAndStatus", Post.class)
+                .setParameter("forum", forum)
+                .setParameter("user", user)
                 .setParameter("status", status)
                 .getResultList();
     }

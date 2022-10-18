@@ -15,6 +15,12 @@ import static net.therap.knowledgeExchange.common.Status.PENDING;
  * @since 10/13/22
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Post.findAllByForumAndStatus", query = "FROM Post p WHERE " +
+                "p.forum = :forum AND p.status = :status ORDER BY p.created"),
+        @NamedQuery(name = "Post.findAllByForumAndUserAndStatus", query = "FROM Post p WHERE " +
+                "p.forum = :forum AND p.user = :user AND p.status = :status ORDER BY p.created")
+})
 @Table(name = "post")
 public class Post extends Persistent {
 

@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!--
 @author kawsar.bhuiyan
-@since 10/17/22
+@since 10/18/22
 -->
 <html>
 <head>
@@ -18,62 +18,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
             crossorigin="anonymous"></script>
-    <title><fmt:message key="title.forum"/></title>
+    <title><fmt:message key="title.post"/></title>
 </head>
 <body>
 <div class="container">
     <jsp:include page='../common/navbar.jsp'/>
     <button type="button" class="btn btn-dark" onclick="history.back()"><fmt:message key="btn.back"/></button>
     <br/><br/>
-    <div class="d-flex flex-column">
-        <div class="d-flex justify-content-center">
-            <h1><c:out value="${forum.name}"/></h1>
-        </div>
-        <c:url var="enrollLink" value="/enrollment/enroll">
-            <c:param name="forumId" value="${forum.id}"/>
-        </c:url>
-        <c:url var="deleteEnrollmentLink" value="/enrollment/delete">
-            <c:param name="forumId" value="${forum.id}"/>
-        </c:url>
-        <div class="d-flex justify-content-center">
-            <c:if test="${SESSION_USER != forum.manager}">
-                <c:choose>
-                    <c:when test="${PENDING}">
-                        <form action="${deleteEnrollmentLink}" method="post">
-                            <button class="btn btn-danger"><fmt:message key="btn.cancelJoinRequest"/></button>
-                        </form>
-                    </c:when>
-                    <c:when test="${APPROVED}">
-                        <form action="${deleteEnrollmentLink}" method="post">
-                            <button class="btn btn-danger"><fmt:message key="btn.leave"/></button>
-                        </form>
-                    </c:when>
-                    <c:otherwise>
-                        <form action="${enrollLink}" method="post">
-                            <button class="btn btn-success"><fmt:message key="btn.join"/></button>
-                        </form>
-                    </c:otherwise>
-                </c:choose>
-            </c:if>
-        </div>
-    </div>
-    <c:if test="${SESSION_USER == forum.manager}">
-        <c:url var="pendingPostListLink" value="/post/list">
-            <c:param name="forumId" value="${forum.id}"/>
-            <c:param name="status" value="PENDING"/>
-        </c:url>
-        <a href="${pendingPostListLink}"><fmt:message key="label.viewPendingPostList"/></a><br/><br/>
-    </c:if>
-    <c:url var="postSaveLink" value="/post/save">
-        <c:param name="forumId" value="${forum.id}"/>
-    </c:url>
-    <a href="${postSaveLink}">
-        <button class="btn btn-primary"><fmt:message key="btn.addNewPost"/></button>
-    </a>
-    <br/><br/>
     <div class="row">
         <div class="col-12">
-            <c:forEach var="post" items="${approvedPosts}">
+            <c:forEach var="post" items="${posts}">
                 <c:url var="postViewLink" value="/post/view">
                     <c:param name="postId" value="${post.id}"/>
                 </c:url>

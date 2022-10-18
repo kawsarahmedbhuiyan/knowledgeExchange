@@ -1,5 +1,6 @@
 package net.therap.knowledgeExchange.controller;
 
+import net.therap.knowledgeExchange.common.Status;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.Post;
 import net.therap.knowledgeExchange.helper.PostHelper;
@@ -18,7 +19,7 @@ import javax.validation.Valid;
 
 import static net.therap.knowledgeExchange.common.Action.SAVE;
 import static net.therap.knowledgeExchange.controller.PostController.POST;
-import static net.therap.knowledgeExchange.utils.Constant.POST_PENDING_APPROVAL_MESSAGE;
+import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
 import static net.therap.knowledgeExchange.utils.Url.FORUM_VIEW;
 
@@ -32,8 +33,9 @@ import static net.therap.knowledgeExchange.utils.Url.FORUM_VIEW;
 public class PostController {
 
     public static final String POST = "post";
-    private static final String POST_VIEW_PAGE="/post/view";
+    private static final String POST_VIEW_PAGE = "/post/view";
     private static final String POST_FORM_PAGE = "/post/form";
+    private static final String POST_LIST_PAGE = "/post/list";
 
     @Autowired
     private PostHelper postHelper;
@@ -43,6 +45,31 @@ public class PostController {
 
     @Autowired
     private ForumService forumService;
+
+    @GetMapping("/list")
+    public String list(@RequestParam int forumId,
+                       @RequestParam Status status,
+                       HttpServletRequest request,
+                       ModelMap model) {
+
+        Forum forum = forumService.findById(forumId);
+
+        postHelper.setUpReferenceData(forum, status, request, model);
+
+        return POST_LIST_PAGE;
+    }
+
+    @GetMapping("/view")
+    public String view(@RequestParam int postId,
+                       HttpServletRequest request,
+                       ModelMap model) {
+
+        Post post = postService.findById(postId);
+
+        postHelper.setUpReferenceData(post, request, model);
+
+        return POST_VIEW_PAGE;
+    }
 
     @GetMapping("/save")
     public String save(@RequestParam int forumId,
@@ -58,11 +85,11 @@ public class PostController {
 
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute Post post,
-                          Errors errors,
-                          HttpServletRequest request,
-                          ModelMap model,
-                          SessionStatus sessionStatus,
-                          RedirectAttributes redirectAttributes) {
+                       Errors errors,
+                       HttpServletRequest request,
+                       ModelMap model,
+                       SessionStatus sessionStatus,
+                       RedirectAttributes redirectAttributes) {
 
         if (errors.hasErrors()) {
             postHelper.setUpReferenceData(SAVE, model);
@@ -75,6 +102,45 @@ public class PostController {
         postHelper.setUpFlashData(POST_PENDING_APPROVAL_MESSAGE, redirectAttributes);
 
         sessionStatus.setComplete();
+
+        return redirectTo(FORUM_VIEW + post.getForum().getId());
+    }
+
+    @PostMapping("/approve")
+    public String approve(@RequestParam int postId,
+                          RedirectAttributes redirectAttributes) {
+
+        Post post = postService.findById(postId);
+
+        postService.approve(post);
+
+        postHelper.setUpFlashData(POST_APPROVED_MESSAGE, redirectAttributes);
+
+        return redirectTo(FORUM_VIEW + post.getForum().getId());
+    }
+
+    @PostMapping("/decline")
+    public String decline(@RequestParam int postId,
+                          RedirectAttributes redirectAttributes) {
+
+        Post post = postService.findById(postId);
+
+        postService.decline(post);
+
+        postHelper.setUpFlashData(POST_DECLINED_MESSAGE, redirectAttributes);
+
+        return redirectTo(FORUM_VIEW + post.getForum().getId());
+    }
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam int postId,
+                         RedirectAttributes redirectAttributes) {
+
+        Post post = postService.findById(postId);
+
+        postService.delete(post);
+
+        postHelper.setUpFlashData(POST_DELETED_MESSAGE, redirectAttributes);
 
         return redirectTo(FORUM_VIEW + post.getForum().getId());
     }

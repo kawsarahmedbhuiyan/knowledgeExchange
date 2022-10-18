@@ -76,6 +76,8 @@ public class ForumController {
         return FORUM_LIST_PAGE;
     }
 
+
+
     @GetMapping("/view")
     public String view(@RequestParam int forumId,
                        HttpServletRequest request,
