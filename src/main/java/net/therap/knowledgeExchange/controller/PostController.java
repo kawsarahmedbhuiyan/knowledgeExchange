@@ -47,7 +47,7 @@ public class PostController {
     private ForumService forumService;
 
     @GetMapping("/list")
-    public String list(@RequestParam int forumId,
+    public String viewList(@RequestParam int forumId,
                        @RequestParam Status status,
                        HttpServletRequest request,
                        ModelMap model) {

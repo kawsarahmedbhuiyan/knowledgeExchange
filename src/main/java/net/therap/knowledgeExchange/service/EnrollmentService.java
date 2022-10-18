@@ -35,6 +35,13 @@ public class EnrollmentService {
                 .getResultList();
     }
 
+    public List<Enrollment> findByForumAndStatus(Forum forum, Status status) {
+        return em.createNamedQuery("Enrollment.findByForumAndStatus", Enrollment.class)
+                .setParameter("forum", forum)
+                .setParameter("status", status)
+                .getResultList();
+    }
+
     public Enrollment findByForumAndUser(Forum forum, User user) {
         try {
             return em.createNamedQuery("Enrollment.findByForumAndUser", Enrollment.class)

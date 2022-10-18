@@ -57,7 +57,7 @@ public class ForumController {
     }
 
     @GetMapping("/creationRequestList")
-    public String creationRequestList(@RequestParam Status status,
+    public String viewCreationRequestList(@RequestParam Status status,
                            HttpServletRequest request,
                            ModelMap model) {
 
@@ -67,7 +67,7 @@ public class ForumController {
     }
 
     @GetMapping("/joinRequestList")
-    public String joinRequestList(@RequestParam Status status,
+    public String viewJoinRequestList(@RequestParam Status status,
                            HttpServletRequest request,
                            ModelMap model) {
 

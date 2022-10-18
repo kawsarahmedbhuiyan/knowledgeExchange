@@ -15,6 +15,8 @@ import static net.therap.knowledgeExchange.common.Status.PENDING;
 @NamedQueries({
         @NamedQuery(name = "Enrollment.findByUserAndStatus", query = "FROM Enrollment WHERE " +
                 "user = :user AND status = :status"),
+        @NamedQuery(name = "Enrollment.findByForumAndStatus", query = "FROM Enrollment WHERE " +
+                "forum = :forum AND status = :status"),
         @NamedQuery(name = "Enrollment.findByForumAndUser", query = "FROM Enrollment WHERE " +
                 "forum = :forum AND user = :user")
 })

@@ -27,7 +27,10 @@
     <br/><br/>
     <div class="d-flex flex-column">
         <div class="d-flex justify-content-center">
-            <h1><c:out value="${forum.name}"/></h1>
+            <h1><c:out value="${forum.name}"/></h1><br/>
+        </div>
+        <div class="d-flex justify-content-center">
+            <small>308 Members</small><br/><br/>
         </div>
         <c:url var="enrollLink" value="/enrollment/enroll">
             <c:param name="forumId" value="${forum.id}"/>
@@ -72,6 +75,13 @@
     </c:url>
     <a href="${pendingPostListLink}"><fmt:message key="label.viewPendingPostList"/></a>
     <a href="${declinedPostListLink}"><fmt:message key="label.viewDeclinedPostList"/></a>
+    <c:if test="${SESSION_USER != forum.manager}">
+        <c:url var="approvedPostListLink" value="/post/list">
+            <c:param name="forumId" value="${forum.id}"/>
+            <c:param name="status" value="APPROVED"/>
+        </c:url>
+        <a href="${approvedPostListLink}"><fmt:message key="label.viewApprovedPostList"/></a>
+    </c:if>
     <br/><br/>
     <c:url var="postSaveLink" value="/post/save">
         <c:param name="forumId" value="${forum.id}"/>
