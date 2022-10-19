@@ -28,5 +28,7 @@ public class UserHelper {
         enrollmentService.findByForumAndStatus(forum, status).forEach(enrollment -> users.add(enrollment.getUser()));
 
         model.addAttribute("users", users);
+        model.addAttribute("forum", forum);
+        model.addAttribute(status.name(), true);
     }
 }

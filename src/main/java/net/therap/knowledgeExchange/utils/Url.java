@@ -14,5 +14,6 @@ public interface Url {
     String REGISTRATION_PAGE = "registration";
     String FORUM_VIEW = "/forum/view?forumId=";
     String FORUM_CREATION_REQUEST_LIST ="/forum/creationRequestList?status=";
+    String FORUM_MEMBER_LIST = "/user/list?forumId=";
     String ERROR_PAGE = "error";
 }

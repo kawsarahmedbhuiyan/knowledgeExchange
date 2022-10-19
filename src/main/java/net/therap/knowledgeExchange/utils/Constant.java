@@ -10,6 +10,7 @@ public interface Constant {
     String SESSION_USER = "SESSION_USER";
     String CREDENTIAL = "credential";
     String ADMIN="ADMIN";
+    String STATUS="&status=";
     String CREATION_REQUEST_LIST="creationRequestList";
     String JOIN_REQUEST_LIST="joinRequestList";
     String FORUM_PENDING_APPROVAL_MESSAGE = "forumPendingApprovalMessage";
@@ -20,6 +21,9 @@ public interface Constant {
     String POST_APPROVED_MESSAGE="postApprovedMessage";
     String POST_DECLINED_MESSAGE="postDeclinedMessage";
     String POST_DELETED_MESSAGE="postDeletedMessage";
+    String MEMBER_APPROVED_MESSAGE="memberApprovedMessage";
+    String MEMBER_DECLINED_MESSAGE="memberDeclinedMessage";
+    String MEMBER_DELETED_MESSAGE="memberDeletedMessage";
     String SUCCESS_MESSAGE = "successMessage";
     String WELCOME_MESSAGE = "welcomeMessage";
 }

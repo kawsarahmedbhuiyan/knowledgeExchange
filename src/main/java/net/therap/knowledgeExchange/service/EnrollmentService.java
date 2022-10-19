@@ -62,21 +62,24 @@ public class EnrollmentService {
         }
     }
 
+    @Transactional
     public void approve(Enrollment enrollment) {
         enrollment.setStatus(APPROVED);
 
-        saveOrUpdate(enrollment);
+        em.merge(enrollment);
     }
 
+    @Transactional
     public void decline(Enrollment enrollment) {
         enrollment.setStatus(DECLINED);
 
-        saveOrUpdate(enrollment);
+        em.merge(enrollment);
     }
 
+    @Transactional
     public void delete(Enrollment enrollment) {
         enrollment.setStatus(DELETED);
 
-        saveOrUpdate(enrollment);
+        em.merge(enrollment);
     }
 }

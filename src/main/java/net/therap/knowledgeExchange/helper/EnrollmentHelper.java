@@ -1,13 +1,11 @@
 package net.therap.knowledgeExchange.helper;
 
-import net.therap.knowledgeExchange.domain.Enrollment;
-import net.therap.knowledgeExchange.domain.Forum;
-import net.therap.knowledgeExchange.domain.User;
-import net.therap.knowledgeExchange.service.EnrollmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import static java.util.Objects.isNull;
+import java.util.Locale;
 
 /**
  * @author kawsar.bhuiyan
@@ -17,15 +15,10 @@ import static java.util.Objects.isNull;
 public class EnrollmentHelper {
 
     @Autowired
-    private EnrollmentService enrollmentService;
+    private MessageSource messageSource;
 
-    public Enrollment getOrCreateEnrollment(Forum forum, User user) {
-        Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
-
-        if(isNull(enrollment)) {
-            enrollment = new Enrollment(forum, user);
-        }
-
-        return enrollment;
+    public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("message",
+                messageSource.getMessage(message, null, Locale.ENGLISH));
     }
 }

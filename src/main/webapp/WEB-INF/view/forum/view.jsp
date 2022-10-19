@@ -29,8 +29,13 @@
         <div class="d-flex justify-content-center">
             <h1><c:out value="${forum.name}"/></h1><br/>
         </div>
+        <c:url var="approvedUserListLink" value="/user/list">
+            <c:param name="forumId" value="${forum.id}"/>
+            <c:param name="status" value="APPROVED"/>
+        </c:url>
         <div class="d-flex justify-content-center">
-            <small>308 Members</small><br/><br/>
+            <small><a href="${approvedUserListLink}"><fmt:message key="title.viewMembers"/></a></small>
+            <br/><br/>
         </div>
         <c:url var="enrollLink" value="/enrollment/enroll">
             <c:param name="forumId" value="${forum.id}"/>
