@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import static net.therap.knowledgeExchange.common.Status.NEW;
+
 /**
  * @author kawsar.bhuiyan
  * @since 10/13/22
@@ -38,6 +40,16 @@ public class Comment extends Persistent {
 
     @Version
     private int version;
+
+    public Comment() {
+        status = NEW;
+    }
+
+    public Comment(Post post, User user) {
+        this.post = post;
+        this.user = user;
+        status = NEW;
+    }
 
     public int getId() {
         return id;

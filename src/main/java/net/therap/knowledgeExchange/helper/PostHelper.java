@@ -2,6 +2,7 @@ package net.therap.knowledgeExchange.helper;
 
 import net.therap.knowledgeExchange.common.Action;
 import net.therap.knowledgeExchange.common.Status;
+import net.therap.knowledgeExchange.domain.Comment;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.Post;
 import net.therap.knowledgeExchange.domain.User;
@@ -44,8 +45,11 @@ public class PostHelper {
     }
 
     public void setUpReferenceData(Post post, HttpServletRequest request, ModelMap model) {
+        User user=getSessionUser(request);
+
         model.addAttribute(POST, post);
         model.addAttribute(post.getStatus().name(), true);
+        model.addAttribute("comment", new Comment(post, user));
     }
 
     public void setUpReferenceData(Action action, Forum forum, HttpServletRequest request, ModelMap model) {
@@ -65,6 +69,7 @@ public class PostHelper {
     }
 
     public void setUpReferenceData(Action action, ModelMap model) {
+        model.addAttribute("action", action.name().toLowerCase());
         model.addAttribute(action.name(), true);
     }
 

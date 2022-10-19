@@ -84,7 +84,7 @@ CREATE TABLE post_user_like
 
 CREATE TABLE comment
 (
-    id      int           NOT NULL,
+    id       int AUTO_INCREMENT,
     body    varchar(2000) NOT NULL,
     user_id int           NOT NULL,
     post_id int           NOT NULL,

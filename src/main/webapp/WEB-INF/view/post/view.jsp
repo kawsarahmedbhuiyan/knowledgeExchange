@@ -24,6 +24,11 @@
     <jsp:include page='../common/navbar.jsp'/>
     <button type="button" class="btn btn-dark" onclick="history.back()"><fmt:message key="btn.back"/></button>
     <br/><br/>
+    <c:if test="${not empty message}">
+        <div class="my-3 p-2 alert alert-success">
+            <div><c:out value="${message}"/></div>
+        </div>
+    </c:if>
     <c:url var="forumViewLink" value="/forum/view">
         <c:param name="forumId" value="${post.forum.id}"/>
     </c:url>
@@ -85,6 +90,16 @@
             </c:if>
         </div>
     </div>
+    <br/>
+    <c:url var="commentSaveLink" value="/comment/save">
+        <c:param name="postId" value="${post.id}"/>
+    </c:url>
+    <a href="${commentSaveLink}">
+        <button type="button" class="btn btn-primary"><fmt:message key="btn.addComment"/></button>
+    </a>
+    <br/><br/>
+    <c:set var="comments" scope="request" value="${post.comments}"/>
+    <jsp:include page="../comment/list.jsp"/>
     <br/><br/>
     <jsp:include page='../common/footer.jsp'/>
 </div>

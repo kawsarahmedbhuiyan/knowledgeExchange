@@ -19,6 +19,7 @@ import javax.validation.Valid;
 
 import static net.therap.knowledgeExchange.common.Action.SAVE;
 import static net.therap.knowledgeExchange.common.Action.UPDATE;
+import static net.therap.knowledgeExchange.controller.CommentController.COMMENT;
 import static net.therap.knowledgeExchange.controller.PostController.POST;
 import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
@@ -29,7 +30,7 @@ import static net.therap.knowledgeExchange.utils.Url.FORUM_VIEW;
  * @since 10/18/22
  */
 @Controller
-@SessionAttributes(POST)
+@SessionAttributes({POST, COMMENT})
 @RequestMapping("/post")
 public class PostController {
 
