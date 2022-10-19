@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Locale;
 
+import static net.therap.knowledgeExchange.common.Status.PENDING;
 import static net.therap.knowledgeExchange.controller.PostController.POST;
 import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
 
@@ -51,6 +52,15 @@ public class PostHelper {
         User user = getSessionUser(request);
 
         model.addAttribute(POST, new Post(user, forum));
+        model.addAttribute("action", action.name().toLowerCase());
+        model.addAttribute(action.name(), true);
+    }
+
+    public void setUpReferenceData(Action action, Post post, HttpServletRequest request, ModelMap model) {
+        post.setStatus(PENDING);
+
+        model.addAttribute(POST, post);
+        model.addAttribute("action", action.name().toLowerCase());
         model.addAttribute(action.name(), true);
     }
 

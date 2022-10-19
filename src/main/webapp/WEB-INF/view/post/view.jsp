@@ -37,7 +37,7 @@
             </h5>
             <small>
                 <fmt:message key="label.postedBy"/>
-                <a href="${userViewLink}"><c:out value=" ${post.user.name} "/></a>
+                <a href="${userViewLink}"><c:out value=" ${post.user.username} "/></a>
                 <fmt:message key="label.in"/>
                 <a href="${forumViewLink}"><c:out value=" ${post.forum.name} "/></a>
                 <fmt:message key="label.on"/>

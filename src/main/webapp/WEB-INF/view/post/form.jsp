@@ -34,7 +34,7 @@
         <br/>
     </c:if>
 
-    <form:form method="POST" action="/post/save" modelAttribute="post">
+    <form:form method="POST" action="/post/${action}" modelAttribute="post">
         <form:label path="title"><fmt:message key="label.title"/> </form:label>
         <form:input class="form-control" path="title"/><br/>
         <form:errors path="title" cssStyle="color: red"/>

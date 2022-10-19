@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import static net.therap.knowledgeExchange.common.Action.SAVE;
+import static net.therap.knowledgeExchange.common.Action.UPDATE;
 import static net.therap.knowledgeExchange.controller.PostController.POST;
 import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
@@ -83,6 +84,18 @@ public class PostController {
         return POST_FORM_PAGE;
     }
 
+    @GetMapping("/update")
+    public String update(@RequestParam int postId,
+                       HttpServletRequest request,
+                       ModelMap model) {
+
+        Post post = postService.findById(postId);
+
+        postHelper.setUpReferenceData(UPDATE, post, request, model);
+
+        return POST_FORM_PAGE;
+    }
+
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute Post post,
                        Errors errors,
@@ -93,6 +106,29 @@ public class PostController {
 
         if (errors.hasErrors()) {
             postHelper.setUpReferenceData(SAVE, model);
+
+            return POST_FORM_PAGE;
+        }
+
+        postService.saveOrUpdate(post);
+
+        postHelper.setUpFlashData(POST_PENDING_APPROVAL_MESSAGE, redirectAttributes);
+
+        sessionStatus.setComplete();
+
+        return redirectTo(FORUM_VIEW + post.getForum().getId());
+    }
+
+    @PostMapping("/update")
+    public String update(@Valid @ModelAttribute Post post,
+                       Errors errors,
+                       HttpServletRequest request,
+                       ModelMap model,
+                       SessionStatus sessionStatus,
+                       RedirectAttributes redirectAttributes) {
+
+        if (errors.hasErrors()) {
+            postHelper.setUpReferenceData(UPDATE, model);
 
             return POST_FORM_PAGE;
         }

@@ -21,6 +21,7 @@ public interface Constant {
     String POST_APPROVED_MESSAGE="postApprovedMessage";
     String POST_DECLINED_MESSAGE="postDeclinedMessage";
     String POST_DELETED_MESSAGE="postDeletedMessage";
+    String POST_UPDATED_MESSAGE="postUpdatedMessage";
     String MEMBER_APPROVED_MESSAGE="memberApprovedMessage";
     String MEMBER_DECLINED_MESSAGE="memberDeclinedMessage";
     String MEMBER_DELETED_MESSAGE="memberDeletedMessage";
