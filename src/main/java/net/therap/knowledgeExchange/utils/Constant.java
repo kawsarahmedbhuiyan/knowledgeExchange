@@ -27,6 +27,7 @@ public interface Constant {
     String MEMBER_APPROVED_MESSAGE="memberApprovedMessage";
     String MEMBER_DECLINED_MESSAGE="memberDeclinedMessage";
     String MEMBER_DELETED_MESSAGE="memberDeletedMessage";
+    String USER_UPDATED_MESSAGE="userUpdatedMessage";
     String SUCCESS_MESSAGE = "successMessage";
     String WELCOME_MESSAGE = "welcomeMessage";
 }

@@ -16,5 +16,6 @@ public interface Url {
     String FORUM_CREATION_REQUEST_LIST ="/forum/creationRequestList?status=";
     String FORUM_MEMBER_LIST = "/user/list?forumId=";
     String POST_VIEW = "/post/view?postId=";
+    String USER_VIEW="/user/view?userId=";
     String ERROR_PAGE = "error";
 }

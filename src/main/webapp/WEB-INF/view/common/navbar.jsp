@@ -13,8 +13,7 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <c:url var="profile" value="/user">
-                            <c:param name="action" value="VIEW"/>
+                        <c:url var="profile" value="/user/view">
                             <c:param name="userId" value="${SESSION_USER.id}"/>
                         </c:url>
                         <a href="${profile}">

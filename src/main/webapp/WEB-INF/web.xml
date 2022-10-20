@@ -31,6 +31,7 @@
         <filter-name>authCheckFilter</filter-name>
         <url-pattern>/</url-pattern>
         <url-pattern>/forum/*</url-pattern>
+        <url-pattern>/user/*</url-pattern>
     </filter-mapping>
 
     <filter>

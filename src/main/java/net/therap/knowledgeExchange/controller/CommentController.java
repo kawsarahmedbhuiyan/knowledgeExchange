@@ -6,9 +6,11 @@ import net.therap.knowledgeExchange.helper.CommentHelper;
 import net.therap.knowledgeExchange.service.CommentService;
 import net.therap.knowledgeExchange.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -44,6 +46,13 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
+
+    @InitBinder(COMMENT)
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+        
+        binder.setDisallowedFields("id");
+    }
 
     @GetMapping("/save")
     public String save(@RequestParam int postId,
