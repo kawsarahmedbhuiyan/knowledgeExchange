@@ -26,7 +26,14 @@
             <jsp:include page='../common/navbar.jsp'/>
             <button type="button" class="btn btn-dark" onclick="history.back()"><fmt:message key="btn.back"/></button>
             <br/><br/>
-            <h1><fmt:message key="title.${listType}"/></h1>
+            <c:choose>
+                <c:when test="${ADMIN}">
+                    <h1><fmt:message key="title.forumCreationRequestList"/></h1>
+                </c:when>
+                <c:otherwise>
+                    <h1><fmt:message key="title.${listType}"/></h1>
+                </c:otherwise>
+            </c:choose>
             <c:if test="${not empty message}">
                 <div class="my-3 p-2 alert alert-success">
                     <div><c:out value="${message}"/></div>
@@ -46,13 +53,13 @@
             <a href="${declinedForumListLink}"><fmt:message key="title.declined"/></a>
             <br/><br/>
             <c:if test="${PENDING}">
-                <h2><fmt:message key="title.pending"/></h2>
+                <h2><fmt:message key="title.pendingRequests"/></h2>
             </c:if>
             <c:if test="${APPROVED}">
-                <h2><fmt:message key="title.approved"/></h2>
+                <h2><fmt:message key="title.approvedRequests"/></h2>
             </c:if>
             <c:if test="${DECLINED}">
-                <h2><fmt:message key="title.declined"/></h2>
+                <h2><fmt:message key="title.declinedRequests"/></h2>
             </c:if>
             <div class="row">
                 <div class="col-12">

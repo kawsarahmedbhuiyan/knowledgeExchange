@@ -27,6 +27,15 @@
     <c:set var="forums" scope="request" value="${forums}"/>
     <jsp:include page="./forum/list.jsp"/>
     <br/>
+    <c:if test="${ADMIN}">
+    <c:url var="pendingForumCreationRequestListLink" value="/forum/creationRequestList">
+        <c:param name="status" value="PENDING"/>
+    </c:url>
+    <a href="${pendingForumCreationRequestListLink}">
+        <fmt:message key="title.viewPendingForumCreationRequestList"/>
+    </a>
+    <br/><br/>
+    </c:if>
     <a href="/forum/save">
         <button class="btn btn-primary"><fmt:message key="btn.createNewForum"/></button>
     </a>
