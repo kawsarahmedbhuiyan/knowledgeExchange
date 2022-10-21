@@ -1,7 +1,6 @@
 package net.therap.knowledgeExchange.controller;
 
 import net.therap.knowledgeExchange.domain.Comment;
-import net.therap.knowledgeExchange.domain.Post;
 import net.therap.knowledgeExchange.helper.CommentHelper;
 import net.therap.knowledgeExchange.service.CommentService;
 import net.therap.knowledgeExchange.service.PostService;
@@ -52,18 +51,6 @@ public class CommentController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 
         binder.setDisallowedFields("id");
-    }
-
-    @GetMapping("/save")
-    public String save(@RequestParam int postId,
-                       HttpServletRequest request,
-                       ModelMap model) {
-
-        Post post = postService.findById(postId);
-
-        commentHelper.setUpReferenceData(SAVE, post, request, model);
-
-        return COMMENT_FORM_PAGE;
     }
 
     @GetMapping("/update")

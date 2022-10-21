@@ -137,12 +137,9 @@
         </c:if>
     </div>
     <br/>
-    <c:url var="commentSaveLink" value="/comment/save">
-        <c:param name="postId" value="${post.id}"/>
-    </c:url>
-    <a href="${commentSaveLink}">
-        <button type="button" class="btn btn-primary"><fmt:message key="btn.addComment"/></button>
-    </a>
+    <c:set var="comment" scope="request" value="${comment}"/>
+    <c:set var="action" scope="request" value="save"/>
+    <jsp:include page="../comment/form.jsp"/>
     <br/><br/>
     <c:set var="comments" scope="request" value="${post.comments}"/>
     <jsp:include page="../comment/list.jsp"/>

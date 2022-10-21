@@ -100,51 +100,8 @@
         <button class="btn btn-primary"><fmt:message key="btn.addNewPost"/></button>
     </a>
     <br/><br/>
-    <div class="row">
-        <div class="col-12">
-            <c:forEach var="post" items="${approvedPosts}">
-                <c:url var="postViewLink" value="/post/view">
-                    <c:param name="postId" value="${post.id}"/>
-                </c:url>
-                <c:url var="userViewLink" value="/user/view">
-                    <c:param name="userId" value="${post.user.id}"/>
-                </c:url>
-                <c:url var="forumViewLink" value="/forum/view">
-                    <c:param name="forumId" value="${post.forum.id}"/>
-                </c:url>
-                <c:set var="shortText" value="${fn:substring(post.body, 0, 200)}"/>
-                <div class="card">
-                    <div class="card-header">
-                        <h5>
-                            <c:out value="${post.title}"/>
-                        </h5>
-                        <small>
-                            <fmt:message key="label.postedBy"/>
-                            <a href="${userViewLink}"><c:out value=" ${post.user.username} "/></a>
-                            <fmt:message key="label.in"/>
-                            <a href="${forumViewLink}"><c:out value=" ${post.forum.name} "/></a>
-                            <fmt:message key="label.on"/>
-                            <fmt:formatDate pattern="MM/dd/yyyy" value="${post.created}"/>
-                            <c:out value=" | "/>
-                            <fmt:message key="label.modifiedOn"/>
-                            <fmt:formatDate pattern="MM/dd/yyyy" value="${post.updated}"/>
-                        </small>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text"><c:out value="${shortText}..."/></p>
-                        <a href="${postViewLink}"><fmt:message key="label.readMore"/></a>
-                    </div>
-                    <div class="card-footer">
-                        <div class="card-footer">
-                            <i class="fa-regular fa-thumbs-up"><c:out value=" ${post.totalLikes}"/></i>
-                            &nbsp;&nbsp;<i class="fa-regular fa-comment"><c:out value=" ${post.totalComments}"/></i>
-                        </div>
-                    </div>
-                </div>
-                <br/>
-            </c:forEach>
-        </div>
-    </div>
+    <c:set var="posts" scope="request" value="${approvedPosts}"/>
+    <jsp:include page="../post/list.jsp"/>
     <br/><br/>
     <jsp:include page='../common/footer.jsp'/>
 </div>

@@ -46,6 +46,12 @@ public class ForumHelper {
     @Autowired
     private MessageSource messageSource;
 
+    public void setUpReferenceData(ModelMap model) {
+        List<Forum> forums = forumService.findAllByStatus(APPROVED);
+
+        model.addAttribute("forums", forums);
+    }
+
     public void setUpReferenceData(int forumId, HttpServletRequest request, ModelMap model) {
         Forum forum = forumService.findById(forumId);
 

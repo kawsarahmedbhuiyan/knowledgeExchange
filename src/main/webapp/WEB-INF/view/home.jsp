@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!--
 @author kawsar.bhuiyan
 @since 10/13/22
@@ -21,8 +22,15 @@
 <body>
 <div class="container">
     <jsp:include page='common/navbar.jsp'/>
-    <h1><fmt:message key="title.home"/></h1>
+    <h1><fmt:message key="title.welcome"/></h1>
     <br/>
+    <c:set var="forums" scope="request" value="${forums}"/>
+    <jsp:include page="./forum/list.jsp"/>
+    <br/>
+    <a href="/forum/save">
+        <button class="btn btn-primary"><fmt:message key="btn.createNewForum"/></button>
+    </a>
+    <br/><br/>
     <jsp:include page='common/footer.jsp'/>
 </body>
 </html>

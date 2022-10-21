@@ -22,16 +22,13 @@
 </head>
 <body>
 <div class="container">
-    <jsp:include page='../common/navbar.jsp'/>
-    <button type="button" class="btn btn-dark" onclick="history.back()"><fmt:message key="btn.back"/></button>
-    <br/><br/>
-    <c:if test="${action == 'save'}">
-        <h1><fmt:message key="title.addComment"/></h1>
-    </c:if>
     <c:if test="${action == 'update'}">
+        <jsp:include page='../common/navbar.jsp'/>
+        <button type="button" class="btn btn-dark" onclick="history.back()"><fmt:message key="btn.back"/></button>
+        <br/><br/>
         <h1><fmt:message key="title.editComment"/></h1>
+        <br/>
     </c:if>
-    <br/>
     <fmt:message key="label.writeComment" var="writeComment"/>
     <form:form method="POST" action="/comment/${action}" modelAttribute="comment">
         <form:textarea class="form-control" placeholder="${writeComment}" rows="5" path="body"/><br/>
@@ -39,8 +36,10 @@
         <br/>
         <button class="btn btn-success"><fmt:message key="btn.${action}"/></button>
     </form:form>
-    <br/>
-    <jsp:include page='../common/footer.jsp'/>
+    <c:if test="${action == 'update'}">
+        <br/>
+        <jsp:include page='../common/footer.jsp'/>
+    </c:if>
 </div>
 </body>
 </html>

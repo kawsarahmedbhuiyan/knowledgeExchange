@@ -42,14 +42,12 @@
     <h2>
         <fmt:message key="title.listOfForums"/><c:out value=" ${user.username} "/><fmt:message key="title.manages"/>
     </h2>
-    <c:set var="listType" scope="request" value="managedForumsList"/>
     <c:set var="forums" scope="request" value="${managedForums}"/>
     <jsp:include page="../forum/list.jsp"/>
     <br/>
     <h2>
         <fmt:message key="title.listOfForums"/><c:out value=" ${user.username} "/><fmt:message key="title.hasJoined"/>
     </h2>
-    <c:set var="listType" scope="request" value="joinedForumsList"/>
     <c:set var="forums" scope="request" value="${joinedForums}"/>
     <jsp:include page="../forum/list.jsp"/>
     <br/>

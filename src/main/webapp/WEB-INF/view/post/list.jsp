@@ -27,9 +27,11 @@
 </head>
 <body>
 <div class="container">
-    <jsp:include page='../common/navbar.jsp'/>
-    <button type="button" class="btn btn-dark" onclick="history.back()"><fmt:message key="btn.back"/></button>
-    <br/><br/>
+    <c:if test="${listType == 'requestList'}">
+        <jsp:include page='../common/navbar.jsp'/>
+        <button type="button" class="btn btn-dark" onclick="history.back()"><fmt:message key="btn.back"/></button>
+        <br/><br/>
+    </c:if>
     <div class="row">
         <div class="col-12">
             <c:forEach var="post" items="${posts}">
@@ -75,8 +77,10 @@
             </c:forEach>
         </div>
     </div>
-    <br/><br/>
-    <jsp:include page='../common/footer.jsp'/>
+    <c:if test="${listType == 'requestList'}">
+        <br/><br/>
+        <jsp:include page='../common/footer.jsp'/>
+    </c:if>
 </div>
 </body>
 </html>

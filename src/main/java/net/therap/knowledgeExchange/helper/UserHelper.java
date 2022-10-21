@@ -53,7 +53,7 @@ public class UserHelper {
     public void setUpReferenceData(Action action, User user, ModelMap model) {
         model.addAttribute(USER, user);
 
-        if(VIEW.equals(action)) {
+        if (VIEW.equals(action)) {
             List<Forum> joinedForums = new ArrayList<>();
             enrollmentService.findByUserAndStatus(user, APPROVED)
                     .forEach(enrollment -> joinedForums.add(enrollment.getForum()));
@@ -62,7 +62,7 @@ public class UserHelper {
 
             model.addAttribute("joinedForums", joinedForums);
             model.addAttribute("managedForums", managedForums);
-        } else{
+        } else {
             model.addAttribute("roleList", roleService.findAll());
         }
     }
