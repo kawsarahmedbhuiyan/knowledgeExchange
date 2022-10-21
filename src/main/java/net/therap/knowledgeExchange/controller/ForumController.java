@@ -35,8 +35,8 @@ import static net.therap.knowledgeExchange.utils.Url.FORUM_CREATION_REQUEST_LIST
 @RequestMapping("/forum")
 public class ForumController {
 
-    public static final String FORUM="forum";
-    private static final String FORUM_VIEW_PAGE="/forum/view";
+    public static final String FORUM = "forum";
+    private static final String FORUM_VIEW_PAGE = "/forum/view";
     private static final String FORUM_FORM_PAGE = "/forum/form";
     private static final String FORUM_LIST_PAGE = "/forum/list";
 
@@ -58,8 +58,8 @@ public class ForumController {
 
     @GetMapping("/creationRequestList")
     public String viewCreationRequestList(@RequestParam Status status,
-                           HttpServletRequest request,
-                           ModelMap model) {
+                                          HttpServletRequest request,
+                                          ModelMap model) {
 
         forumHelper.setUpReferenceData(status, request, model, CREATION_REQUEST_LIST);
 
@@ -68,14 +68,13 @@ public class ForumController {
 
     @GetMapping("/joinRequestList")
     public String viewJoinRequestList(@RequestParam Status status,
-                           HttpServletRequest request,
-                           ModelMap model) {
+                                      HttpServletRequest request,
+                                      ModelMap model) {
 
         forumHelper.setUpReferenceData(status, request, model, JOIN_REQUEST_LIST);
 
         return FORUM_LIST_PAGE;
     }
-
 
 
     @GetMapping("/view")
@@ -99,11 +98,11 @@ public class ForumController {
 
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute Forum forum,
-                          Errors errors,
-                          HttpServletRequest request,
-                          ModelMap model,
-                          SessionStatus sessionStatus,
-                          RedirectAttributes redirectAttributes) {
+                       Errors errors,
+                       HttpServletRequest request,
+                       ModelMap model,
+                       SessionStatus sessionStatus,
+                       RedirectAttributes redirectAttributes) {
 
         if (errors.hasErrors()) {
             forumHelper.setUpReferenceData(SAVE, model);
@@ -151,8 +150,8 @@ public class ForumController {
 
     @PostMapping("/delete")
     public String delete(@RequestParam int forumId,
-                          HttpServletRequest request,
-                          RedirectAttributes redirectAttributes) {
+                         HttpServletRequest request,
+                         RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
 

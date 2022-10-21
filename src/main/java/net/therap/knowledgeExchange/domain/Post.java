@@ -142,6 +142,14 @@ public class Post extends Persistent {
         this.status = status;
     }
 
+    public int getTotalLikes() {
+        return likers.size();
+    }
+
+    public int getTotalComments() {
+        return comments.size();
+    }
+
     public boolean isNew() {
         return getId() == 0;
     }

@@ -46,8 +46,8 @@ public class EnrollmentController {
 
     @PostMapping("/enroll")
     public String enroll(@RequestParam int forumId,
-                       HttpServletRequest request,
-                       RedirectAttributes redirectAttributes) {
+                         HttpServletRequest request,
+                         RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
 
@@ -60,9 +60,9 @@ public class EnrollmentController {
 
     @PostMapping("/approve")
     public String approve(@RequestParam int forumId,
-                         @RequestParam int userId,
-                         HttpServletRequest request,
-                         RedirectAttributes redirectAttributes) {
+                          @RequestParam int userId,
+                          HttpServletRequest request,
+                          RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
 
@@ -79,9 +79,9 @@ public class EnrollmentController {
 
     @PostMapping("/decline")
     public String decline(@RequestParam int forumId,
-                         @RequestParam int userId,
-                         HttpServletRequest request,
-                         RedirectAttributes redirectAttributes) {
+                          @RequestParam int userId,
+                          HttpServletRequest request,
+                          RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
 

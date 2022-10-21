@@ -12,11 +12,34 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="keywords" content="">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet"
+          integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+    />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+          crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
             crossorigin="anonymous"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#likeHandlerForm').submit(function (event) {
+                $.ajax({
+                    type: "POST",
+                    url: $("#likeHandlerForm").attr("action"),
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#like-btn").html(data.likeButtonText);
+                        $("#like-counter").html(data.totalLikes);
+                    }
+                });
+                event.preventDefault();
+            });
+        });
+    </script>
     <title><fmt:message key="title.post"/></title>
 </head>
 <body>
@@ -89,6 +112,29 @@
                 </form>
             </c:if>
         </div>
+        <c:if test="${post.status == 'APPROVED'}">
+            <div class="card-footer">
+                <c:url var="likeLink" value="/post/like">
+                    <c:param name="postId" value="${post.id}"/>
+                </c:url>
+                <form id="likeHandlerForm" action="${likeLink}" method="post" class="input-group mb-3">
+                 <span class="input-group-text">
+                     <button id="like-btn" class="btn btn-small btn-link">
+                     <c:choose>
+                         <c:when test="${LIKED}">
+                             <fmt:message key="btn.unlike"/>
+                         </c:when>
+                         <c:otherwise>
+                             <fmt:message key="btn.like"/>
+                         </c:otherwise>
+                     </c:choose>
+                     </button>
+                     <i id="like-counter" class="fa-regular fa-thumbs-up"><c:out value="${post.totalLikes}"/></i>
+                     &nbsp;&nbsp;<i class="fa-regular fa-comment"><c:out value="${post.totalComments}"/></i>
+                 </span>
+                </form>
+            </div>
+        </c:if>
     </div>
     <br/>
     <c:url var="commentSaveLink" value="/comment/save">

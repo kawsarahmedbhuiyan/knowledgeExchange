@@ -30,7 +30,7 @@ public class CommentService {
 
         return comment;
     }
-    
+
     @Transactional
     public void saveOrUpdate(Comment comment) {
         if (comment.isNew()) {
@@ -39,7 +39,7 @@ public class CommentService {
             em.merge(comment);
         }
     }
-    
+
     @Transactional
     public void delete(Comment comment) {
         comment.setStatus(DELETED);

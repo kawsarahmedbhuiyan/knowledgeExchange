@@ -35,10 +35,10 @@ import static net.therap.knowledgeExchange.utils.Url.USER_VIEW;
 @RequestMapping("/user")
 public class UserController {
 
-    public static final String USER="user";
-    private static final String USER_LIST_PAGE="/user/list";
-    private static final String USER_FORM_PAGE="/user/form";
-    private static final String USER_VIEW_PAGE="/user/view";
+    public static final String USER = "user";
+    private static final String USER_LIST_PAGE = "/user/list";
+    private static final String USER_FORM_PAGE = "/user/form";
+    private static final String USER_VIEW_PAGE = "/user/view";
 
     @Autowired
     private RoleEditor roleEditor;
@@ -75,7 +75,7 @@ public class UserController {
 
     @GetMapping("/view")
     public String view(@RequestParam int userId,
-                         ModelMap model) {
+                       ModelMap model) {
 
         User user = userService.findById(userId);
 
@@ -86,7 +86,7 @@ public class UserController {
 
     @GetMapping("/update")
     public String update(@RequestParam int userId,
-                      ModelMap model) {
+                         ModelMap model) {
 
         User user = userService.findById(userId);
 

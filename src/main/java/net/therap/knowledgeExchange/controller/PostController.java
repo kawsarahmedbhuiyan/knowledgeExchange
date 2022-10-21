@@ -1,13 +1,17 @@
 package net.therap.knowledgeExchange.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.therap.knowledgeExchange.common.Status;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.Post;
+import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.helper.PostHelper;
 import net.therap.knowledgeExchange.service.ForumService;
 import net.therap.knowledgeExchange.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
@@ -18,6 +22,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 import static net.therap.knowledgeExchange.common.Action.SAVE;
 import static net.therap.knowledgeExchange.common.Action.UPDATE;
@@ -25,6 +31,7 @@ import static net.therap.knowledgeExchange.controller.CommentController.COMMENT;
 import static net.therap.knowledgeExchange.controller.PostController.POST;
 import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
+import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
 import static net.therap.knowledgeExchange.utils.Url.FORUM_VIEW;
 
 /**
@@ -59,9 +66,9 @@ public class PostController {
 
     @GetMapping("/list")
     public String viewList(@RequestParam int forumId,
-                       @RequestParam Status status,
-                       HttpServletRequest request,
-                       ModelMap model) {
+                           @RequestParam Status status,
+                           HttpServletRequest request,
+                           ModelMap model) {
 
         Forum forum = forumService.findById(forumId);
 
@@ -96,8 +103,8 @@ public class PostController {
 
     @GetMapping("/update")
     public String update(@RequestParam int postId,
-                       HttpServletRequest request,
-                       ModelMap model) {
+                         HttpServletRequest request,
+                         ModelMap model) {
 
         Post post = postService.findById(postId);
 
@@ -131,11 +138,11 @@ public class PostController {
 
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute Post post,
-                       Errors errors,
-                       HttpServletRequest request,
-                       ModelMap model,
-                       SessionStatus sessionStatus,
-                       RedirectAttributes redirectAttributes) {
+                         Errors errors,
+                         HttpServletRequest request,
+                         ModelMap model,
+                         SessionStatus sessionStatus,
+                         RedirectAttributes redirectAttributes) {
 
         if (errors.hasErrors()) {
             postHelper.setUpReferenceData(UPDATE, model);
@@ -189,5 +196,23 @@ public class PostController {
         postHelper.setUpFlashData(POST_DELETED_MESSAGE, redirectAttributes);
 
         return redirectTo(FORUM_VIEW + post.getForum().getId());
+    }
+
+    @PostMapping(value = "/like", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String like(@RequestParam int postId, HttpServletRequest request) throws JsonProcessingException {
+
+        Post post = postService.findById(postId);
+
+        User user = getSessionUser(request);
+
+        postService.addOrRemoveLike(post, user);
+
+        Map<String, String> hashMap = new HashMap<>();
+
+        hashMap.put("likeButtonText", postService.isLikedByUser(post, user) ? "Unlike" : "Like");
+        hashMap.put("totalLikes", String.valueOf(post.getTotalLikes()));
+
+        return new ObjectMapper().writeValueAsString(hashMap);
     }
 }

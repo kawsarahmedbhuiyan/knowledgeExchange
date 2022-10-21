@@ -35,8 +35,8 @@ import static net.therap.knowledgeExchange.utils.Url.POST_VIEW;
 @RequestMapping("/comment")
 public class CommentController {
 
-    public static final String COMMENT="comment";
-    private static final String COMMENT_FORM_PAGE="/comment/form";
+    public static final String COMMENT = "comment";
+    private static final String COMMENT_FORM_PAGE = "/comment/form";
 
     @Autowired
     private CommentHelper commentHelper;
@@ -50,14 +50,14 @@ public class CommentController {
     @InitBinder(COMMENT)
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-        
+
         binder.setDisallowedFields("id");
     }
 
     @GetMapping("/save")
     public String save(@RequestParam int postId,
-                         HttpServletRequest request,
-                         ModelMap model) {
+                       HttpServletRequest request,
+                       ModelMap model) {
 
         Post post = postService.findById(postId);
 
@@ -103,11 +103,11 @@ public class CommentController {
 
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute Comment comment,
-                       Errors errors,
-                       HttpServletRequest request,
-                       ModelMap model,
-                       SessionStatus sessionStatus,
-                       RedirectAttributes redirectAttributes) {
+                         Errors errors,
+                         HttpServletRequest request,
+                         ModelMap model,
+                         SessionStatus sessionStatus,
+                         RedirectAttributes redirectAttributes) {
 
         if (errors.hasErrors()) {
             commentHelper.setUpReferenceData(UPDATE, model);

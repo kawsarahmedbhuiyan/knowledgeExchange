@@ -79,4 +79,19 @@ public class PostService {
 
         em.merge(post);
     }
+
+    @Transactional
+    public void addOrRemoveLike(Post post, User user) {
+        if (isLikedByUser(post, user)) {
+            post.getLikers().remove(user);
+        } else {
+            post.getLikers().add(user);
+        }
+
+        em.merge(post);
+    }
+
+    public boolean isLikedByUser(Post post, User user) {
+        return post.getLikers().contains(user);
+    }
 }
