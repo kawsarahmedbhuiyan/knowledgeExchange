@@ -25,32 +25,18 @@
     <jsp:include page='../common/navbar.jsp'/>
     <button type="button" class="btn btn-dark" onclick="history.back()"><fmt:message key="btn.back"/></button>
     <br/><br/>
-    <c:if test="${SAVE}">
-        <h1><fmt:message key="title.addPost"/></h1>
-        <br/>
-    </c:if>
-    <c:if test="${UPDATE}">
-        <h1><fmt:message key="title.editPost"/></h1>
-        <br/>
-    </c:if>
-
+    <h1><fmt:message key="title.${action}Post"/></h1>
+    <br/>
     <form:form method="POST" action="/post/${action}" modelAttribute="post">
         <form:label path="title"><fmt:message key="label.title"/> </form:label>
         <form:input class="form-control" path="title"/><br/>
         <form:errors path="title" cssStyle="color: red"/>
         <br/>
-
         <form:label path="body"><fmt:message key="label.body"/> </form:label><br/><br/>
         <form:textarea class="form-control" rows="10" path="body"/><br/>
         <form:errors path="body" cssStyle="color: red"/>
         <br/>
-
-        <c:if test="${SAVE}">
-            <button class="btn btn-success"><fmt:message key="btn.save"/></button>
-        </c:if>
-        <c:if test="${UPDATE}">
-            <button class="btn btn-success"><fmt:message key="btn.update"/></button>
-        </c:if>
+        <button class="btn btn-success"><fmt:message key="btn.${action}"/></button>
     </form:form>
     <br/>
     <jsp:include page='../common/footer.jsp'/>

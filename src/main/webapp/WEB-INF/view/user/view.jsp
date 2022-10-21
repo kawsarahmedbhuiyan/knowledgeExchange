@@ -39,10 +39,38 @@
     <h1><fmt:message key="title.userDetails"/></h1>
     <b><fmt:message key="label.username"/></b><c:out value=" ${user.username}"/><br/><br/>
     <b><fmt:message key="label.name"/></b><c:out value=" ${user.name}"/><br/><br/>
+    <h2>
+        <fmt:message key="title.listOfForums"/><c:out value=" ${user.username} "/><fmt:message key="title.manages"/>
+    </h2>
+    <c:set var="listType" scope="request" value="managedForumsList"/>
+    <c:set var="forums" scope="request" value="${managedForums}"/>
+    <jsp:include page="../forum/list.jsp"/>
+    <br/>
+    <h2>
+        <fmt:message key="title.listOfForums"/><c:out value=" ${user.username} "/><fmt:message key="title.hasJoined"/>
+    </h2>
+    <c:set var="listType" scope="request" value="joinedForumsList"/>
+    <c:set var="forums" scope="request" value="${joinedForums}"/>
+    <jsp:include page="../forum/list.jsp"/>
+    <br/>
     <c:if test="${ADMIN || user == SESSION_USER}">
+        <c:url var="pendingForumCreationRequestListLink" value="/forum/creationRequestList">
+            <c:param name="status" value="PENDING"/>
+        </c:url>
+        <c:url var="pendingForumJoinRequestListLink" value="/forum/joinRequestList">
+            <c:param name="status" value="PENDING"/>
+        </c:url>
         <c:url var="userEditLink" value="/user/update">
             <c:param name="userId" value="${user.id}"/>
         </c:url>
+        <a href="${pendingForumCreationRequestListLink}">
+            <fmt:message key="title.viewPendingForumCreationRequestList"/>
+        </a>
+        <br/>
+        <a href="${pendingForumJoinRequestListLink}">
+            <fmt:message key="title.viewPendingForumJoinRequestList"/>
+        </a>
+        <br/><br/>
         <a href="${userEditLink}">
             <button type="button" class="btn btn-primary"><fmt:message key="btn.editUser"/></button>
         </a>

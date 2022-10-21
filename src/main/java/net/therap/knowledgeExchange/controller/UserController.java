@@ -21,6 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import static net.therap.knowledgeExchange.common.Action.UPDATE;
+import static net.therap.knowledgeExchange.common.Action.VIEW;
 import static net.therap.knowledgeExchange.controller.UserController.USER;
 import static net.therap.knowledgeExchange.utils.Constant.USER_UPDATED_MESSAGE;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
@@ -68,7 +70,7 @@ public class UserController {
 
         Forum forum = forumService.findById(forumId);
 
-        userHelper.setUpReferenceData(forum, status, request, model);
+        userHelper.setUpReferenceData(forum, status, model);
 
         return USER_LIST_PAGE;
     }
@@ -79,7 +81,7 @@ public class UserController {
 
         User user = userService.findById(userId);
 
-        userHelper.setUpReferenceData(user, model);
+        userHelper.setUpReferenceData(VIEW, user, model);
 
         return USER_VIEW_PAGE;
     }
@@ -90,7 +92,7 @@ public class UserController {
 
         User user = userService.findById(userId);
 
-        userHelper.setUpReferenceData(user, model);
+        userHelper.setUpReferenceData(UPDATE, user, model);
 
         return USER_FORM_PAGE;
     }

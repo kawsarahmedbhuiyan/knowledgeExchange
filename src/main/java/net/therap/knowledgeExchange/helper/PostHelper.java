@@ -56,20 +56,17 @@ public class PostHelper {
 
         model.addAttribute(POST, new Post(user, forum));
         model.addAttribute("action", action.name().toLowerCase());
-        model.addAttribute(action.name(), true);
     }
 
-    public void setUpReferenceData(Action action, Post post, HttpServletRequest request, ModelMap model) {
+    public void setUpReferenceData(Action action, Post post, ModelMap model) {
         post.setStatus(PENDING);
 
         model.addAttribute(POST, post);
         model.addAttribute("action", action.name().toLowerCase());
-        model.addAttribute(action.name(), true);
     }
 
     public void setUpReferenceData(Action action, ModelMap model) {
         model.addAttribute("action", action.name().toLowerCase());
-        model.addAttribute(action.name(), true);
     }
 
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {

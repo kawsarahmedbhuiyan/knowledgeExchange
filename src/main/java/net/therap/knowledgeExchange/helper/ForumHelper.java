@@ -68,11 +68,11 @@ public class ForumHelper {
         User manager = getSessionUser(request);
 
         model.addAttribute(FORUM, new Forum(manager));
-        model.addAttribute(action.name(), true);
+        model.addAttribute("action", action.name().toLowerCase());
     }
 
     public void setUpReferenceData(Action action, ModelMap model) {
-        model.addAttribute(action.name(), true);
+        model.addAttribute("action", action.name().toLowerCase());
     }
 
     public void setUpReferenceData(Status status, HttpServletRequest request, ModelMap model, String listType) {
@@ -95,7 +95,7 @@ public class ForumHelper {
 
         model.addAttribute("forums", forums);
         model.addAttribute(status.name(), true);
-        model.addAttribute("list", listType);
+        model.addAttribute("listType", listType);
     }
 
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {

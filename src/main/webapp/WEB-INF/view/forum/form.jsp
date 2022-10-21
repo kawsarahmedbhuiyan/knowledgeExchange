@@ -25,14 +25,9 @@
     <jsp:include page='../common/navbar.jsp'/>
     <button type="button" class="btn btn-dark" onclick="history.back()"><fmt:message key="btn.back"/></button>
     <br/><br/>
-    <c:if test="${SAVE}">
-        <h1><fmt:message key="title.addForum"/></h1>
-    </c:if>
-    <c:if test="${UPDATE}">
-        <h1><fmt:message key="title.editForum"/></h1>
-    </c:if>
+    <h1><fmt:message key="title.${action}Forum"/></h1>
     <br/>
-    <form:form method="POST" action="/forum/save" modelAttribute="forum">
+    <form:form method="POST" action="/forum/${action}" modelAttribute="forum">
         <form:label path="name"><fmt:message key="label.name"/> </form:label>
         <form:input path="name"/><br/>
         <form:errors path="name" cssStyle="color: red"/>
@@ -41,12 +36,7 @@
         <form:textarea class="form-control" rows="8" path="description"/><br/>
         <form:errors path="description" cssStyle="color: red"/>
         <br/><br/>
-        <c:if test="${SAVE}">
-            <button class="btn btn-success"><fmt:message key="btn.save"/></button>
-        </c:if>
-        <c:if test="${UPDATE}">
-            <button class="btn btn-success"><fmt:message key="btn.update"/></button>
-        </c:if>
+        <button class="btn btn-success"><fmt:message key="btn.${action}"/></button>
     </form:form>
     <br/>
     <jsp:include page='../common/footer.jsp'/>

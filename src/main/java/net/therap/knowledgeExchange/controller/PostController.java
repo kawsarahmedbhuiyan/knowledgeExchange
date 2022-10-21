@@ -108,7 +108,7 @@ public class PostController {
 
         Post post = postService.findById(postId);
 
-        postHelper.setUpReferenceData(UPDATE, post, request, model);
+        postHelper.setUpReferenceData(UPDATE, post, model);
 
         return POST_FORM_PAGE;
     }
