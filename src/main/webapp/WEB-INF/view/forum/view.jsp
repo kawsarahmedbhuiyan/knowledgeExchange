@@ -45,19 +45,19 @@
         <c:url var="enrollLink" value="/enrollment/enroll">
             <c:param name="forumId" value="${forum.id}"/>
         </c:url>
-        <c:url var="deleteEnrollmentLink" value="/enrollment/delete">
+        <c:url var="unenrollLink" value="/enrollment/unenroll">
             <c:param name="forumId" value="${forum.id}"/>
         </c:url>
         <div class="d-flex justify-content-center">
             <c:if test="${SESSION_USER != forum.manager}">
                 <c:choose>
                     <c:when test="${PENDING}">
-                        <form action="${deleteEnrollmentLink}" method="post">
+                        <form action="${unenrollLink}" method="post">
                             <button class="btn btn-danger"><fmt:message key="btn.cancelJoinRequest"/></button>
                         </form>
                     </c:when>
                     <c:when test="${APPROVED}">
-                        <form action="${deleteEnrollmentLink}" method="post">
+                        <form action="${unenrollLink}" method="post">
                             <button class="btn btn-danger"><fmt:message key="btn.leave"/></button>
                         </form>
                     </c:when>
@@ -75,31 +75,33 @@
             <div><c:out value="${message}"/></div>
         </div>
     </c:if>
-    <c:url var="pendingPostListLink" value="/post/list">
-        <c:param name="forumId" value="${forum.id}"/>
-        <c:param name="status" value="PENDING"/>
-    </c:url>
-    <c:url var="declinedPostListLink" value="/post/list">
-        <c:param name="forumId" value="${forum.id}"/>
-        <c:param name="status" value="DECLINED"/>
-    </c:url>
-    <a href="${pendingPostListLink}"><fmt:message key="label.viewPendingPostList"/></a>
-    <a href="${declinedPostListLink}"><fmt:message key="label.viewDeclinedPostList"/></a>
-    <c:if test="${SESSION_USER != forum.manager}">
-        <c:url var="approvedPostListLink" value="/post/list">
+    <c:if test="${APPROVED}">
+        <c:url var="pendingPostListLink" value="/post/list">
             <c:param name="forumId" value="${forum.id}"/>
-            <c:param name="status" value="APPROVED"/>
+            <c:param name="status" value="PENDING"/>
         </c:url>
-        <a href="${approvedPostListLink}"><fmt:message key="label.viewApprovedPostList"/></a>
+        <c:url var="declinedPostListLink" value="/post/list">
+            <c:param name="forumId" value="${forum.id}"/>
+            <c:param name="status" value="DECLINED"/>
+        </c:url>
+        <a href="${pendingPostListLink}"><fmt:message key="label.viewPendingPostList"/></a>
+        <a href="${declinedPostListLink}"><fmt:message key="label.viewDeclinedPostList"/></a>
+        <c:if test="${SESSION_USER != forum.manager}">
+            <c:url var="approvedPostListLink" value="/post/list">
+                <c:param name="forumId" value="${forum.id}"/>
+                <c:param name="status" value="APPROVED"/>
+            </c:url>
+            <a href="${approvedPostListLink}"><fmt:message key="label.viewApprovedPostList"/></a>
+        </c:if>
+        <br/><br/>
+        <c:url var="postSaveLink" value="/post/save">
+            <c:param name="forumId" value="${forum.id}"/>
+        </c:url>
+        <a href="${postSaveLink}">
+            <button class="btn btn-primary"><fmt:message key="btn.addNewPost"/></button>
+        </a>
+        <br/><br/>
     </c:if>
-    <br/><br/>
-    <c:url var="postSaveLink" value="/post/save">
-        <c:param name="forumId" value="${forum.id}"/>
-    </c:url>
-    <a href="${postSaveLink}">
-        <button class="btn btn-primary"><fmt:message key="btn.addNewPost"/></button>
-    </a>
-    <br/><br/>
     <c:set var="posts" scope="request" value="${approvedPosts}"/>
     <jsp:include page="../post/list.jsp"/>
     <br/><br/>

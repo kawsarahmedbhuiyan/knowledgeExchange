@@ -53,7 +53,23 @@ public class EnrollmentController {
 
         User user = getSessionUser(request);
 
-        enrollmentService.saveOrUpdate(new Enrollment(forum, user));
+        enrollmentService.enroll(forum, user);
+        
+        return redirectTo(FORUM_VIEW + forumId);
+    }
+
+    @PostMapping("/unenroll")
+    public String unenroll(@RequestParam int forumId,
+                         HttpServletRequest request,
+                         RedirectAttributes redirectAttributes) {
+
+        Forum forum = forumService.findById(forumId);
+
+        User user = getSessionUser(request);
+
+        Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
+
+        enrollmentService.delete(enrollment);
 
         return redirectTo(FORUM_VIEW + forumId);
     }

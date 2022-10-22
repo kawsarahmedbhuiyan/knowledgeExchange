@@ -139,13 +139,15 @@
             </div>
         </c:if>
     </div>
-    <br/>
-    <c:set var="comment" scope="request" value="${comment}"/>
-    <c:set var="action" scope="request" value="save"/>
-    <jsp:include page="../comment/form.jsp"/>
-    <br/><br/>
-    <c:set var="comments" scope="request" value="${post.comments}"/>
-    <jsp:include page="../comment/list.jsp"/>
+    <c:if test="${post.status == 'APPROVED'}">
+        <br/>
+        <c:set var="comment" scope="request" value="${comment}"/>
+        <c:set var="action" scope="request" value="save"/>
+        <jsp:include page="../comment/form.jsp"/>
+        <br/><br/>
+        <c:set var="comments" scope="request" value="${post.comments}"/>
+        <jsp:include page="../comment/list.jsp"/>
+    </c:if>
     <br/><br/>
     <jsp:include page='../common/footer.jsp'/>
 </div>

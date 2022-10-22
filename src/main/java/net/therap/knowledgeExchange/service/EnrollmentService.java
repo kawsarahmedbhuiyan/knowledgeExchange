@@ -12,6 +12,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+import static java.util.Objects.isNull;
 import static net.therap.knowledgeExchange.common.Status.*;
 
 /**
@@ -58,6 +59,19 @@ public class EnrollmentService {
         if (enrollment.isNew()) {
             em.persist(enrollment);
         } else {
+            em.merge(enrollment);
+        }
+    }
+
+    @Transactional
+    public void enroll(Forum forum, User user) {
+        Enrollment enrollment = findByForumAndUser(forum, user);
+
+        if (isNull(enrollment)) {
+            enrollment = new Enrollment(forum, user);
+            em.persist(enrollment);
+        } else {
+            enrollment.setStatus(PENDING);
             em.merge(enrollment);
         }
     }
