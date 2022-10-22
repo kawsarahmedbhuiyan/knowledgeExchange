@@ -66,7 +66,9 @@
                     <table class="table table-bordered">
                         <thead>
                         <tr>
-                            <th colspan="2"><fmt:message key="forum.name"/></th>
+                            <th><fmt:message key="forum.name"/></th>
+                            <th><fmt:message key="forum.description"/></th>
+                            <th colspan="2"><fmt:message key="label.createdBy"/></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -84,6 +86,15 @@
                                             <c:out value="${forum.name}"/>
                                         </c:otherwise>
                                     </c:choose>
+                                </td>
+                                <td>
+                                    <c:out value="${forum.description}"/>
+                                </td>
+                                <td>
+                                    <c:url var="managerViewLink" value="/user/view">
+                                        <c:param name="userId" value="${forum.manager.id}"/>
+                                    </c:url>
+                                    <a href="${managerViewLink}"><c:out value="${forum.manager.username}"/></a>
                                 </td>
                                 <c:if test="${ADMIN}">
                                     <td>
@@ -145,7 +156,8 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th colspan="2"><fmt:message key="forum.name"/></th>
+                        <th><fmt:message key="forum.name"/></th>
+                        <th><fmt:message key="forum.description"/></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -156,6 +168,9 @@
                         <tr>
                             <td>
                                 <a href="${forumViewLink}"><c:out value="${forum.name}"/></a>
+                            </td>
+                            <td>
+                                <c:out value="${forum.description}"/>
                             </td>
                         </tr>
                     </c:forEach>
