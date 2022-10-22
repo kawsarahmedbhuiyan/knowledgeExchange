@@ -38,14 +38,25 @@
     <div class="card-body">
         <p class="card-text"><c:out value="${comment.body}"/></p>
     </div>
-    <c:if test="${SESSION_USER == comment.user}">
-        <c:url var="commentUpdateLink" value="/comment/update">
-            <c:param name="commentId" value="${comment.id}"/>
-        </c:url>
-        <div class="card-footer">
-            <a href="${commentUpdateLink}"><fmt:message key="label.edit"/></a>
-        </div>
-    </c:if>
+    <div class="d-inline-flex">
+        <c:if test="${ADMIN || SESSION_USER == comment.user}">
+            <c:url var="commentUpdateLink" value="/comment/update">
+                <c:param name="commentId" value="${comment.id}"/>
+            </c:url>
+            <a href="${commentUpdateLink}">
+                <button type="button" class="btn btn-primary mx-1"><fmt:message key="btn.edit"/></button>
+            </a>
+        </c:if>
+        <c:if test="${ADMIN || SESSION_USER == forum.manager|| SESSION_USER == post.user}">
+            <c:url var="commentDeleteLink" value="/comment/delete">
+                <c:param name="commentId" value="${comment.id}"/>
+            </c:url>
+            <form action="${commentDeleteLink}" method="post"
+                  onSubmit="return confirm('<fmt:message key="commentDeleteConfirmationMessage"/>');">
+                <button class="btn btn-danger d-inline mx-1"><fmt:message key="btn.delete"/></button>
+            </form>
+        </c:if>
+    </div>
 </div>
 </body>
 </html>

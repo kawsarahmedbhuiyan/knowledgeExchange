@@ -24,9 +24,11 @@
 <div class="row">
     <div class="col-12">
         <c:forEach var="comment" items="${comments}">
-            <c:set var="comment" scope="request" value="${comment}"/>
-            <jsp:include page="../comment/view.jsp"/>
-            <br/>
+            <c:if test="${comment.status != 'DELETED'}">
+                <c:set var="comment" scope="request" value="${comment}"/>
+                <jsp:include page="../comment/view.jsp"/>
+                <br/>
+            </c:if>
         </c:forEach>
     </div>
 </div>

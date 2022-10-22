@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+import static net.therap.knowledgeExchange.common.Status.DELETED;
 import static net.therap.knowledgeExchange.common.Status.PENDING;
 
 /**
@@ -147,7 +148,7 @@ public class Post extends Persistent {
     }
 
     public int getTotalComments() {
-        return comments.size();
+        return (int) comments.stream().filter(comment -> comment.getStatus() != DELETED).count();
     }
 
     public boolean isNew() {

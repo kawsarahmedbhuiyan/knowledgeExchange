@@ -20,8 +20,7 @@ import javax.validation.Valid;
 import static net.therap.knowledgeExchange.common.Action.SAVE;
 import static net.therap.knowledgeExchange.common.Action.UPDATE;
 import static net.therap.knowledgeExchange.controller.CommentController.COMMENT;
-import static net.therap.knowledgeExchange.utils.Constant.COMMENT_ADDED_MESSAGE;
-import static net.therap.knowledgeExchange.utils.Constant.COMMENT_UPDATED_MESSAGE;
+import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
 import static net.therap.knowledgeExchange.utils.Url.POST_VIEW;
 
@@ -107,6 +106,19 @@ public class CommentController {
         commentHelper.setUpFlashData(COMMENT_UPDATED_MESSAGE, redirectAttributes);
 
         sessionStatus.setComplete();
+
+        return redirectTo(POST_VIEW + comment.getPost().getId());
+    }
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam int commentId,
+                         RedirectAttributes redirectAttributes) {
+
+        Comment comment = commentService.findById(commentId);
+
+        commentService.delete(comment);
+
+        commentHelper.setUpFlashData(COMMENT_DELETED_MESSAGE, redirectAttributes);
 
         return redirectTo(POST_VIEW + comment.getPost().getId());
     }
