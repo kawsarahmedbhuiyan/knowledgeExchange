@@ -15,8 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
+import static java.util.Locale.ENGLISH;
 import static net.therap.knowledgeExchange.common.Action.VIEW;
 import static net.therap.knowledgeExchange.common.Status.APPROVED;
 import static net.therap.knowledgeExchange.controller.UserController.USER;
@@ -73,6 +73,6 @@ public class UserHelper {
 
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message",
-                messageSource.getMessage(message, null, Locale.ENGLISH));
+                messageSource.getMessage(message, null, ENGLISH));
     }
 }

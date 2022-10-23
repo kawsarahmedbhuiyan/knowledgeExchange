@@ -5,7 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Locale;
+import static java.util.Locale.ENGLISH;
 
 /**
  * @author kawsar.bhuiyan
@@ -19,6 +19,6 @@ public class EnrollmentHelper {
 
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message",
-                messageSource.getMessage(message, null, Locale.ENGLISH));
+                messageSource.getMessage(message, null, ENGLISH));
     }
 }

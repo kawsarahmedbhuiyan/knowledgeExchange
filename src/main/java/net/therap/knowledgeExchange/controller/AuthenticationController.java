@@ -49,9 +49,7 @@ public class AuthenticationController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-
-        binder.registerCustomEditor(String.class, stringTrimmerEditor);
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 
         binder.setDisallowedFields("id");
 
