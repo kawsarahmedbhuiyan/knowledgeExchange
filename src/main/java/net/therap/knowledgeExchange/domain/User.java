@@ -67,12 +67,12 @@ public class User extends Persistent {
     private Status status;
 
     public User() {
-        status = NEW;
-        roles = new HashSet<>();
-        enrollments = new HashSet<>();
-        posts = new HashSet<>();
-        comments = new HashSet<>();
-        likedPosts = new HashSet<>();
+        this.status = NEW;
+        this.roles = new HashSet<>();
+        this.enrollments = new HashSet<>();
+        this.posts = new HashSet<>();
+        this.comments = new HashSet<>();
+        this.likedPosts = new HashSet<>();
     }
 
     public int getId() {

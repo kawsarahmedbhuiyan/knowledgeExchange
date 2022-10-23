@@ -53,16 +53,14 @@ public class Forum extends Persistent {
     private Status status;
 
     public Forum() {
-        status = PENDING;
-        enrollments = new HashSet<>();
-        posts = new HashSet<>();
+        this.status = PENDING;
+        this.enrollments = new HashSet<>();
+        this.posts = new HashSet<>();
     }
 
     public Forum(User manager) {
+        this();
         this.manager = manager;
-        status = PENDING;
-        enrollments = new HashSet<>();
-        posts = new HashSet<>();
     }
 
     public int getId() {

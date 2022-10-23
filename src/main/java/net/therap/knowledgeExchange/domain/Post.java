@@ -63,9 +63,9 @@ public class Post extends Persistent {
     private Status status;
 
     public Post() {
-        status = PENDING;
-        likers = new HashSet<>();
-        comments = new HashSet<>();
+        this.status = PENDING;
+        this.likers = new HashSet<>();
+        this.comments = new HashSet<>();
     }
 
     public Post(User user, Forum forum) {
@@ -75,11 +75,10 @@ public class Post extends Persistent {
     }
 
     public Post(User user, Forum forum, Status status) {
+        this();
         this.user = user;
         this.forum = forum;
         this.status = status;
-        likers = new HashSet<>();
-        comments = new HashSet<>();
     }
 
     public int getId() {

@@ -39,13 +39,13 @@ public class Comment extends Persistent {
     private Status status;
 
     public Comment() {
-        status = NEW;
+        this.status = NEW;
     }
 
     public Comment(Post post, User user) {
+        this();
         this.post = post;
         this.user = user;
-        status = NEW;
     }
 
     public int getId() {

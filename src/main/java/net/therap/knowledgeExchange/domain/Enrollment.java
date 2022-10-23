@@ -42,11 +42,11 @@ public class Enrollment extends Persistent {
     private Status status;
 
     public Enrollment() {
-        status = PENDING;
+        this.status = PENDING;
     }
 
     public Enrollment(Forum forum, User user) {
-        status = PENDING;
+        this();
         this.forum = forum;
         this.user = user;
     }

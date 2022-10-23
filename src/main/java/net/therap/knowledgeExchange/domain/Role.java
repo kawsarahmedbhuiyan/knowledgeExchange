@@ -38,7 +38,7 @@ public class Role extends Persistent {
     private Status status;
 
     public Role() {
-        users = new HashSet<>();
+        this.users = new HashSet<>();
     }
 
     public int getId() {
