@@ -29,14 +29,14 @@
     <div class="card">
         <div class="card-body">
             <h1><fmt:message key="title.login"/></h1>
-            <form:form method="POST" action="/auth/login" modelAttribute="credential">
+            <form:form class="form-group" method="POST" action="/auth/login" modelAttribute="credential">
                 <form:errors path="" cssStyle="color: red"/><br/>
-                <form:label path="username"><fmt:message key="label.username"/> </form:label>
-                <form:input path="username"/>
+                <form:label path="username"><fmt:message key="label.username"/></form:label>
+                <form:input class="form-control" path="username"/>
                 <form:errors path="username" cssStyle="color: red"/>
                 <br/><br/>
-                <form:label path="password"><fmt:message key="label.password"/> </form:label>
-                <form:input type="password" path="password"/>
+                <form:label path="password"><fmt:message key="label.password"/></form:label>
+                <form:input type="password" class="form-control" path="password"/>
                 <form:errors path="password" cssStyle="color: red"/>
                 <br/><br/>
                 <button class="btn btn-primary" value="login"><fmt:message key="btn.login"/></button>

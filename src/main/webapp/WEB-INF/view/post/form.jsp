@@ -28,11 +28,11 @@
     <h1><fmt:message key="title.${action}Post"/></h1>
     <br/>
     <form:form method="POST" action="/post/${action}" modelAttribute="post">
-        <form:label path="title"><fmt:message key="label.title"/> </form:label>
+        <form:label path="title"><fmt:message key="label.title"/></form:label>
         <form:input class="form-control" path="title"/><br/>
         <form:errors path="title" cssStyle="color: red"/>
         <br/>
-        <form:label path="body"><fmt:message key="label.body"/> </form:label><br/><br/>
+        <form:label path="body"><fmt:message key="label.body"/></form:label>
         <form:textarea class="form-control" rows="10" path="body"/><br/>
         <form:errors path="body" cssStyle="color: red"/>
         <br/>

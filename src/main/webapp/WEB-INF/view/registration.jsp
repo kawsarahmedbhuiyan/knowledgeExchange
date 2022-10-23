@@ -30,16 +30,16 @@
     <h1><fmt:message key="title.register"/></h1>
 
     <form:form method="POST" action="/auth/register" modelAttribute="user">
-        <form:label path="username"><fmt:message key="label.username"/> </form:label>
-        <form:input path="username"/>
+        <form:label path="username"><fmt:message key="label.username"/></form:label>
+        <form:input class="form-control" path="username"/>
         <form:errors path="username" cssStyle="color: red"/>
         <br/><br/>
-        <form:label path="password"><fmt:message key="label.password"/> </form:label>
-        <form:input type="password" path="password"/>
+        <form:label path="password"><fmt:message key="label.password"/></form:label>
+        <form:input type="password" class="form-control" path="password"/>
         <form:errors path="password" cssStyle="color: red"/>
         <br/><br/>
-        <form:label path="name"><fmt:message key="label.name"/> </form:label>
-        <form:input path="name"/>
+        <form:label path="name"><fmt:message key="label.name"/></form:label>
+        <form:input class="form-control" path="name"/>
         <form:errors path="name" cssStyle="color: red"/>
         <br/><br/>
         <button class="btn btn-success"><fmt:message key="btn.register"/></button>
