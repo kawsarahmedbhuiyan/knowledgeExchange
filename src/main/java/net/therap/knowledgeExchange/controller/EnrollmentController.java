@@ -4,6 +4,7 @@ import net.therap.knowledgeExchange.domain.Enrollment;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.helper.EnrollmentHelper;
+import net.therap.knowledgeExchange.service.AccessCheckerService;
 import net.therap.knowledgeExchange.service.EnrollmentService;
 import net.therap.knowledgeExchange.service.ForumService;
 import net.therap.knowledgeExchange.service.UserService;
@@ -44,6 +45,9 @@ public class EnrollmentController {
     @Autowired
     private EnrollmentService enrollmentService;
 
+    @Autowired
+    private AccessCheckerService accessCheckerService;
+
     @PostMapping("/enroll")
     public String enroll(@RequestParam int forumId,
                          HttpServletRequest request,
@@ -54,6 +58,8 @@ public class EnrollmentController {
         User user = getSessionUser(request);
 
         enrollmentService.enroll(forum, user);
+
+        enrollmentHelper.setUpFlashData(ENROLLMENT_PENDING_MESSAGE, redirectAttributes);
         
         return redirectTo(FORUM_VIEW + forumId);
     }
@@ -69,6 +75,8 @@ public class EnrollmentController {
 
         Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
 
+        enrollmentHelper.setUpFlashData(ENROLLMENT_CANCELLED_MESSAGE, redirectAttributes);
+
         enrollmentService.delete(enrollment);
 
         return redirectTo(FORUM_VIEW + forumId);
@@ -81,6 +89,8 @@ public class EnrollmentController {
                           RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
+
+        accessCheckerService.checkManagerAccess(request, forum);
 
         User user = userService.findById(userId);
 
@@ -100,6 +110,8 @@ public class EnrollmentController {
                           RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
+
+        accessCheckerService.checkManagerAccess(request, forum);
 
         User user = userService.findById(userId);
 
@@ -123,6 +135,8 @@ public class EnrollmentController {
         User user = userService.findById(userId);
 
         Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
+
+        accessCheckerService.checkEnrollmentDeleteAccess(request, enrollment);
 
         enrollmentService.delete(enrollment);
 

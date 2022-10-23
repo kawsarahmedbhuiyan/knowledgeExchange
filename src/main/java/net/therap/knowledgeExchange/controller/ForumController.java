@@ -4,6 +4,7 @@ import net.therap.knowledgeExchange.common.Status;
 import net.therap.knowledgeExchange.domain.Enrollment;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.helper.ForumHelper;
+import net.therap.knowledgeExchange.service.AccessCheckerService;
 import net.therap.knowledgeExchange.service.EnrollmentService;
 import net.therap.knowledgeExchange.service.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class ForumController {
 
     @Autowired
     private EnrollmentService enrollmentService;
+
+    @Autowired
+    private AccessCheckerService accessCheckerService;
 
     @InitBinder(FORUM)
     public void initBinder(WebDataBinder binder) {
@@ -121,7 +125,10 @@ public class ForumController {
 
     @PostMapping("/approve")
     public String approve(@RequestParam int forumId,
+                          HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
+
+        accessCheckerService.checkAdminAccess(request);
 
         Forum forum = forumService.findById(forumId);
 
@@ -139,6 +146,8 @@ public class ForumController {
                           HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
 
+        accessCheckerService.checkAdminAccess(request);
+
         Forum forum = forumService.findById(forumId);
 
         forumService.decline(forum);
@@ -154,6 +163,8 @@ public class ForumController {
                          RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
+
+        accessCheckerService.checkForumDeleteAccess(request, forum);
 
         forumService.delete(forum);
 

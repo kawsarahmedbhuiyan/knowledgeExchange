@@ -6,6 +6,7 @@ import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.Role;
 import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.helper.UserHelper;
+import net.therap.knowledgeExchange.service.AccessCheckerService;
 import net.therap.knowledgeExchange.service.ForumService;
 import net.therap.knowledgeExchange.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,9 @@ public class UserController {
     @Autowired
     private ForumService forumService;
 
+    @Autowired
+    private AccessCheckerService accessCheckerService;
+
     @InitBinder(USER)
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
@@ -88,9 +92,12 @@ public class UserController {
 
     @GetMapping("/update")
     public String update(@RequestParam int userId,
+                         HttpServletRequest request,
                          ModelMap model) {
 
         User user = userService.findById(userId);
+
+        accessCheckerService.checkUserUpdateAccess(request, user);
 
         userHelper.setUpReferenceData(UPDATE, user, model);
 
@@ -104,6 +111,8 @@ public class UserController {
                           ModelMap model,
                           SessionStatus sessionStatus,
                           RedirectAttributes redirectAttributes) {
+
+        accessCheckerService.checkUserUpdateAccess(request, user);
 
         if (errors.hasErrors()) {
             userHelper.setUpReferenceData(model);

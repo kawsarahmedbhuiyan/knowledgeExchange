@@ -7,6 +7,7 @@ import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.Post;
 import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.helper.PostHelper;
+import net.therap.knowledgeExchange.service.AccessCheckerService;
 import net.therap.knowledgeExchange.service.ForumService;
 import net.therap.knowledgeExchange.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,9 @@ public class PostController {
     @Autowired
     private ForumService forumService;
 
+    @Autowired
+    private AccessCheckerService accessCheckerService;
+
     @InitBinder(POST)
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
@@ -84,6 +88,8 @@ public class PostController {
 
         Post post = postService.findById(postId);
 
+        accessCheckerService.checkPostViewAccess(request, post);
+
         postHelper.setUpReferenceData(post, request, model);
 
         return POST_VIEW_PAGE;
@@ -95,6 +101,8 @@ public class PostController {
                        ModelMap model) {
 
         Forum forum = forumService.findById(forumId);
+
+        accessCheckerService.checkPostSaveAccess(request, forum);
 
         postHelper.setUpReferenceData(SAVE, forum, request, model);
 
@@ -108,6 +116,8 @@ public class PostController {
 
         Post post = postService.findById(postId);
 
+        accessCheckerService.checkPostUpdateAccess(request, post);
+
         postHelper.setUpReferenceData(UPDATE, post, model);
 
         return POST_FORM_PAGE;
@@ -120,6 +130,8 @@ public class PostController {
                        ModelMap model,
                        SessionStatus sessionStatus,
                        RedirectAttributes redirectAttributes) {
+
+        accessCheckerService.checkPostSaveAccess(request, post.getForum());
 
         if (errors.hasErrors()) {
             postHelper.setUpReferenceData(SAVE, model);
@@ -148,6 +160,8 @@ public class PostController {
                          SessionStatus sessionStatus,
                          RedirectAttributes redirectAttributes) {
 
+        accessCheckerService.checkPostUpdateAccess(request, post);
+
         if (errors.hasErrors()) {
             postHelper.setUpReferenceData(UPDATE, model);
 
@@ -169,9 +183,12 @@ public class PostController {
 
     @PostMapping("/approve")
     public String approve(@RequestParam int postId,
+                          HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
 
         Post post = postService.findById(postId);
+
+        accessCheckerService.checkManagerAccess(request, post.getForum());
 
         postService.approve(post);
 
@@ -182,9 +199,12 @@ public class PostController {
 
     @PostMapping("/decline")
     public String decline(@RequestParam int postId,
+                          HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
 
         Post post = postService.findById(postId);
+
+        accessCheckerService.checkManagerAccess(request, post.getForum());
 
         postService.decline(post);
 
@@ -195,9 +215,12 @@ public class PostController {
 
     @PostMapping("/delete")
     public String delete(@RequestParam int postId,
+                         HttpServletRequest request,
                          RedirectAttributes redirectAttributes) {
 
         Post post = postService.findById(postId);
+
+        accessCheckerService.checkPostDeleteAccess(request, post);
 
         postService.delete(post);
 
@@ -211,6 +234,8 @@ public class PostController {
     public String like(@RequestParam int postId, HttpServletRequest request) throws JsonProcessingException {
 
         Post post = postService.findById(postId);
+
+        accessCheckerService.checkPostLikeAccess(request, post);
 
         User user = getSessionUser(request);
 

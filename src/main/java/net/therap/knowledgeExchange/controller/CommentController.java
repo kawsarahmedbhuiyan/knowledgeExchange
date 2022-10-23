@@ -2,8 +2,8 @@ package net.therap.knowledgeExchange.controller;
 
 import net.therap.knowledgeExchange.domain.Comment;
 import net.therap.knowledgeExchange.helper.CommentHelper;
+import net.therap.knowledgeExchange.service.AccessCheckerService;
 import net.therap.knowledgeExchange.service.CommentService;
-import net.therap.knowledgeExchange.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -40,10 +40,10 @@ public class CommentController {
     private CommentHelper commentHelper;
 
     @Autowired
-    private PostService postService;
+    private CommentService commentService;
 
     @Autowired
-    private CommentService commentService;
+    private AccessCheckerService accessCheckerService;
 
     @InitBinder(COMMENT)
     public void initBinder(WebDataBinder binder) {
@@ -59,6 +59,8 @@ public class CommentController {
 
         Comment comment = commentService.findById(commentId);
 
+        accessCheckerService.checkCommentUpdateAccess(request, comment);
+
         commentHelper.setUpReferenceData(UPDATE, comment, model);
 
         return COMMENT_FORM_PAGE;
@@ -71,6 +73,8 @@ public class CommentController {
                        ModelMap model,
                        SessionStatus sessionStatus,
                        RedirectAttributes redirectAttributes) {
+
+        accessCheckerService.checkCommentSaveAccess(request, comment);
 
         if (errors.hasErrors()) {
             commentHelper.setUpReferenceData(SAVE, model);
@@ -95,6 +99,8 @@ public class CommentController {
                          SessionStatus sessionStatus,
                          RedirectAttributes redirectAttributes) {
 
+        accessCheckerService.checkCommentUpdateAccess(request, comment);
+
         if (errors.hasErrors()) {
             commentHelper.setUpReferenceData(UPDATE, model);
 
@@ -112,9 +118,12 @@ public class CommentController {
 
     @PostMapping("/delete")
     public String delete(@RequestParam int commentId,
+                         HttpServletRequest request,
                          RedirectAttributes redirectAttributes) {
 
         Comment comment = commentService.findById(commentId);
+
+        accessCheckerService.checkCommentDeleteAccess(request, comment);
 
         commentService.delete(comment);
 

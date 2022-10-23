@@ -24,8 +24,4 @@ public class SessionUtil {
     public static User getSessionUser(HttpServletRequest request) {
         return (User) request.getSession().getAttribute(SESSION_USER);
     }
-
-    public static boolean isSessionUser(User user, HttpServletRequest request) {
-        return user.equals(getSessionUser(request));
-    }
 }

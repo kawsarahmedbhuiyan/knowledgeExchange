@@ -39,7 +39,7 @@ public class AuthenticationHelper {
     }
 
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute(message,
+        redirectAttributes.addFlashAttribute("message",
                 messageSource.getMessage(message, null, Locale.ENGLISH));
     }
 }

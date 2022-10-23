@@ -23,6 +23,11 @@
 <div class="container">
     <jsp:include page='common/navbar.jsp'/>
     <h1><fmt:message key="title.welcome"/></h1>
+    <c:if test="${not empty message}">
+    <div class="my-3 p-2 alert alert-success">
+        <div><c:out value="${message}"/></div>
+    </div>
+    </c:if>
     <br/>
     <c:set var="forums" scope="request" value="${forums}"/>
     <jsp:include page="./forum/list.jsp"/>
