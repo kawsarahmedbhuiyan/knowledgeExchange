@@ -11,9 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Objects;
 
+import static java.util.Objects.isNull;
 import static net.therap.knowledgeExchange.common.Status.*;
+import static net.therap.knowledgeExchange.utils.Constant.PERSISTENCE_UNIT;
 
 /**
  * @author kawsar.bhuiyan
@@ -22,13 +23,13 @@ import static net.therap.knowledgeExchange.common.Status.*;
 @Service
 public class PostService {
 
-    @PersistenceContext(unitName = "knowledge-exchange-persistence-unit")
+    @PersistenceContext(unitName = PERSISTENCE_UNIT)
     private EntityManager em;
 
     public Post findById(int id) {
         Post post = em.find(Post.class, id);
 
-        if (Objects.isNull(post)) {
+        if (isNull(post)) {
             throw new NotFoundException("Post Not Found for ID=" + id);
         }
 

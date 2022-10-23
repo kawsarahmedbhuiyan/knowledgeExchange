@@ -7,6 +7,7 @@ CREATE TABLE user
     status   varchar(10)  NOT NULL,
     created  DATETIME     NOT NULL,
     updated  DATETIME     NOT NULL,
+    version  int          NOT NULL,
     CONSTRAINT pk_user PRIMARY KEY (id),
     CONSTRAINT uq_user_username UNIQUE (username)
 );
@@ -18,6 +19,7 @@ CREATE TABLE role
     status  varchar(10) NOT NULL,
     created DATETIME    NOT NULL,
     updated DATETIME    NOT NULL,
+    version int         NOT NULL,
     CONSTRAINT pk_role PRIMARY KEY (id),
     CONSTRAINT uq_role_type UNIQUE (type)
 );
@@ -39,6 +41,7 @@ CREATE TABLE forum
     status     varchar(10) NOT NULL,
     created    DATETIME    NOT NULL,
     updated    DATETIME    NOT NULL,
+    version    int         NOT NULL,
     CONSTRAINT pk_forum PRIMARY KEY (id),
     CONSTRAINT uq_forum_name UNIQUE (name),
     CONSTRAINT fk_forum_manager_id FOREIGN KEY (manager_id) REFERENCES user (id)
@@ -52,6 +55,7 @@ CREATE TABLE enrollment
     status   varchar(10) NOT NULL,
     created  DATETIME    NOT NULL,
     updated  DATETIME    NOT NULL,
+    version  int         NOT NULL,
     CONSTRAINT pk_enrollment PRIMARY KEY (id),
     CONSTRAINT uq_enrollment_forum_id_user_id UNIQUE (forum_id, user_id),
     CONSTRAINT fk_enrollment_forum_id FOREIGN KEY (forum_id) REFERENCES forum (id),
@@ -68,6 +72,7 @@ CREATE TABLE post
     status   varchar(10)   NOT NULL,
     created  DATETIME      NOT NULL,
     updated  DATETIME      NOT NULL,
+    version  int           NOT NULL,
     CONSTRAINT pk_post PRIMARY KEY (id),
     CONSTRAINT fk_post_user_id FOREIGN KEY (user_id) REFERENCES user (id),
     CONSTRAINT fk_post_forum_id FOREIGN KEY (forum_id) REFERENCES forum (id)
@@ -84,13 +89,14 @@ CREATE TABLE post_user_like
 
 CREATE TABLE comment
 (
-    id       int AUTO_INCREMENT,
+    id      int AUTO_INCREMENT,
     body    varchar(2000) NOT NULL,
     user_id int           NOT NULL,
     post_id int           NOT NULL,
     status  varchar(10)   NOT NULL,
     created DATETIME      NOT NULL,
     updated DATETIME      NOT NULL,
+    version int           NOT NULL,
     CONSTRAINT pk_comment PRIMARY KEY (id),
     CONSTRAINT fk_comment_user_id FOREIGN KEY (user_id) REFERENCES user (id),
     CONSTRAINT fk_comment_post_id FOREIGN KEY (post_id) REFERENCES post (id)

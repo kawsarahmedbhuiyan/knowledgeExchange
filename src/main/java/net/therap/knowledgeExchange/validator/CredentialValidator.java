@@ -1,11 +1,14 @@
 package net.therap.knowledgeExchange.validator;
 
 import net.therap.knowledgeExchange.domain.Credential;
-import net.therap.knowledgeExchange.service.CredentialService;
+import net.therap.knowledgeExchange.service.UserService;
+import net.therap.knowledgeExchange.utils.HashGenerationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+
+import static java.util.Objects.isNull;
 
 /**
  * @author kawsar.bhuiyan
@@ -15,7 +18,7 @@ import org.springframework.validation.Validator;
 public class CredentialValidator implements Validator {
 
     @Autowired
-    private CredentialService credentialService;
+    private UserService userService;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -25,7 +28,13 @@ public class CredentialValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Credential credential = (Credential) target;
 
-        if (!credentialService.isValidCredential(credential)) {
+        if (isNull(credential.getPassword())) {
+            return;
+        }
+
+        credential.setPassword(HashGenerationUtil.getHashedValue(credential.getPassword()));
+
+        if (!userService.isValidCredential(credential)) {
             errors.reject("invalid.credential");
         }
     }

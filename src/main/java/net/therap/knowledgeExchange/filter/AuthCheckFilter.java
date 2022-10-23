@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Objects;
 
+import static java.util.Objects.isNull;
 import static net.therap.knowledgeExchange.utils.Constant.SESSION_USER;
 import static net.therap.knowledgeExchange.utils.Url.LOGIN;
 
@@ -25,7 +25,7 @@ public class AuthCheckFilter implements Filter {
 
         HttpSession session = req.getSession();
 
-        if (Objects.isNull(session.getAttribute(SESSION_USER))) {
+        if (isNull(session.getAttribute(SESSION_USER))) {
             res.sendRedirect(LOGIN);
         } else {
             chain.doFilter(request, response);

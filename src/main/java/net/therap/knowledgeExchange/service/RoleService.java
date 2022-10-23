@@ -10,7 +10,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Objects;
+
+import static java.util.Objects.isNull;
+import static net.therap.knowledgeExchange.utils.Constant.PERSISTENCE_UNIT;
 
 /**
  * @author kawsar.bhuiyan
@@ -19,13 +21,13 @@ import java.util.Objects;
 @Service
 public class RoleService {
 
-    @PersistenceContext(unitName = "knowledge-exchange-persistence-unit")
+    @PersistenceContext(unitName = PERSISTENCE_UNIT)
     private EntityManager em;
 
     public Role findById(int id) {
         Role role = em.find(Role.class, id);
 
-        if (Objects.isNull(role)) {
+        if (isNull(role)) {
             throw new NotFoundException("Role Not Found for ID=" + id);
         }
 

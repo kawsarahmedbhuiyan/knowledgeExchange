@@ -7,9 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Objects;
 
+import static java.util.Objects.isNull;
 import static net.therap.knowledgeExchange.common.Status.DELETED;
+import static net.therap.knowledgeExchange.utils.Constant.PERSISTENCE_UNIT;
 
 /**
  * @author kawsar.bhuiyan
@@ -18,13 +19,13 @@ import static net.therap.knowledgeExchange.common.Status.DELETED;
 @Service
 public class CommentService {
 
-    @PersistenceContext(unitName = "knowledge-exchange-persistence-unit")
+    @PersistenceContext(unitName = PERSISTENCE_UNIT)
     private EntityManager em;
 
     public Comment findById(int id) {
         Comment comment = em.find(Comment.class, id);
 
-        if (Objects.isNull(comment)) {
+        if (isNull(comment)) {
             throw new NotFoundException("Comment Not Found for ID=" + id);
         }
 

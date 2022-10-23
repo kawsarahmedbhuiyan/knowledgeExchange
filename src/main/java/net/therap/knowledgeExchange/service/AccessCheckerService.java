@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
 
-
 /**
  * @author kawsar.bhuiyan
  * @since 10/1/22
@@ -119,7 +118,7 @@ public class AccessCheckerService {
     public void checkEnrollmentDeleteAccess(HttpServletRequest request, Enrollment enrollment) {
         User sessionUser = getSessionUser(request);
 
-        if(!(sessionUser.equals(enrollment.getForum().getManager()) || sessionUser.equals(enrollment.getUser()))) {
+        if (!(sessionUser.equals(enrollment.getForum().getManager()) || sessionUser.equals(enrollment.getUser()))) {
             throw new UnauthorizedException("You are not authorized to delete this enrollment");
         }
     }

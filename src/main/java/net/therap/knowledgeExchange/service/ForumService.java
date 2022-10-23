@@ -10,9 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Objects;
 
+import static java.util.Objects.isNull;
 import static net.therap.knowledgeExchange.common.Status.*;
+import static net.therap.knowledgeExchange.utils.Constant.PERSISTENCE_UNIT;
 
 /**
  * @author kawsar.bhuiyan
@@ -21,13 +22,13 @@ import static net.therap.knowledgeExchange.common.Status.*;
 @Service
 public class ForumService {
 
-    @PersistenceContext(unitName = "knowledge-exchange-persistence-unit")
+    @PersistenceContext(unitName = PERSISTENCE_UNIT)
     private EntityManager em;
 
     public Forum findById(int id) {
         Forum forum = em.find(Forum.class, id);
 
-        if (Objects.isNull(forum)) {
+        if (isNull(forum)) {
             throw new NotFoundException("Forum Not Found for ID=" + id);
         }
 

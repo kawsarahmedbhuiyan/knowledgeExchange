@@ -33,4 +33,5 @@ public interface Constant {
     String ENROLLMENT_CANCELLED_MESSAGE = "enrollmentCancelledMessage";
     String USER_UPDATED_MESSAGE = "userUpdatedMessage";
     String WELCOME_MESSAGE = "welcomeMessage";
+    String PERSISTENCE_UNIT = "knowledge-exchange-persistence-unit";
 }

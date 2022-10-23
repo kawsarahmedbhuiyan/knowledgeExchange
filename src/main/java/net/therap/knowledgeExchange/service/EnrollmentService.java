@@ -14,6 +14,7 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 import static net.therap.knowledgeExchange.common.Status.*;
+import static net.therap.knowledgeExchange.utils.Constant.PERSISTENCE_UNIT;
 
 /**
  * @author kawsar.bhuiyan
@@ -22,7 +23,7 @@ import static net.therap.knowledgeExchange.common.Status.*;
 @Service
 public class EnrollmentService {
 
-    @PersistenceContext(unitName = "knowledge-exchange-persistence-unit")
+    @PersistenceContext(unitName = PERSISTENCE_UNIT)
     private EntityManager em;
 
     public Enrollment findById(int id) {
