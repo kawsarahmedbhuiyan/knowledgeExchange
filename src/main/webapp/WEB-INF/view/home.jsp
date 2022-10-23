@@ -24,27 +24,28 @@
     <jsp:include page='common/navbar.jsp'/>
     <h1><fmt:message key="title.welcome"/></h1>
     <c:if test="${not empty message}">
-    <div class="my-3 p-2 alert alert-success">
-        <div><c:out value="${message}"/></div>
-    </div>
+        <div class="my-3 p-2 alert alert-success">
+            <div><c:out value="${message}"/></div>
+        </div>
     </c:if>
     <br/>
     <c:set var="forums" scope="request" value="${forums}"/>
     <jsp:include page="./forum/list.jsp"/>
     <br/>
     <c:if test="${ADMIN}">
-    <c:url var="pendingForumCreationRequestListLink" value="/forum/creationRequestList">
-        <c:param name="status" value="PENDING"/>
-    </c:url>
-    <a href="${pendingForumCreationRequestListLink}">
-        <fmt:message key="title.viewPendingForumCreationRequestList"/>
-    </a>
-    <br/><br/>
+        <c:url var="pendingForumCreationRequestListLink" value="/forum/creationRequestList">
+            <c:param name="status" value="PENDING"/>
+        </c:url>
+        <a href="${pendingForumCreationRequestListLink}">
+            <fmt:message key="title.viewPendingForumCreationRequestList"/>
+        </a>
+        <br/><br/>
     </c:if>
     <a href="/forum/save">
         <button class="btn btn-primary"><fmt:message key="btn.createNewForum"/></button>
     </a>
     <br/><br/>
     <jsp:include page='common/footer.jsp'/>
+</div>
 </body>
 </html>
