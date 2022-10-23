@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Locale;
 
+import static net.therap.knowledgeExchange.common.Status.APPROVED;
 import static net.therap.knowledgeExchange.common.Status.PENDING;
 import static net.therap.knowledgeExchange.controller.PostController.POST;
 import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
@@ -57,12 +58,19 @@ public class PostHelper {
     public void setUpReferenceData(Action action, Forum forum, HttpServletRequest request, ModelMap model) {
         User user = getSessionUser(request);
 
-        model.addAttribute(POST, new Post(user, forum));
+        if(user.equals(forum.getManager())) {
+            model.addAttribute(POST, new Post(user, forum, APPROVED));
+        }else{
+            model.addAttribute(POST, new Post(user, forum, PENDING));
+        }
+
         model.addAttribute("action", action.name().toLowerCase());
     }
 
     public void setUpReferenceData(Action action, Post post, ModelMap model) {
-        post.setStatus(PENDING);
+        if(!post.getUser().equals(post.getForum().getManager())) {
+            post.setStatus(PENDING);
+        }
 
         model.addAttribute(POST, post);
         model.addAttribute("action", action.name().toLowerCase());

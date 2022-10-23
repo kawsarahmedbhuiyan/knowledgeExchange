@@ -79,6 +79,14 @@ public class Post extends Persistent {
         comments = new HashSet<>();
     }
 
+    public Post(User user, Forum forum, Status status) {
+        this.user = user;
+        this.forum = forum;
+        this.status = status;
+        likers = new HashSet<>();
+        comments = new HashSet<>();
+    }
+
     public int getId() {
         return id;
     }
