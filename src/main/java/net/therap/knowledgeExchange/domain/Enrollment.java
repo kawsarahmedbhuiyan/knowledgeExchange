@@ -41,9 +41,6 @@ public class Enrollment extends Persistent {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Version
-    private int version;
-
     public Enrollment() {
         status = PENDING;
     }

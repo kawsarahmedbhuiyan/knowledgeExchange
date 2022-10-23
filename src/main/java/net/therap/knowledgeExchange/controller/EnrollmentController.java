@@ -10,7 +10,6 @@ import net.therap.knowledgeExchange.service.ForumService;
 import net.therap.knowledgeExchange.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,6 +23,7 @@ import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
 import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
 import static net.therap.knowledgeExchange.utils.Url.FORUM_MEMBER_LIST;
 import static net.therap.knowledgeExchange.utils.Url.FORUM_VIEW;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * @author kawsar.bhuiyan
@@ -48,7 +48,7 @@ public class EnrollmentController {
     @Autowired
     private AccessCheckerService accessCheckerService;
 
-    @PostMapping("/enroll")
+    @RequestMapping(value = "/enroll", method = POST)
     public String enroll(@RequestParam int forumId,
                          HttpServletRequest request,
                          RedirectAttributes redirectAttributes) {
@@ -60,14 +60,14 @@ public class EnrollmentController {
         enrollmentService.enroll(forum, user);
 
         enrollmentHelper.setUpFlashData(ENROLLMENT_PENDING_MESSAGE, redirectAttributes);
-        
+
         return redirectTo(FORUM_VIEW + forumId);
     }
 
-    @PostMapping("/unenroll")
+    @RequestMapping(value = "/unenroll", method = POST)
     public String unenroll(@RequestParam int forumId,
-                         HttpServletRequest request,
-                         RedirectAttributes redirectAttributes) {
+                           HttpServletRequest request,
+                           RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
 
@@ -82,7 +82,7 @@ public class EnrollmentController {
         return redirectTo(FORUM_VIEW + forumId);
     }
 
-    @PostMapping("/approve")
+    @RequestMapping(value = "/approve", method = POST)
     public String approve(@RequestParam int forumId,
                           @RequestParam int userId,
                           HttpServletRequest request,
@@ -103,7 +103,7 @@ public class EnrollmentController {
         return redirectTo(FORUM_MEMBER_LIST + forumId + STATUS + APPROVED);
     }
 
-    @PostMapping("/decline")
+    @RequestMapping(value = "/decline", method = POST)
     public String decline(@RequestParam int forumId,
                           @RequestParam int userId,
                           HttpServletRequest request,
@@ -124,7 +124,7 @@ public class EnrollmentController {
         return redirectTo(FORUM_MEMBER_LIST + forumId + STATUS + DECLINED);
     }
 
-    @PostMapping("/delete")
+    @RequestMapping(value = "/delete", method = POST)
     public String delete(@RequestParam int forumId,
                          @RequestParam int userId,
                          HttpServletRequest request,

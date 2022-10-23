@@ -28,6 +28,8 @@ import static net.therap.knowledgeExchange.controller.UserController.USER;
 import static net.therap.knowledgeExchange.utils.Constant.USER_UPDATED_MESSAGE;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
 import static net.therap.knowledgeExchange.utils.Url.USER_VIEW;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * @author kawsar.bhuiyan
@@ -66,10 +68,9 @@ public class UserController {
         binder.setDisallowedFields("id");
     }
 
-    @GetMapping("/list")
+    @RequestMapping(value = "/list", method = GET)
     public String viewList(@RequestParam int forumId,
                            @RequestParam Status status,
-                           HttpServletRequest request,
                            ModelMap model) {
 
         Forum forum = forumService.findById(forumId);
@@ -79,7 +80,7 @@ public class UserController {
         return USER_LIST_PAGE;
     }
 
-    @GetMapping("/view")
+    @RequestMapping(value = "/view", method = GET)
     public String view(@RequestParam int userId,
                        ModelMap model) {
 
@@ -90,7 +91,7 @@ public class UserController {
         return USER_VIEW_PAGE;
     }
 
-    @GetMapping("/update")
+    @RequestMapping(value = "/update", method = GET)
     public String update(@RequestParam int userId,
                          HttpServletRequest request,
                          ModelMap model) {
@@ -104,7 +105,7 @@ public class UserController {
         return USER_FORM_PAGE;
     }
 
-    @PostMapping("/update")
+    @RequestMapping(value = "/update", method = POST)
     public String process(@Valid @ModelAttribute User user,
                           Errors errors,
                           HttpServletRequest request,

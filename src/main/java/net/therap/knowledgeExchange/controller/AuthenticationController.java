@@ -23,6 +23,8 @@ import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
 import static net.therap.knowledgeExchange.utils.SessionUtil.setUpSessionData;
 import static net.therap.knowledgeExchange.utils.Url.*;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * @author kawsar.bhuiyan
@@ -60,14 +62,14 @@ public class AuthenticationController {
         }
     }
 
-    @GetMapping("/login")
+    @RequestMapping(value = "/login", method = GET)
     public String login(ModelMap model) {
         authenticationHelper.setUpReferenceData(new Credential(), model);
 
         return LOGIN_PAGE;
     }
 
-    @PostMapping("/login")
+    @RequestMapping(value = "/login", method = POST)
     public String login(@Valid @ModelAttribute Credential credential,
                         Errors errors,
                         HttpServletRequest request,
@@ -87,21 +89,21 @@ public class AuthenticationController {
         return redirectTo(HOME);
     }
 
-    @GetMapping("/logout")
+    @RequestMapping(value = "/logout", method = GET)
     public String logout(HttpServletRequest request) {
         request.getSession().invalidate();
 
         return redirectTo(LOGIN);
     }
 
-    @GetMapping("/register")
+    @RequestMapping(value = "/register", method = GET)
     public String register(ModelMap model) {
         authenticationHelper.setUpReferenceData(new User(), model);
 
         return REGISTRATION_PAGE;
     }
 
-    @PostMapping("/register")
+    @RequestMapping(value = "/register", method = POST)
     public String register(@Valid @ModelAttribute User user,
                            Errors errors,
                            HttpServletRequest request,

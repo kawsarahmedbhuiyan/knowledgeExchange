@@ -34,6 +34,7 @@ import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
 import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
 import static net.therap.knowledgeExchange.utils.Url.FORUM_VIEW;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
  * @author kawsar.bhuiyan
@@ -68,7 +69,7 @@ public class PostController {
         binder.setDisallowedFields("id");
     }
 
-    @GetMapping("/list")
+    @RequestMapping(value = "/list", method = GET)
     public String viewList(@RequestParam int forumId,
                            @RequestParam Status status,
                            HttpServletRequest request,
@@ -81,7 +82,7 @@ public class PostController {
         return POST_LIST_PAGE;
     }
 
-    @GetMapping("/view")
+    @RequestMapping(value = "/view", method = GET)
     public String view(@RequestParam int postId,
                        HttpServletRequest request,
                        ModelMap model) {
@@ -95,7 +96,7 @@ public class PostController {
         return POST_VIEW_PAGE;
     }
 
-    @GetMapping("/save")
+    @RequestMapping(value = "/save", method = GET)
     public String save(@RequestParam int forumId,
                        HttpServletRequest request,
                        ModelMap model) {
@@ -109,7 +110,7 @@ public class PostController {
         return POST_FORM_PAGE;
     }
 
-    @GetMapping("/update")
+    @RequestMapping(value = "/update", method = GET)
     public String update(@RequestParam int postId,
                          HttpServletRequest request,
                          ModelMap model) {
@@ -123,7 +124,7 @@ public class PostController {
         return POST_FORM_PAGE;
     }
 
-    @PostMapping("/save")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(@Valid @ModelAttribute Post post,
                        Errors errors,
                        HttpServletRequest request,
@@ -141,7 +142,7 @@ public class PostController {
 
         postService.saveOrUpdate(post);
 
-        if(post.getUser().equals(post.getForum().getManager())) {
+        if (post.getUser().equals(post.getForum().getManager())) {
             postHelper.setUpFlashData(POST_ADDED_MESSAGE, redirectAttributes);
         } else {
             postHelper.setUpFlashData(POST_PENDING_APPROVAL_MESSAGE, redirectAttributes);
@@ -152,7 +153,7 @@ public class PostController {
         return redirectTo(FORUM_VIEW + post.getForum().getId());
     }
 
-    @PostMapping("/update")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(@Valid @ModelAttribute Post post,
                          Errors errors,
                          HttpServletRequest request,
@@ -170,7 +171,7 @@ public class PostController {
 
         postService.saveOrUpdate(post);
 
-        if(post.getUser().equals(post.getForum().getManager())) {
+        if (post.getUser().equals(post.getForum().getManager())) {
             postHelper.setUpFlashData(POST_UPDATED_MESSAGE, redirectAttributes);
         } else {
             postHelper.setUpFlashData(POST_PENDING_APPROVAL_MESSAGE, redirectAttributes);
@@ -181,7 +182,7 @@ public class PostController {
         return redirectTo(FORUM_VIEW + post.getForum().getId());
     }
 
-    @PostMapping("/approve")
+    @RequestMapping(value = "/approve", method = RequestMethod.POST)
     public String approve(@RequestParam int postId,
                           HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
@@ -197,7 +198,7 @@ public class PostController {
         return redirectTo(FORUM_VIEW + post.getForum().getId());
     }
 
-    @PostMapping("/decline")
+    @RequestMapping(value = "/decline", method = RequestMethod.POST)
     public String decline(@RequestParam int postId,
                           HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
@@ -213,7 +214,7 @@ public class PostController {
         return redirectTo(FORUM_VIEW + post.getForum().getId());
     }
 
-    @PostMapping("/delete")
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String delete(@RequestParam int postId,
                          HttpServletRequest request,
                          RedirectAttributes redirectAttributes) {
@@ -229,7 +230,7 @@ public class PostController {
         return redirectTo(FORUM_VIEW + post.getForum().getId());
     }
 
-    @PostMapping(value = "/like", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/like", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String like(@RequestParam int postId, HttpServletRequest request) throws JsonProcessingException {
 

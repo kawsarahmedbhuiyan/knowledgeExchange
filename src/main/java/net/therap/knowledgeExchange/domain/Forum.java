@@ -52,9 +52,6 @@ public class Forum extends Persistent {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Version
-    private int version;
-
     public Forum() {
         status = PENDING;
         enrollments = new HashSet<>();

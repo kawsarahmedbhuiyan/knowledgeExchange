@@ -23,6 +23,8 @@ import static net.therap.knowledgeExchange.controller.CommentController.COMMENT;
 import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
 import static net.therap.knowledgeExchange.utils.Url.POST_VIEW;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * @author kawsar.bhuiyan
@@ -52,7 +54,7 @@ public class CommentController {
         binder.setDisallowedFields("id");
     }
 
-    @GetMapping("/update")
+    @RequestMapping(value = "/update", method = GET)
     public String update(@RequestParam int commentId,
                          HttpServletRequest request,
                          ModelMap model) {
@@ -66,7 +68,7 @@ public class CommentController {
         return COMMENT_FORM_PAGE;
     }
 
-    @PostMapping("/save")
+    @RequestMapping(value = "/save", method = POST)
     public String save(@Valid @ModelAttribute Comment comment,
                        Errors errors,
                        HttpServletRequest request,
@@ -91,7 +93,7 @@ public class CommentController {
         return redirectTo(POST_VIEW + comment.getPost().getId());
     }
 
-    @PostMapping("/update")
+    @RequestMapping(value = "/update", method = POST)
     public String update(@Valid @ModelAttribute Comment comment,
                          Errors errors,
                          HttpServletRequest request,
@@ -116,7 +118,7 @@ public class CommentController {
         return redirectTo(POST_VIEW + comment.getPost().getId());
     }
 
-    @PostMapping("/delete")
+    @RequestMapping(value = "/delete", method = POST)
     public String delete(@RequestParam int commentId,
                          HttpServletRequest request,
                          RedirectAttributes redirectAttributes) {

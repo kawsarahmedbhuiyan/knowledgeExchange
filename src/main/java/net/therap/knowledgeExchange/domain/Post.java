@@ -62,9 +62,6 @@ public class Post extends Persistent {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Version
-    private int version;
-
     public Post() {
         status = PENDING;
         likers = new HashSet<>();

@@ -37,9 +37,6 @@ public class Role extends Persistent {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Version
-    private int version;
-
     public Role() {
         users = new HashSet<>();
     }

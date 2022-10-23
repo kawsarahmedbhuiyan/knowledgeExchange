@@ -66,9 +66,6 @@ public class User extends Persistent {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Version
-    private int version;
-
     public User() {
         status = NEW;
         roles = new HashSet<>();

@@ -26,6 +26,8 @@ import static net.therap.knowledgeExchange.controller.ForumController.FORUM;
 import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
 import static net.therap.knowledgeExchange.utils.Url.FORUM_CREATION_REQUEST_LIST;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * @author kawsar.bhuiyan
@@ -60,7 +62,7 @@ public class ForumController {
         binder.setDisallowedFields("id");
     }
 
-    @GetMapping("/creationRequestList")
+    @RequestMapping(value = "/creationRequestList", method = GET)
     public String viewCreationRequestList(@RequestParam Status status,
                                           HttpServletRequest request,
                                           ModelMap model) {
@@ -70,7 +72,7 @@ public class ForumController {
         return FORUM_LIST_PAGE;
     }
 
-    @GetMapping("/joinRequestList")
+    @RequestMapping(value = "/joinRequestList", method = GET)
     public String viewJoinRequestList(@RequestParam Status status,
                                       HttpServletRequest request,
                                       ModelMap model) {
@@ -81,7 +83,7 @@ public class ForumController {
     }
 
 
-    @GetMapping("/view")
+    @RequestMapping(value = "/view", method = GET)
     public String view(@RequestParam int forumId,
                        HttpServletRequest request,
                        ModelMap model) {
@@ -91,7 +93,7 @@ public class ForumController {
         return FORUM_VIEW_PAGE;
     }
 
-    @GetMapping("/save")
+    @RequestMapping(value = "/save", method = GET)
     public String save(HttpServletRequest request,
                        ModelMap model) {
 
@@ -100,10 +102,9 @@ public class ForumController {
         return FORUM_FORM_PAGE;
     }
 
-    @PostMapping("/save")
+    @RequestMapping(value = "/save", method = POST)
     public String save(@Valid @ModelAttribute Forum forum,
                        Errors errors,
-                       HttpServletRequest request,
                        ModelMap model,
                        SessionStatus sessionStatus,
                        RedirectAttributes redirectAttributes) {
@@ -123,7 +124,7 @@ public class ForumController {
         return redirectTo(FORUM_CREATION_REQUEST_LIST + PENDING);
     }
 
-    @PostMapping("/approve")
+    @RequestMapping(value = "/approve", method = POST)
     public String approve(@RequestParam int forumId,
                           HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
@@ -141,7 +142,7 @@ public class ForumController {
         return redirectTo(FORUM_CREATION_REQUEST_LIST + APPROVED);
     }
 
-    @PostMapping("/decline")
+    @RequestMapping(value = "/decline", method = POST)
     public String decline(@RequestParam int forumId,
                           HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
@@ -157,7 +158,7 @@ public class ForumController {
         return redirectTo(FORUM_CREATION_REQUEST_LIST + DECLINED);
     }
 
-    @PostMapping("/delete")
+    @RequestMapping(value = "/delete", method = POST)
     public String delete(@RequestParam int forumId,
                          HttpServletRequest request,
                          RedirectAttributes redirectAttributes) {

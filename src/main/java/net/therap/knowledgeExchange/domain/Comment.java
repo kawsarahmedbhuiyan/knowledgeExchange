@@ -38,9 +38,6 @@ public class Comment extends Persistent {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Version
-    private int version;
-
     public Comment() {
         status = NEW;
     }
