@@ -40,7 +40,7 @@
             });
         });
     </script>
-    <title><fmt:message key="title.post"/></title>
+    <title>Post View</title>
 </head>
 <body>
 <div class="container">
