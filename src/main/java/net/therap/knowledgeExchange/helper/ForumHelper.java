@@ -6,6 +6,7 @@ import net.therap.knowledgeExchange.domain.Enrollment;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.Post;
 import net.therap.knowledgeExchange.domain.User;
+import net.therap.knowledgeExchange.exception.UnauthorizedException;
 import net.therap.knowledgeExchange.service.EnrollmentService;
 import net.therap.knowledgeExchange.service.ForumService;
 import net.therap.knowledgeExchange.service.PostService;
@@ -96,6 +97,7 @@ public class ForumHelper {
                 for (Enrollment enrollment : enrollmentService.findByUserAndStatus(user, status)) {
                     forums.add(enrollment.getForum());
                 }
+
                 break;
         }
 
@@ -107,5 +109,26 @@ public class ForumHelper {
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message",
                 messageSource.getMessage(message, null, ENGLISH));
+    }
+
+    public void checkAccess(Action action, HttpServletRequest request, Forum forum) {
+        User sessionUser = getSessionUser(request);
+
+        switch (action) {
+            case APPROVE:
+            case DECLINE:
+                if (!sessionUser.isAdmin()) {
+                    throw new UnauthorizedException("You do not have admin access");
+                }
+
+                break;
+
+            case DELETE:
+                if (!(sessionUser.isAdmin() || forum.isManagedByUser(sessionUser))) {
+                    throw new UnauthorizedException("You are not authorized to delete this forum");
+                }
+
+                break;
+        }
     }
 }

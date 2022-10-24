@@ -10,4 +10,7 @@ public enum Action {
     SAVE,
     UPDATE,
     DELETE,
+    APPROVE,
+    DECLINE,
+    LIKE
 }

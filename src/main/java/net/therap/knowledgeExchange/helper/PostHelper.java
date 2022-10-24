@@ -6,6 +6,7 @@ import net.therap.knowledgeExchange.domain.Comment;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.Post;
 import net.therap.knowledgeExchange.domain.User;
+import net.therap.knowledgeExchange.exception.UnauthorizedException;
 import net.therap.knowledgeExchange.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -83,5 +84,55 @@ public class PostHelper {
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message",
                 messageSource.getMessage(message, null, ENGLISH));
+    }
+
+    public void checkAccess(Action action, HttpServletRequest request, Post post) {
+        User sessionUser = getSessionUser(request);
+
+        switch (action) {
+            case VIEW:
+            case LIKE:
+                if (post.getForum().getEnrollments().stream()
+                        .noneMatch(enrollment -> sessionUser.equals(enrollment.getUser()))) {
+                    throw new UnauthorizedException("You must join this forum");
+                }
+
+                break;
+
+            case UPDATE:
+                if (!sessionUser.equals(post.getUser())) {
+                    throw new UnauthorizedException("You are not authorized to update this post");
+                }
+
+                break;
+
+            case DELETE:
+                if (!(sessionUser.equals(post.getForum().getManager()) || sessionUser.equals(post.getUser()))) {
+                    throw new UnauthorizedException("You are not authorized to delete this post");
+                }
+
+                break;
+        }
+    }
+
+    public void checkAccess(Action action, HttpServletRequest request, Forum forum) {
+        User sessionUser = getSessionUser(request);
+
+        switch (action) {
+            case SAVE:
+                if (forum.getEnrollments().stream().noneMatch(enrollment -> sessionUser.equals(enrollment.getUser()))) {
+                    throw new UnauthorizedException("You must join the forum to add a new post");
+                }
+
+                break;
+
+            case APPROVE:
+            case DECLINE:
+                if (!sessionUser.equals(forum.getManager())) {
+                    throw new UnauthorizedException("You do not have manager access for this forum");
+                }
+
+                break;
+        }
     }
 }

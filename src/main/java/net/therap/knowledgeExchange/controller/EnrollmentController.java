@@ -4,7 +4,6 @@ import net.therap.knowledgeExchange.domain.Enrollment;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.helper.EnrollmentHelper;
-import net.therap.knowledgeExchange.service.AccessCheckerService;
 import net.therap.knowledgeExchange.service.EnrollmentService;
 import net.therap.knowledgeExchange.service.ForumService;
 import net.therap.knowledgeExchange.service.UserService;
@@ -16,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static net.therap.knowledgeExchange.common.Action.*;
 import static net.therap.knowledgeExchange.common.Status.APPROVED;
 import static net.therap.knowledgeExchange.common.Status.DECLINED;
 import static net.therap.knowledgeExchange.utils.Constant.*;
@@ -44,9 +44,6 @@ public class EnrollmentController {
 
     @Autowired
     private EnrollmentService enrollmentService;
-
-    @Autowired
-    private AccessCheckerService accessCheckerService;
 
     @RequestMapping(value = "/enroll", method = POST)
     public String enroll(@RequestParam int forumId,
@@ -90,11 +87,11 @@ public class EnrollmentController {
 
         Forum forum = forumService.findById(forumId);
 
-        accessCheckerService.checkManagerAccess(request, forum);
-
         User user = userService.findById(userId);
 
         Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
+
+        enrollmentHelper.checkAccess(APPROVE, request, enrollment);
 
         enrollmentService.approve(enrollment);
 
@@ -111,11 +108,11 @@ public class EnrollmentController {
 
         Forum forum = forumService.findById(forumId);
 
-        accessCheckerService.checkManagerAccess(request, forum);
-
         User user = userService.findById(userId);
 
         Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
+
+        enrollmentHelper.checkAccess(DECLINE, request, enrollment);
 
         enrollmentService.decline(enrollment);
 
@@ -136,7 +133,7 @@ public class EnrollmentController {
 
         Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
 
-        accessCheckerService.checkEnrollmentDeleteAccess(request, enrollment);
+        enrollmentHelper.checkAccess(DELETE, request, enrollment);
 
         enrollmentService.delete(enrollment);
 

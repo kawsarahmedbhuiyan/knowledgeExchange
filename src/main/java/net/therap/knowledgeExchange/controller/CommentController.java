@@ -2,7 +2,6 @@ package net.therap.knowledgeExchange.controller;
 
 import net.therap.knowledgeExchange.domain.Comment;
 import net.therap.knowledgeExchange.helper.CommentHelper;
-import net.therap.knowledgeExchange.service.AccessCheckerService;
 import net.therap.knowledgeExchange.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -17,8 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import static net.therap.knowledgeExchange.common.Action.SAVE;
-import static net.therap.knowledgeExchange.common.Action.UPDATE;
+import static net.therap.knowledgeExchange.common.Action.*;
 import static net.therap.knowledgeExchange.controller.CommentController.COMMENT;
 import static net.therap.knowledgeExchange.utils.Constant.*;
 import static net.therap.knowledgeExchange.utils.RedirectUtil.redirectTo;
@@ -44,9 +42,6 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @Autowired
-    private AccessCheckerService accessCheckerService;
-
     @InitBinder(COMMENT)
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
@@ -61,7 +56,7 @@ public class CommentController {
 
         Comment comment = commentService.findById(commentId);
 
-        accessCheckerService.checkCommentUpdateAccess(request, comment);
+        commentHelper.checkAccess(UPDATE, request, comment);
 
         commentHelper.setUpReferenceData(UPDATE, comment, model);
 
@@ -76,7 +71,7 @@ public class CommentController {
                        SessionStatus sessionStatus,
                        RedirectAttributes redirectAttributes) {
 
-        accessCheckerService.checkCommentSaveAccess(request, comment);
+        commentHelper.checkAccess(SAVE, request, comment);
 
         if (errors.hasErrors()) {
             commentHelper.setUpReferenceData(SAVE, model);
@@ -101,7 +96,7 @@ public class CommentController {
                          SessionStatus sessionStatus,
                          RedirectAttributes redirectAttributes) {
 
-        accessCheckerService.checkCommentUpdateAccess(request, comment);
+        commentHelper.checkAccess(UPDATE, request, comment);
 
         if (errors.hasErrors()) {
             commentHelper.setUpReferenceData(UPDATE, model);
@@ -125,7 +120,7 @@ public class CommentController {
 
         Comment comment = commentService.findById(commentId);
 
-        accessCheckerService.checkCommentDeleteAccess(request, comment);
+        commentHelper.checkAccess(DELETE, request, comment);
 
         commentService.delete(comment);
 

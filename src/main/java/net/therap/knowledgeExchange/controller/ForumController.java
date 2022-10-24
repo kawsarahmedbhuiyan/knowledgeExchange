@@ -4,7 +4,6 @@ import net.therap.knowledgeExchange.common.Status;
 import net.therap.knowledgeExchange.domain.Enrollment;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.helper.ForumHelper;
-import net.therap.knowledgeExchange.service.AccessCheckerService;
 import net.therap.knowledgeExchange.service.EnrollmentService;
 import net.therap.knowledgeExchange.service.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import static net.therap.knowledgeExchange.common.Action.SAVE;
+import static net.therap.knowledgeExchange.common.Action.*;
 import static net.therap.knowledgeExchange.common.Status.*;
 import static net.therap.knowledgeExchange.controller.ForumController.FORUM;
 import static net.therap.knowledgeExchange.utils.Constant.*;
@@ -51,9 +50,6 @@ public class ForumController {
 
     @Autowired
     private EnrollmentService enrollmentService;
-
-    @Autowired
-    private AccessCheckerService accessCheckerService;
 
     @InitBinder(FORUM)
     public void initBinder(WebDataBinder binder) {
@@ -129,9 +125,9 @@ public class ForumController {
                           HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
 
-        accessCheckerService.checkAdminAccess(request);
-
         Forum forum = forumService.findById(forumId);
+
+        forumHelper.checkAccess(APPROVE, request, forum);
 
         forumService.approve(forum);
 
@@ -147,9 +143,9 @@ public class ForumController {
                           HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
 
-        accessCheckerService.checkAdminAccess(request);
-
         Forum forum = forumService.findById(forumId);
+
+        forumHelper.checkAccess(DECLINE, request, forum);
 
         forumService.decline(forum);
 
@@ -165,7 +161,7 @@ public class ForumController {
 
         Forum forum = forumService.findById(forumId);
 
-        accessCheckerService.checkForumDeleteAccess(request, forum);
+        forumHelper.checkAccess(DELETE, request, forum);
 
         forumService.delete(forum);
 

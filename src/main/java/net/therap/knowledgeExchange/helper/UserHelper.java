@@ -4,6 +4,7 @@ import net.therap.knowledgeExchange.common.Action;
 import net.therap.knowledgeExchange.common.Status;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.User;
+import net.therap.knowledgeExchange.exception.UnauthorizedException;
 import net.therap.knowledgeExchange.service.EnrollmentService;
 import net.therap.knowledgeExchange.service.ForumService;
 import net.therap.knowledgeExchange.service.RoleService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import static java.util.Locale.ENGLISH;
 import static net.therap.knowledgeExchange.common.Action.VIEW;
 import static net.therap.knowledgeExchange.common.Status.APPROVED;
 import static net.therap.knowledgeExchange.controller.UserController.USER;
+import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
 
 /**
  * @author kawsar.bhuiyan
@@ -74,5 +77,13 @@ public class UserHelper {
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message",
                 messageSource.getMessage(message, null, ENGLISH));
+    }
+
+    public void checkAccess(HttpServletRequest request, User user) {
+        User sessionUser = getSessionUser(request);
+
+        if (!(sessionUser.isAdmin() || sessionUser.equals(user))) {
+            throw new UnauthorizedException("You are not authorized to update this user");
+        }
     }
 }

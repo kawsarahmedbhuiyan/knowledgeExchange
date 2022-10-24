@@ -7,7 +7,6 @@ import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.Post;
 import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.helper.PostHelper;
-import net.therap.knowledgeExchange.service.AccessCheckerService;
 import net.therap.knowledgeExchange.service.ForumService;
 import net.therap.knowledgeExchange.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +25,7 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.therap.knowledgeExchange.common.Action.SAVE;
-import static net.therap.knowledgeExchange.common.Action.UPDATE;
+import static net.therap.knowledgeExchange.common.Action.*;
 import static net.therap.knowledgeExchange.controller.CommentController.COMMENT;
 import static net.therap.knowledgeExchange.controller.PostController.POST;
 import static net.therap.knowledgeExchange.utils.Constant.*;
@@ -59,9 +57,6 @@ public class PostController {
     @Autowired
     private ForumService forumService;
 
-    @Autowired
-    private AccessCheckerService accessCheckerService;
-
     @InitBinder(POST)
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
@@ -89,7 +84,7 @@ public class PostController {
 
         Post post = postService.findById(postId);
 
-        accessCheckerService.checkPostViewAccess(request, post);
+        postHelper.checkAccess(VIEW, request, post);
 
         postHelper.setUpReferenceData(post, request, model);
 
@@ -103,7 +98,7 @@ public class PostController {
 
         Forum forum = forumService.findById(forumId);
 
-        accessCheckerService.checkPostSaveAccess(request, forum);
+        postHelper.checkAccess(SAVE, request, forum);
 
         postHelper.setUpReferenceData(SAVE, forum, request, model);
 
@@ -117,7 +112,7 @@ public class PostController {
 
         Post post = postService.findById(postId);
 
-        accessCheckerService.checkPostUpdateAccess(request, post);
+        postHelper.checkAccess(UPDATE, request, post);
 
         postHelper.setUpReferenceData(UPDATE, post, model);
 
@@ -132,7 +127,7 @@ public class PostController {
                        SessionStatus sessionStatus,
                        RedirectAttributes redirectAttributes) {
 
-        accessCheckerService.checkPostSaveAccess(request, post.getForum());
+        postHelper.checkAccess(SAVE, request, post.getForum());
 
         if (errors.hasErrors()) {
             postHelper.setUpReferenceData(SAVE, model);
@@ -161,7 +156,7 @@ public class PostController {
                          SessionStatus sessionStatus,
                          RedirectAttributes redirectAttributes) {
 
-        accessCheckerService.checkPostUpdateAccess(request, post);
+        postHelper.checkAccess(UPDATE, request, post);
 
         if (errors.hasErrors()) {
             postHelper.setUpReferenceData(UPDATE, model);
@@ -189,7 +184,7 @@ public class PostController {
 
         Post post = postService.findById(postId);
 
-        accessCheckerService.checkManagerAccess(request, post.getForum());
+        postHelper.checkAccess(APPROVE, request, post.getForum());
 
         postService.approve(post);
 
@@ -205,7 +200,7 @@ public class PostController {
 
         Post post = postService.findById(postId);
 
-        accessCheckerService.checkManagerAccess(request, post.getForum());
+        postHelper.checkAccess(DECLINE, request, post.getForum());
 
         postService.decline(post);
 
@@ -221,7 +216,7 @@ public class PostController {
 
         Post post = postService.findById(postId);
 
-        accessCheckerService.checkPostDeleteAccess(request, post);
+        postHelper.checkAccess(DELETE, request, post);
 
         postService.delete(post);
 
@@ -236,7 +231,7 @@ public class PostController {
 
         Post post = postService.findById(postId);
 
-        accessCheckerService.checkPostLikeAccess(request, post);
+        postHelper.checkAccess(LIKE, request, post);
 
         User user = getSessionUser(request);
 
