@@ -26,4 +26,5 @@ dependencies {
     implementation 'javax.servlet:jstl:1.2'
     implementation 'mysql:mysql-connector-java:8.0.29'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+    implementation 'opensymphony:sitemesh:2.4.2'
 }
