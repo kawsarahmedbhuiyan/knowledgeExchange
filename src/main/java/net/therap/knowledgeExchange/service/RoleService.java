@@ -3,6 +3,8 @@ package net.therap.knowledgeExchange.service;
 import net.therap.knowledgeExchange.common.RoleType;
 import net.therap.knowledgeExchange.domain.Role;
 import net.therap.knowledgeExchange.exception.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,8 @@ import static net.therap.knowledgeExchange.utils.Constant.PERSISTENCE_UNIT;
 @Service
 public class RoleService {
 
+    private final Logger logger = LoggerFactory.getLogger(RoleService.class);
+
     @PersistenceContext(unitName = PERSISTENCE_UNIT)
     private EntityManager em;
 
@@ -28,7 +32,11 @@ public class RoleService {
         Role role = em.find(Role.class, id);
 
         if (isNull(role)) {
-            throw new NotFoundException("Role Not Found for ID=" + id);
+            String exceptionMessage = "Role Not Found for ID=" + id;
+
+            logger.error(exceptionMessage);
+
+            throw new NotFoundException(exceptionMessage);
         }
 
         return role;

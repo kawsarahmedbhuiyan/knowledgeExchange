@@ -26,10 +26,6 @@ public class EnrollmentService {
     @PersistenceContext(unitName = PERSISTENCE_UNIT)
     private EntityManager em;
 
-    public Enrollment findById(int id) {
-        return em.find(Enrollment.class, id);
-    }
-
     public List<Enrollment> findByUserAndStatus(User user, Status status) {
         return em.createNamedQuery("Enrollment.findByUserAndStatus", Enrollment.class)
                 .setParameter("user", user)

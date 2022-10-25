@@ -2,6 +2,8 @@ package net.therap.knowledgeExchange.service;
 
 import net.therap.knowledgeExchange.domain.Comment;
 import net.therap.knowledgeExchange.exception.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,8 @@ import static net.therap.knowledgeExchange.utils.Constant.PERSISTENCE_UNIT;
 @Service
 public class CommentService {
 
+    private final Logger logger = LoggerFactory.getLogger(CommentService.class);
+
     @PersistenceContext(unitName = PERSISTENCE_UNIT)
     private EntityManager em;
 
@@ -26,7 +30,11 @@ public class CommentService {
         Comment comment = em.find(Comment.class, id);
 
         if (isNull(comment)) {
-            throw new NotFoundException("Comment Not Found for ID=" + id);
+            String exceptionMessage = "Comment Not Found for ID=" + id;
+
+            logger.error(exceptionMessage);
+
+            throw new NotFoundException(exceptionMessage);
         }
 
         return comment;

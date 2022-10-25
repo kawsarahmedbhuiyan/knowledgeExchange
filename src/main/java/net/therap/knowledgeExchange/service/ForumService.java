@@ -4,6 +4,8 @@ import net.therap.knowledgeExchange.common.Status;
 import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.exception.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,8 @@ import static net.therap.knowledgeExchange.utils.Constant.PERSISTENCE_UNIT;
 @Service
 public class ForumService {
 
+    private final Logger logger = LoggerFactory.getLogger(ForumService.class);
+
     @PersistenceContext(unitName = PERSISTENCE_UNIT)
     private EntityManager em;
 
@@ -29,7 +33,11 @@ public class ForumService {
         Forum forum = em.find(Forum.class, id);
 
         if (isNull(forum)) {
-            throw new NotFoundException("Forum Not Found for ID=" + id);
+            String exceptionMessage = "Forum Not Found for ID=" + id;
+
+            logger.error(exceptionMessage);
+
+            throw new NotFoundException(exceptionMessage);
         }
 
         return forum;

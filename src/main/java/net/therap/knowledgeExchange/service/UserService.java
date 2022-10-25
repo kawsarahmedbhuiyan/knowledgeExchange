@@ -4,6 +4,8 @@ import net.therap.knowledgeExchange.domain.Credential;
 import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.exception.NotFoundException;
 import net.therap.knowledgeExchange.utils.HashGenerationUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,8 @@ import static net.therap.knowledgeExchange.utils.Constant.PERSISTENCE_UNIT;
 @Service
 public class UserService {
 
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
+
     @PersistenceContext(unitName = PERSISTENCE_UNIT)
     private EntityManager em;
 
@@ -29,7 +33,11 @@ public class UserService {
         User user = em.find(User.class, id);
 
         if (isNull(user)) {
-            throw new NotFoundException("User Not Found for ID=" + id);
+            String exceptionMessage = "User Not Found for ID=" + id;
+
+            logger.error(exceptionMessage);
+
+            throw new NotFoundException(exceptionMessage);
         }
 
         return user;

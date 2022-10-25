@@ -5,6 +5,8 @@ import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.domain.Post;
 import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.exception.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,8 @@ import static net.therap.knowledgeExchange.utils.Constant.PERSISTENCE_UNIT;
 @Service
 public class PostService {
 
+    private final Logger logger = LoggerFactory.getLogger(PostService.class);
+
     @PersistenceContext(unitName = PERSISTENCE_UNIT)
     private EntityManager em;
 
@@ -30,7 +34,11 @@ public class PostService {
         Post post = em.find(Post.class, id);
 
         if (isNull(post)) {
-            throw new NotFoundException("Post Not Found for ID=" + id);
+            String exceptionMessage = "Post Not Found for ID=" + id;
+
+            logger.error(exceptionMessage);
+
+            throw new NotFoundException(exceptionMessage);
         }
 
         return post;
