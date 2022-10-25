@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.util.Objects.hash;
 import static net.therap.knowledgeExchange.common.RoleType.ADMIN;
 import static net.therap.knowledgeExchange.common.Status.NEW;
 
@@ -173,11 +174,13 @@ public class User extends Persistent {
             return false;
         }
 
-        return id != 0 && id == ((User) o).getId();
+        User user = (User) o;
+
+        return getId() == user.getId();
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return hash(getId());
     }
 }

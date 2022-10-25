@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.util.Objects.hash;
+
 /**
  * @author kawsar.bhuiyan
  * @since 10/13/22
@@ -87,11 +89,13 @@ public class Role extends Persistent {
             return false;
         }
 
-        return id != 0 && id == ((Role) o).getId();
+        Role role = (Role) o;
+
+        return getId() == role.getId();
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return hash(getId());
     }
 }

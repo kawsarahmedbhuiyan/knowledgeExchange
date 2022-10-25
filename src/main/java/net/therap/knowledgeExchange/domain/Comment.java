@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import static java.util.Objects.hash;
 import static net.therap.knowledgeExchange.common.Status.NEW;
 
 /**
@@ -102,11 +103,13 @@ public class Comment extends Persistent {
             return false;
         }
 
-        return id != 0 && id == ((Comment) o).getId();
+        Comment comment = (Comment) o;
+
+        return getId() == comment.getId();
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return hash(getId());
     }
 }

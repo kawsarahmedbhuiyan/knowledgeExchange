@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.util.Objects.hash;
 import static net.therap.knowledgeExchange.common.Status.DELETED;
 import static net.therap.knowledgeExchange.common.Status.PENDING;
 
@@ -167,11 +168,13 @@ public class Post extends Persistent {
             return false;
         }
 
-        return id != 0 && id == ((Post) o).getId();
+        Post post = (Post) o;
+
+        return getId() == post.getId();
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return hash(getId());
     }
 }

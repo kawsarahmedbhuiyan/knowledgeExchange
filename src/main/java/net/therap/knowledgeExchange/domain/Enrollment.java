@@ -5,6 +5,7 @@ import net.therap.knowledgeExchange.common.Status;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import static java.util.Objects.hash;
 import static net.therap.knowledgeExchange.common.Status.PENDING;
 
 /**
@@ -103,11 +104,13 @@ public class Enrollment extends Persistent {
             return false;
         }
 
-        return id != 0 && id == ((Enrollment) o).getId();
+        Enrollment enrollment = (Enrollment) o;
+
+        return getId() == enrollment.getId();
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return hash(getId());
     }
 }

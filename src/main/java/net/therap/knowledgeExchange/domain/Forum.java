@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.util.Objects.hash;
 import static net.therap.knowledgeExchange.common.Status.PENDING;
 
 /**
@@ -137,11 +138,13 @@ public class Forum extends Persistent {
             return false;
         }
 
-        return id != 0 && id == ((Forum) o).getId();
+        Forum forum = (Forum) o;
+
+        return getId() == forum.getId();
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return hash(getId());
     }
 }

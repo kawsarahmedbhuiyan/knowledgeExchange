@@ -32,4 +32,12 @@ public class ControllerExceptionHandler {
 
         return ERROR_PAGE;
     }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception exception, Model model) {
+        model.addAttribute("exceptionMessage", exception.getMessage());
+
+        return ERROR_PAGE;
+    }
 }
