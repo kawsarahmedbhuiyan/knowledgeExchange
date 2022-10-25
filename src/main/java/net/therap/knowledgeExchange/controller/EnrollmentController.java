@@ -51,7 +51,6 @@ public class EnrollmentController {
                          RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
-
         User user = getSessionUser(request);
 
         enrollmentService.enroll(forum, user);
@@ -67,14 +66,12 @@ public class EnrollmentController {
                            RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
-
         User user = getSessionUser(request);
-
         Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
 
-        enrollmentHelper.setUpFlashData(ENROLLMENT_CANCELLED_MESSAGE, redirectAttributes);
-
         enrollmentService.delete(enrollment);
+
+        enrollmentHelper.setUpFlashData(ENROLLMENT_CANCELLED_MESSAGE, redirectAttributes);
 
         return redirectTo(FORUM_VIEW + forumId);
     }
@@ -86,9 +83,7 @@ public class EnrollmentController {
                           RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
-
         User user = userService.findById(userId);
-
         Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
 
         enrollmentHelper.checkAccess(APPROVE, request, enrollment);
@@ -107,9 +102,7 @@ public class EnrollmentController {
                           RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
-
         User user = userService.findById(userId);
-
         Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
 
         enrollmentHelper.checkAccess(DECLINE, request, enrollment);
@@ -128,9 +121,7 @@ public class EnrollmentController {
                          RedirectAttributes redirectAttributes) {
 
         Forum forum = forumService.findById(forumId);
-
         User user = userService.findById(userId);
-
         Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
 
         enrollmentHelper.checkAccess(DELETE, request, enrollment);

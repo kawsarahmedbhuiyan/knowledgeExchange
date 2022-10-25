@@ -137,13 +137,13 @@ public class PostController {
 
         postService.saveOrUpdate(post);
 
+        sessionStatus.setComplete();
+
         if (post.getUser().equals(post.getForum().getManager())) {
             postHelper.setUpFlashData(POST_ADDED_MESSAGE, redirectAttributes);
         } else {
             postHelper.setUpFlashData(POST_PENDING_APPROVAL_MESSAGE, redirectAttributes);
         }
-
-        sessionStatus.setComplete();
 
         return redirectTo(FORUM_VIEW + post.getForum().getId());
     }
@@ -166,13 +166,13 @@ public class PostController {
 
         postService.saveOrUpdate(post);
 
+        sessionStatus.setComplete();
+
         if (post.getUser().equals(post.getForum().getManager())) {
             postHelper.setUpFlashData(POST_UPDATED_MESSAGE, redirectAttributes);
         } else {
             postHelper.setUpFlashData(POST_PENDING_APPROVAL_MESSAGE, redirectAttributes);
         }
-
-        sessionStatus.setComplete();
 
         return redirectTo(FORUM_VIEW + post.getForum().getId());
     }
