@@ -76,7 +76,7 @@ public class Role extends Persistent {
     }
 
     public boolean isNew() {
-        return getId() == 0;
+        return this.id == 0;
     }
 
     @Override

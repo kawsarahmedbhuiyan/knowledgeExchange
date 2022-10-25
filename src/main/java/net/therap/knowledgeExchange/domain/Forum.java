@@ -121,7 +121,7 @@ public class Forum extends Persistent {
     }
 
     public boolean isNew() {
-        return getId() == 0;
+        return this.id == 0;
     }
 
     public boolean isManagedByUser(User user) {
