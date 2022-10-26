@@ -6,6 +6,8 @@ import net.therap.knowledgeExchange.domain.Forum;
 import net.therap.knowledgeExchange.helper.ForumHelper;
 import net.therap.knowledgeExchange.service.EnrollmentService;
 import net.therap.knowledgeExchange.service.ForumService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -41,6 +43,8 @@ public class ForumController {
     private static final String FORUM_VIEW_PAGE = "/forum/view";
     private static final String FORUM_FORM_PAGE = "/forum/form";
     private static final String FORUM_LIST_PAGE = "/forum/list";
+
+    private final Logger logger = LoggerFactory.getLogger(ForumController.class);
 
     @Autowired
     private ForumHelper forumHelper;
@@ -111,6 +115,8 @@ public class ForumController {
             return FORUM_FORM_PAGE;
         }
 
+        logger.debug("[Forum]: SAVE with id : {}", forum.getId());
+
         forumService.saveOrUpdate(forum);
 
         sessionStatus.setComplete();
@@ -128,6 +134,8 @@ public class ForumController {
         Forum forum = forumService.findById(forumId);
 
         forumHelper.checkAccess(APPROVE, request, forum);
+
+        logger.debug("[Forum]: Approve with id : {}", forum.getId());
 
         forumService.approve(forum);
 
@@ -147,6 +155,8 @@ public class ForumController {
 
         forumHelper.checkAccess(DECLINE, request, forum);
 
+        logger.debug("[Forum]: DECLINE with id : {}", forum.getId());
+
         forumService.decline(forum);
 
         forumHelper.setUpFlashData(FORUM_DECLINED_MESSAGE, redirectAttributes);
@@ -162,6 +172,8 @@ public class ForumController {
         Forum forum = forumService.findById(forumId);
 
         forumHelper.checkAccess(DELETE, request, forum);
+
+        logger.debug("[Forum]: DELETE with id : {}", forum.getId());
 
         forumService.delete(forum);
 

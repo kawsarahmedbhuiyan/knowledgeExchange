@@ -18,8 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static java.util.Locale.ENGLISH;
-import static net.therap.knowledgeExchange.common.Status.APPROVED;
-import static net.therap.knowledgeExchange.common.Status.PENDING;
+import static net.therap.knowledgeExchange.common.Status.*;
 import static net.therap.knowledgeExchange.controller.PostController.POST;
 import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
 
@@ -59,9 +58,9 @@ public class PostHelper {
     public void setUpReferenceData(Action action, Forum forum, HttpServletRequest request, ModelMap model) {
         User user = getSessionUser(request);
 
-        if(user.equals(forum.getManager())) {
+        if (user.equals(forum.getManager())) {
             model.addAttribute(POST, new Post(user, forum, APPROVED));
-        }else{
+        } else {
             model.addAttribute(POST, new Post(user, forum, PENDING));
         }
 
@@ -69,7 +68,7 @@ public class PostHelper {
     }
 
     public void setUpReferenceData(Action action, Post post, ModelMap model) {
-        if(!post.getUser().equals(post.getForum().getManager())) {
+        if (!post.getUser().equals(post.getForum().getManager())) {
             post.setStatus(PENDING);
         }
 
@@ -93,14 +92,16 @@ public class PostHelper {
             case VIEW:
             case LIKE:
                 if (post.getForum().getEnrollments().stream()
-                        .noneMatch(enrollment -> sessionUser.equals(enrollment.getUser()))) {
-                    throw new UnauthorizedException("You must join this forum");
+                        .noneMatch(enrollment -> sessionUser.equals(enrollment.getUser())) ||
+                        DELETED.equals(post.getStatus())) {
+
+                    throw new UnauthorizedException("You are not authorized");
                 }
 
                 break;
 
             case UPDATE:
-                if (!sessionUser.equals(post.getUser())) {
+                if (!sessionUser.equals(post.getUser()) || DELETED.equals(post.getStatus())) {
                     throw new UnauthorizedException("You are not authorized to update this post");
                 }
 
@@ -133,6 +134,9 @@ public class PostHelper {
                 }
 
                 break;
+
+            default:
+                throw new RuntimeException("Unauthorized");
         }
     }
 }

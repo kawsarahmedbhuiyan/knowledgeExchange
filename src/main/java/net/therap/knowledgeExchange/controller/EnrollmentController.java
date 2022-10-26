@@ -7,6 +7,8 @@ import net.therap.knowledgeExchange.helper.EnrollmentHelper;
 import net.therap.knowledgeExchange.service.EnrollmentService;
 import net.therap.knowledgeExchange.service.ForumService;
 import net.therap.knowledgeExchange.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RequestMapping("/enrollment")
 public class EnrollmentController {
 
+    private final Logger logger = LoggerFactory.getLogger(EnrollmentController.class);
+
     @Autowired
     private ForumService forumService;
 
@@ -53,6 +57,8 @@ public class EnrollmentController {
         Forum forum = forumService.findById(forumId);
         User user = getSessionUser(request);
 
+        logger.debug("[Enrollment]: ENROLL with forum_id : {} and user_id : {}", forum.getId(), user.getId());
+
         enrollmentService.enroll(forum, user);
 
         enrollmentHelper.setUpFlashData(ENROLLMENT_PENDING_MESSAGE, redirectAttributes);
@@ -68,6 +74,8 @@ public class EnrollmentController {
         Forum forum = forumService.findById(forumId);
         User user = getSessionUser(request);
         Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
+
+        logger.debug("[Enrollment]: UNENROLL with forum_id : {} and user_id : {}", forum.getId(), user.getId());
 
         enrollmentService.delete(enrollment);
 
@@ -88,6 +96,8 @@ public class EnrollmentController {
 
         enrollmentHelper.checkAccess(APPROVE, request, enrollment);
 
+        logger.debug("[Enrollment]: APPROVE with forum_id : {} and user_id : {}", forum.getId(), user.getId());
+
         enrollmentService.approve(enrollment);
 
         enrollmentHelper.setUpFlashData(MEMBER_APPROVED_MESSAGE, redirectAttributes);
@@ -104,6 +114,8 @@ public class EnrollmentController {
         Forum forum = forumService.findById(forumId);
         User user = userService.findById(userId);
         Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
+
+        logger.debug("[Enrollment]: DECLINE with forum_id : {} and user_id : {}", forum.getId(), user.getId());
 
         enrollmentHelper.checkAccess(DECLINE, request, enrollment);
 
@@ -123,6 +135,8 @@ public class EnrollmentController {
         Forum forum = forumService.findById(forumId);
         User user = userService.findById(userId);
         Enrollment enrollment = enrollmentService.findByForumAndUser(forum, user);
+
+        logger.debug("[Enrollment]: DELETE with forum_id : {} and user_id : {}", forum.getId(), user.getId());
 
         enrollmentHelper.checkAccess(DELETE, request, enrollment);
 

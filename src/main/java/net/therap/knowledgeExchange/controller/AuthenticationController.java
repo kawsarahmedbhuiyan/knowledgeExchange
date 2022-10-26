@@ -6,6 +6,8 @@ import net.therap.knowledgeExchange.helper.AuthenticationHelper;
 import net.therap.knowledgeExchange.service.UserService;
 import net.therap.knowledgeExchange.validator.CredentialValidator;
 import net.therap.knowledgeExchange.validator.UserValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
+    private final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
+
     @Autowired
     private UserService userService;
 
@@ -50,17 +54,18 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationHelper authenticationHelper;
 
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
+    @InitBinder(CREDENTIAL)
+    public void initBinderForCredential(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-
         binder.setDisallowedFields("id");
+        binder.addValidators(credentialValidator);
+    }
 
-        if (CREDENTIAL.equals(binder.getObjectName())) {
-            binder.addValidators(credentialValidator);
-        } else {
-            binder.addValidators(userValidator);
-        }
+    @InitBinder(USER)
+    public void initBinderForUser(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+        binder.setDisallowedFields("id");
+        binder.addValidators(userValidator);
     }
 
     @RequestMapping(value = "/login", method = GET)
@@ -114,6 +119,8 @@ public class AuthenticationController {
         if (errors.hasErrors()) {
             return REGISTRATION_PAGE;
         }
+
+        logger.debug("[Authentication]: REGISTER with user_id : {}", user.getId());
 
         userService.saveOrUpdate(user);
 

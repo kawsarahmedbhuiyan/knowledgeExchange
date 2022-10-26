@@ -9,6 +9,8 @@ import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.helper.PostHelper;
 import net.therap.knowledgeExchange.service.ForumService;
 import net.therap.knowledgeExchange.service.PostService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
@@ -47,6 +49,8 @@ public class PostController {
     private static final String POST_VIEW_PAGE = "/post/view";
     private static final String POST_FORM_PAGE = "/post/form";
     private static final String POST_LIST_PAGE = "/post/list";
+
+    private final Logger logger = LoggerFactory.getLogger(PostController.class);
 
     @Autowired
     private PostHelper postHelper;
@@ -135,6 +139,8 @@ public class PostController {
             return POST_FORM_PAGE;
         }
 
+        logger.debug("[Post]: SAVE with id : {}", post.getId());
+
         postService.saveOrUpdate(post);
 
         sessionStatus.setComplete();
@@ -164,6 +170,8 @@ public class PostController {
             return POST_FORM_PAGE;
         }
 
+        logger.debug("[Post]: UPDATE with id : {}", post.getId());
+
         postService.saveOrUpdate(post);
 
         sessionStatus.setComplete();
@@ -186,6 +194,8 @@ public class PostController {
 
         postHelper.checkAccess(APPROVE, request, post.getForum());
 
+        logger.debug("[Post]: APPROVE with id : {}", post.getId());
+
         postService.approve(post);
 
         postHelper.setUpFlashData(POST_APPROVED_MESSAGE, redirectAttributes);
@@ -201,6 +211,8 @@ public class PostController {
         Post post = postService.findById(postId);
 
         postHelper.checkAccess(DECLINE, request, post.getForum());
+
+        logger.debug("[Post]: DECLINE with id : {}", post.getId());
 
         postService.decline(post);
 
@@ -218,6 +230,8 @@ public class PostController {
 
         postHelper.checkAccess(DELETE, request, post);
 
+        logger.debug("[Post]: DELETE with id : {}", post.getId());
+
         postService.delete(post);
 
         postHelper.setUpFlashData(POST_DELETED_MESSAGE, redirectAttributes);
@@ -234,6 +248,8 @@ public class PostController {
         postHelper.checkAccess(LIKE, request, post);
 
         User user = getSessionUser(request);
+
+        logger.debug("[Post]: LIKE with id : {}", post.getId());
 
         postService.addOrRemoveLike(post, user);
 

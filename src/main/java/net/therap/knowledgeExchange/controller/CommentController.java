@@ -3,6 +3,8 @@ package net.therap.knowledgeExchange.controller;
 import net.therap.knowledgeExchange.domain.Comment;
 import net.therap.knowledgeExchange.helper.CommentHelper;
 import net.therap.knowledgeExchange.service.CommentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -35,6 +37,8 @@ public class CommentController {
 
     public static final String COMMENT = "comment";
     private static final String COMMENT_FORM_PAGE = "/comment/form";
+
+    private final Logger logger = LoggerFactory.getLogger(CommentController.class);
 
     @Autowired
     private CommentHelper commentHelper;
@@ -79,6 +83,8 @@ public class CommentController {
             return COMMENT_FORM_PAGE;
         }
 
+        logger.debug("[Comment]: SAVE with id : {}", comment.getId());
+
         commentService.saveOrUpdate(comment);
 
         commentHelper.setUpFlashData(COMMENT_ADDED_MESSAGE, redirectAttributes);
@@ -104,6 +110,8 @@ public class CommentController {
             return COMMENT_FORM_PAGE;
         }
 
+        logger.debug("[Comment]: UPDATE with id : {}", comment.getId());
+
         commentService.saveOrUpdate(comment);
 
         commentHelper.setUpFlashData(COMMENT_UPDATED_MESSAGE, redirectAttributes);
@@ -121,6 +129,8 @@ public class CommentController {
         Comment comment = commentService.findById(commentId);
 
         commentHelper.checkAccess(DELETE, request, comment);
+
+        logger.debug("[Comment]: DELETE with id : {}", comment.getId());
 
         commentService.delete(comment);
 

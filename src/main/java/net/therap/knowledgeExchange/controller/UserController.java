@@ -8,6 +8,8 @@ import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.helper.UserHelper;
 import net.therap.knowledgeExchange.service.ForumService;
 import net.therap.knowledgeExchange.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -43,6 +45,8 @@ public class UserController {
     private static final String USER_LIST_PAGE = "/user/list";
     private static final String USER_FORM_PAGE = "/user/form";
     private static final String USER_VIEW_PAGE = "/user/view";
+
+    private final Logger logger= LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private RoleEditor roleEditor;
@@ -116,6 +120,8 @@ public class UserController {
 
             return USER_FORM_PAGE;
         }
+
+        logger.debug("[User]: UPDATE with id : {}", user.getId());
 
         userService.saveOrUpdate(user);
 

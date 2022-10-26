@@ -5,7 +5,6 @@ import net.therap.knowledgeExchange.domain.Comment;
 import net.therap.knowledgeExchange.domain.Post;
 import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.exception.UnauthorizedException;
-import net.therap.knowledgeExchange.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -15,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 
 import static java.util.Locale.ENGLISH;
+import static net.therap.knowledgeExchange.common.Status.DELETED;
 import static net.therap.knowledgeExchange.controller.CommentController.COMMENT;
 import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
 
@@ -27,9 +27,6 @@ public class CommentHelper {
 
     @Autowired
     private MessageSource messageSource;
-
-    @Autowired
-    private UserService userService;
 
     public void setUpReferenceData(Action action, Post post, HttpServletRequest request, ModelMap model) {
         User user = getSessionUser(request);
@@ -65,7 +62,7 @@ public class CommentHelper {
                 break;
 
             case UPDATE:
-                if (!sessionUser.equals(comment.getUser())) {
+                if (!sessionUser.equals(comment.getUser()) || DELETED.equals(comment.getStatus())) {
                     throw new UnauthorizedException("You are not authorized to update this comment");
                 }
 
@@ -78,6 +75,9 @@ public class CommentHelper {
                 }
 
                 break;
+
+            default:
+                throw new RuntimeException("Unauthorized");
         }
     }
 }
