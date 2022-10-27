@@ -18,7 +18,7 @@
 <button type="button" class="btn btn-dark" onclick="history.back()"><fmt:message key="btn.back"/></button>
 <h1><fmt:message key="title.register"/></h1>
 
-<form:form method="POST" action="/auth/register" modelAttribute="user">
+<form:form method="POST" action="/register" modelAttribute="user">
     <form:label path="username"><fmt:message key="label.username"/></form:label>
     <form:input class="form-control" path="username"/>
     <form:errors path="username" cssStyle="color: red"/>

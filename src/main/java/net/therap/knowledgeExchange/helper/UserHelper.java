@@ -9,7 +9,7 @@ import net.therap.knowledgeExchange.service.EnrollmentService;
 import net.therap.knowledgeExchange.service.ForumService;
 import net.therap.knowledgeExchange.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Locale.ENGLISH;
 import static net.therap.knowledgeExchange.common.Action.VIEW;
 import static net.therap.knowledgeExchange.common.Status.APPROVED;
 import static net.therap.knowledgeExchange.controller.UserController.USER;
@@ -32,7 +31,7 @@ import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
 public class UserHelper {
 
     @Autowired
-    private MessageSource messageSource;
+    private MessageSourceAccessor msa;
 
     @Autowired
     private RoleService roleService;
@@ -76,7 +75,7 @@ public class UserHelper {
 
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message",
-                messageSource.getMessage(message, null, ENGLISH));
+                msa.getMessage(message));
     }
 
     public void checkAccess(HttpServletRequest request, User user) {

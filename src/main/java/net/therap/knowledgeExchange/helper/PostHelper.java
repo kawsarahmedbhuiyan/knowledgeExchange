@@ -9,7 +9,7 @@ import net.therap.knowledgeExchange.domain.User;
 import net.therap.knowledgeExchange.exception.UnauthorizedException;
 import net.therap.knowledgeExchange.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static java.util.Locale.ENGLISH;
 import static net.therap.knowledgeExchange.common.Status.*;
 import static net.therap.knowledgeExchange.controller.PostController.POST;
 import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
@@ -30,7 +29,7 @@ import static net.therap.knowledgeExchange.utils.SessionUtil.getSessionUser;
 public class PostHelper {
 
     @Autowired
-    private MessageSource messageSource;
+    private MessageSourceAccessor msa;
 
     @Autowired
     private PostService postService;
@@ -82,7 +81,7 @@ public class PostHelper {
 
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message",
-                messageSource.getMessage(message, null, ENGLISH));
+                msa.getMessage(message));
     }
 
     public void checkAccess(Action action, HttpServletRequest request, Post post) {

@@ -24,7 +24,7 @@
                     </li>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <li class="nav-item">
-                        <c:url var="logout" value="/auth/logout">
+                        <c:url var="logout" value="/logout">
                         </c:url>
                         <a href="${logout}">
                             <button type="button" class="btn btn-outline-light"><fmt:message key="btn.logout"/></button>

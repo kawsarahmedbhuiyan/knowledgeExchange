@@ -18,7 +18,7 @@
 <div class="card">
     <div class="card-body">
         <h1><fmt:message key="title.login"/></h1>
-        <form:form class="form-group" method="POST" action="/auth/login" modelAttribute="credential">
+        <form:form class="form-group" method="POST" action="/login" modelAttribute="credential">
             <form:errors path="" cssStyle="color: red"/><br/>
             <form:label path="username"><fmt:message key="label.username"/></form:label>
             <form:input class="form-control" path="username"/>
@@ -32,7 +32,7 @@
         </form:form>
         <h2><fmt:message key="title.dontHaveAnAccount"/></h2>
         <br/>
-        <c:url var="register" value="/auth/register"/>
+        <c:url var="register" value="/register"/>
         <a href="${register}">
             <button type="button" class="btn btn-primary"><fmt:message key="btn.register"/></button>
         </a>

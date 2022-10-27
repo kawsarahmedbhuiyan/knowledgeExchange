@@ -2,7 +2,8 @@
 
 <decorators defaultdir="/WEB-INF/decorators">
     <decorator name="main" page="main.jsp">
-        <pattern>/auth/*</pattern>
+        <pattern>/login</pattern>
+        <pattern>/register</pattern>
         <pattern>/user/update</pattern>
         <pattern>/forum/save</pattern>
         <pattern>/post/save</pattern>
