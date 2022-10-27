@@ -35,7 +35,7 @@ public class CredentialValidator implements Validator {
         credential.setPassword(HashGenerationUtil.getHashedValue(credential.getPassword()));
 
         if (!userService.isValidCredential(credential)) {
-            errors.reject("invalid.credential");
+            errors.reject("invalid.credential", "Invalid Username and/or Password");
         }
     }
 }

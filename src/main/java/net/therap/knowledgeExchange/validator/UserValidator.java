@@ -27,7 +27,8 @@ public class UserValidator implements Validator {
         User user = (User) target;
 
         if (userService.isDuplicateByUsername(user)) {
-            errors.rejectValue("username", "duplicate.username");
+            errors.rejectValue("username", "duplicate.username",
+                    "A user with this username already exists!");
         }
     }
 }
