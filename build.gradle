@@ -3,7 +3,7 @@ plugins {
     id 'war'
 }
 
-group 'net.therap'
+group 'com.kawsar'
 version '1.0-SNAPSHOT'
 
 repositories {

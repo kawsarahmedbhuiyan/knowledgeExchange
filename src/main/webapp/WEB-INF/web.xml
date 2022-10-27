@@ -34,7 +34,7 @@
 
     <filter>
         <filter-name>authCheckFilter</filter-name>
-        <filter-class>net.therap.knowledgeExchange.filter.AuthCheckFilter</filter-class>
+        <filter-class>com.kawsar.knowledgeExchange.filter.AuthCheckFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>authCheckFilter</filter-name>
@@ -45,7 +45,7 @@
 
     <filter>
         <filter-name>cacheClearFilter</filter-name>
-        <filter-class>net.therap.knowledgeExchange.filter.CacheClearFilter</filter-class>
+        <filter-class>com.kawsar.knowledgeExchange.filter.CacheClearFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>cacheClearFilter</filter-name>
