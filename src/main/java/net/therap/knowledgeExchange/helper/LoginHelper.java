@@ -24,7 +24,6 @@ public class LoginHelper {
     }
 
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("message",
-                msa.getMessage(message));
+        redirectAttributes.addFlashAttribute("message", msa.getMessage(message));
     }
 }

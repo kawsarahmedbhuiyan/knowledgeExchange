@@ -6,7 +6,9 @@
         <pattern>/register</pattern>
         <pattern>/user/update</pattern>
         <pattern>/forum/save</pattern>
+        <pattern>/forum/index</pattern>
         <pattern>/post/save</pattern>
         <pattern>/post/update</pattern>
+        <pattern>/post/index</pattern>
     </decorator>
 </decorators>

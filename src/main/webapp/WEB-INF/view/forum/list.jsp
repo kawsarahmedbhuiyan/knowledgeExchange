@@ -98,38 +98,35 @@
                                 </td>
                                 <c:if test="${ADMIN}">
                                     <td>
-                                        <c:url var="forumApproveLink" value="/forum/approve">
+                                        <c:url var="forumActionLink" value="/forum/index">
                                             <c:param name="forumId" value="${forum.id}"/>
                                         </c:url>
-                                        <c:url var="forumDeclineLink" value="/forum/decline">
-                                            <c:param name="forumId" value="${forum.id}"/>
-                                        </c:url>
-                                        <c:url var="forumDeleteLink" value="/forum/delete">
-                                            <c:param name="forumId" value="${forum.id}"/>
-                                        </c:url>
-
                                         <c:choose>
                                             <c:when test="${PENDING}">
-                                                <form action="${forumApproveLink}" method="post">
-                                                    <button class="btn btn-success"><fmt:message
-                                                            key="btn.approve"/></button>
+                                                <form action="${forumActionLink}" method="post">
+                                                    <button name="_action_approve" class="btn btn-success">
+                                                        <fmt:message key="btn.approve"/>
+                                                    </button>
                                                 </form>
-                                                <form action="${forumDeclineLink}" method="post">
-                                                    <button class="btn btn-danger"><fmt:message
-                                                            key="btn.decline"/></button>
+                                                <form action="${forumActionLink}" method="post">
+                                                    <button name="_action_decline" class="btn btn-danger">
+                                                        <fmt:message key="btn.decline"/>
+                                                    </button>
                                                 </form>
                                             </c:when>
                                             <c:when test="${APPROVED}">
-                                                <form action="${forumDeleteLink}" method="post"
+                                                <form action="${forumActionLink}" method="post"
                                                       onSubmit="return confirm('<fmt:message key="forumDeleteConfirmationMessage"/>');">
-                                                    <button class="btn btn-danger"><fmt:message
-                                                            key="btn.delete"/></button>
+                                                    <button name="_action_delete" class="btn btn-danger">
+                                                        <fmt:message key="btn.delete"/>
+                                                    </button>
                                                 </form>
                                             </c:when>
                                             <c:when test="${DECLINED}">
-                                                <form action="${forumApproveLink}" method="post">
-                                                    <button class="btn btn-success"><fmt:message
-                                                            key="btn.approve"/></button>
+                                                <form action="${forumActionLink}" method="post">
+                                                    <button name="_action_approve" class="btn btn-success">
+                                                        <fmt:message key="btn.approve"/>
+                                                    </button>
                                                 </form>
                                             </c:when>
                                         </c:choose>

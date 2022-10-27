@@ -74,8 +74,7 @@ public class UserHelper {
     }
 
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("message",
-                msa.getMessage(message));
+        redirectAttributes.addFlashAttribute("message", msa.getMessage(message));
     }
 
     public void checkAccess(HttpServletRequest request, User user) {

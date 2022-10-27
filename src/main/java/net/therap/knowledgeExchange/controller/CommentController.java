@@ -67,7 +67,7 @@ public class CommentController {
         return COMMENT_FORM_PAGE;
     }
 
-    @RequestMapping(value = "/save", method = POST)
+    @RequestMapping(value="/index", params = {"_action_save"}, method = POST)
     public String save(@Valid @ModelAttribute Comment comment,
                        Errors errors,
                        HttpServletRequest request,
@@ -94,7 +94,7 @@ public class CommentController {
         return redirectTo(POST_VIEW + comment.getPost().getId());
     }
 
-    @RequestMapping(value = "/update", method = POST)
+    @RequestMapping(value="/index", params = {"_action_update"}, method = POST)
     public String update(@Valid @ModelAttribute Comment comment,
                          Errors errors,
                          HttpServletRequest request,
@@ -121,7 +121,7 @@ public class CommentController {
         return redirectTo(POST_VIEW + comment.getPost().getId());
     }
 
-    @RequestMapping(value = "/delete", method = POST)
+    @RequestMapping(value="/index", params = {"_action_delete"}, method = POST)
     public String delete(@RequestParam int commentId,
                          HttpServletRequest request,
                          RedirectAttributes redirectAttributes) {

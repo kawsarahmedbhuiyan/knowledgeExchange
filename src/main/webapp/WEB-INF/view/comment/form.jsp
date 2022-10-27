@@ -30,11 +30,11 @@
         <br/>
     </c:if>
     <fmt:message key="label.writeComment" var="writeComment"/>
-    <form:form method="POST" action="/comment/${action}" modelAttribute="comment">
+    <form:form method="POST" action="/comment/index" modelAttribute="comment">
         <form:textarea class="form-control" placeholder="${writeComment}" rows="5" path="body"/><br/>
         <form:errors path="body" cssStyle="color: red"/>
         <br/>
-        <button class="btn btn-success"><fmt:message key="btn.${action}"/></button>
+        <button name="_action_${action}" class="btn btn-success"><fmt:message key="btn.${action}"/></button>
     </form:form>
     <c:if test="${action == 'update'}">
         <br/>

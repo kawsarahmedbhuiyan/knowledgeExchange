@@ -123,7 +123,7 @@ public class PostController {
         return POST_FORM_PAGE;
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/index", params = {"_action_save"}, method = RequestMethod.POST)
     public String save(@Valid @ModelAttribute Post post,
                        Errors errors,
                        HttpServletRequest request,
@@ -154,7 +154,7 @@ public class PostController {
         return redirectTo(FORUM_VIEW + post.getForum().getId());
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/index", params = {"_action_update"}, method = RequestMethod.POST)
     public String update(@Valid @ModelAttribute Post post,
                          Errors errors,
                          HttpServletRequest request,
@@ -185,7 +185,7 @@ public class PostController {
         return redirectTo(FORUM_VIEW + post.getForum().getId());
     }
 
-    @RequestMapping(value = "/approve", method = RequestMethod.POST)
+    @RequestMapping(value = "/index", params = {"_action_approve"}, method = RequestMethod.POST)
     public String approve(@RequestParam int postId,
                           HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
@@ -203,7 +203,7 @@ public class PostController {
         return redirectTo(FORUM_VIEW + post.getForum().getId());
     }
 
-    @RequestMapping(value = "/decline", method = RequestMethod.POST)
+    @RequestMapping(value = "/index", params = {"_action_decline"}, method = RequestMethod.POST)
     public String decline(@RequestParam int postId,
                           HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
@@ -221,7 +221,7 @@ public class PostController {
         return redirectTo(FORUM_VIEW + post.getForum().getId());
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/index", params = {"_action_delete"}, method = RequestMethod.POST)
     public String delete(@RequestParam int postId,
                          HttpServletRequest request,
                          RedirectAttributes redirectAttributes) {

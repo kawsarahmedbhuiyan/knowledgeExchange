@@ -44,8 +44,7 @@ public class CommentHelper {
     }
 
     public void setUpFlashData(String message, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("message",
-                msa.getMessage(message));
+        redirectAttributes.addFlashAttribute("message", msa.getMessage(message));
     }
 
     public void checkAccess(Action action, HttpServletRequest request, Comment comment) {

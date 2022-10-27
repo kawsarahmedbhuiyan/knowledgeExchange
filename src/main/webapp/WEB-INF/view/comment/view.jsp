@@ -48,12 +48,14 @@
             </a>
         </c:if>
         <c:if test="${ADMIN || SESSION_USER == forum.manager|| SESSION_USER == post.user}">
-            <c:url var="commentDeleteLink" value="/comment/delete">
+            <c:url var="commentActionLink" value="/comment/index">
                 <c:param name="commentId" value="${comment.id}"/>
             </c:url>
-            <form action="${commentDeleteLink}" method="post"
+            <form action="${commentActionLink}" method="post"
                   onSubmit="return confirm('<fmt:message key="commentDeleteConfirmationMessage"/>');">
-                <button class="btn btn-danger d-inline mx-1"><fmt:message key="btn.delete"/></button>
+                <button name="_action_delete" class="btn btn-danger d-inline mx-1">
+                    <fmt:message key="btn.delete"/>
+                </button>
             </form>
         </c:if>
     </div>

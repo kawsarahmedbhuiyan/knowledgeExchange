@@ -70,12 +70,14 @@
                     </a>
                 </c:if>
                 <c:if test="${ADMIN || SESSION_USER == forum.manager|| SESSION_USER == post.user}">
-                    <c:url var="postDeleteLink" value="/post/delete">
+                    <c:url var="postActionLink" value="/post/index">
                         <c:param name="postId" value="${post.id}"/>
                     </c:url>
-                    <form action="${postDeleteLink}" method="post"
+                    <form action="${postActionLink}" method="post"
                           onSubmit="return confirm('<fmt:message key="postDeleteConfirmationMessage"/>');">
-                        <button class="btn btn-danger d-inline mx-1"><fmt:message key="btn.delete"/></button>
+                        <button name="_action_delete" class="btn btn-danger d-inline mx-1">
+                            <fmt:message key="btn.delete"/>
+                        </button>
                     </form>
                 </c:if>
             </div>
@@ -97,20 +99,21 @@
         <div class="card-body">
             <p class="card-text"><c:out value="${post.body}"/></p>
             <c:if test="${SESSION_USER == forum.manager}">
-                <c:url var="postApproveLink" value="/post/approve">
-                    <c:param name="postId" value="${post.id}"/>
-                </c:url>
-                <c:url var="postDeclineLink" value="/post/decline">
+                <c:url var="postActionLink" value="/post/index">
                     <c:param name="postId" value="${post.id}"/>
                 </c:url>
                 <c:if test="${PENDING || DECLINED}">
-                    <form action="${postApproveLink}" method="post">
-                        <button class="btn btn-success"><fmt:message key="btn.approve"/></button>
+                    <form action="${postActionLink}" method="post">
+                        <button name="_action_approve" class="btn btn-success">
+                            <fmt:message key="btn.approve"/>
+                        </button>
                     </form>
                 </c:if>
                 <c:if test="${PENDING}">
-                    <form action="${postDeclineLink}" method="post">
-                        <button class="btn btn-danger"><fmt:message key="btn.decline"/></button>
+                    <form action="${postActionLink}" method="post">
+                        <button name="_action_decline" class="btn btn-danger">
+                            <fmt:message key="btn.decline"/>
+                        </button>
                     </form>
                 </c:if>
             </c:if>

@@ -15,7 +15,7 @@
 <br/><br/>
 <h1><fmt:message key="title.${action}Forum"/></h1>
 <br/>
-<form:form method="POST" action="/forum/${action}" modelAttribute="forum">
+<form:form method="POST" action="/forum/index" modelAttribute="forum">
     <form:label path="name"><fmt:message key="label.name"/></form:label>
     <form:input class="form-control" path="name"/><br/>
     <form:errors path="name" cssStyle="color: red"/>
@@ -24,7 +24,7 @@
     <form:textarea class="form-control" rows="8" path="description"/><br/>
     <form:errors path="description" cssStyle="color: red"/>
     <br/><br/>
-    <button class="btn btn-success"><fmt:message key="btn.${action}"/></button>
+    <button name="_action_${action}" class="btn btn-success"><fmt:message key="btn.${action}"/></button>
 </form:form>
 </body>
 </html>

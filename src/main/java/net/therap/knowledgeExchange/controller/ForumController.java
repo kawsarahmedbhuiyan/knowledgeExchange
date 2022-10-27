@@ -102,7 +102,7 @@ public class ForumController {
         return FORUM_FORM_PAGE;
     }
 
-    @RequestMapping(value = "/save", method = POST)
+    @RequestMapping(value="/index", params={"_action_save"}, method = POST)
     public String save(@Valid @ModelAttribute Forum forum,
                        Errors errors,
                        ModelMap model,
@@ -126,7 +126,7 @@ public class ForumController {
         return redirectTo(FORUM_CREATION_REQUEST_LIST + PENDING);
     }
 
-    @RequestMapping(value = "/approve", method = POST)
+    @RequestMapping(value="/index", params={"_action_approve"}, method = POST)
     public String approve(@RequestParam int forumId,
                           HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
@@ -146,7 +146,7 @@ public class ForumController {
         return redirectTo(FORUM_CREATION_REQUEST_LIST + APPROVED);
     }
 
-    @RequestMapping(value = "/decline", method = POST)
+    @RequestMapping(value="/index", params={"_action_decline"}, method = POST)
     public String decline(@RequestParam int forumId,
                           HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
@@ -164,7 +164,7 @@ public class ForumController {
         return redirectTo(FORUM_CREATION_REQUEST_LIST + DECLINED);
     }
 
-    @RequestMapping(value = "/delete", method = POST)
+    @RequestMapping(value="/index", params={"_action_delete"}, method = POST)
     public String delete(@RequestParam int forumId,
                          HttpServletRequest request,
                          RedirectAttributes redirectAttributes) {
